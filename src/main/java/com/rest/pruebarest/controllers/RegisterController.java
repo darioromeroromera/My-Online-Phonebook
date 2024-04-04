@@ -3,39 +3,19 @@ package com.rest.pruebarest.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.User;
-import com.rest.pruebarest.repos.ContactRepo;
 import com.rest.pruebarest.repos.UserRepo;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureAlgorithm;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.catalina.connector.Response;
-import org.hibernate.boot.model.convert.internal.ConverterHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.time.ZoneId;
-
-
 
 @RestController
 @RequestMapping("/api/register")
@@ -45,13 +25,31 @@ public class RegisterController {
     private UserRepo userRepo;
 
     @PostMapping
-    public ResponseEntity register(@RequestBody User user) {
-        //List<String> mandatoryParams = List.of("email", "nombre", "password");
+    public ResponseEntity register(@RequestBody @Nullable User user) {
+        // List<String> mandatoryParams = List.of("email", "nombre", "password");
         HashMap<String, Object> response = new HashMap<>();
 
         if (user == null) {
             response.put("result", "error");
             response.put("details", "El body no puede estar vacío");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        if (user.getEmail() == null) {
+            response.put("result", "error");
+            response.put("details", "El email no puede estar vacío");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        if (user.getUsername() == null) {
+            response.put("result", "error");
+            response.put("details", "El username no puede estar vacío");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        if (user.getPassword() == null) {
+            response.put("result", "error");
+            response.put("details", "El password no puede estar vacío");
             return ResponseEntity.badRequest().body(response);
         }
 
@@ -63,13 +61,28 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(response);
         }
 
+        if (user.getId() != null) {
+            response.put("result", "error");
+            response.put("details", "El id no es un parámetro válido");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        User foundUser = userRepo.findByUsername(user.getUsername());
+
+        if (foundUser != null) {
+            response.put("result", "error");
+            response.put("details", "Ese usuario ya existe en el sistema");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         userRepo.save(user);
-        
+
         response.put("result", "ok");
         response.put("data", user);
         return ResponseEntity.ok(response);
+
     }
 
     @RequestMapping
@@ -79,5 +92,5 @@ public class RegisterController {
         response.put("details", "Verbo HTTP incorrecto.");
         return ResponseEntity.badRequest().body(response);
     }
-    
+
 }
