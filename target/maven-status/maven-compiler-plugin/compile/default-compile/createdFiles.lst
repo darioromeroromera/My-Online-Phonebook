@@ -4,7 +4,6 @@ com\rest\pruebarest\repos\UserRepo.class
 com\rest\pruebarest\config\SecurityConfiguration.class
 com\rest\pruebarest\models\Contact.class
 com\rest\pruebarest\controllers\ContactController.class
-com\rest\pruebarest\controllers\ErrorController$1.class
 com\rest\pruebarest\controllers\RegisterController.class
 com\rest\pruebarest\controllers\AuthController.class
 com\rest\pruebarest\models\Telefono.class

@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.rest.pruebarest.models.Contact;
+import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.UserRepo;
 
-import io.jsonwebtoken.Jwt;
 import io.micrometer.common.lang.Nullable;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +30,9 @@ public class ContactController {
 
     @Autowired
     private ContactRepo contactRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @GetMapping
     public ResponseEntity getAll(@RequestHeader("token") @Nullable String token) {
@@ -50,6 +52,20 @@ public class ContactController {
 
         try {
             Long userId = JWTHelper.getUserId(token);
+
+            Optional<User> oUser = userRepo.findById(userId);
+
+            if (!oUser.isPresent()) {
+                response.put("result", "error");
+                response.put("details", "El id del usuario en el token no corresponde con ningún usuario existente");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            if (!oUser.get().getToken().equals(token)) {
+                response.put("result", "error");
+                response.put("details", "El token introducido no corresponde con el token del usuario");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
 
             List<Contact> contacts = contactRepo.findByUserId(userId);
             response.put("result", "ok");
@@ -128,6 +144,22 @@ public class ContactController {
         }
 
         try {
+            Long userId = JWTHelper.getUserId(token);
+
+            Optional<User> oUser = userRepo.findById(userId);
+
+            if (!oUser.isPresent()) {
+                response.put("result", "error");
+                response.put("details", "El id del usuario en el token no corresponde con ningún usuario existente");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            if (!oUser.get().getToken().equals(token)) {
+                response.put("result", "error");
+                response.put("details", "El token introducido no corresponde con el token del usuario");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+            contact.setUserId(userId);
             Contact savedContact = contactRepo.save(contact);
             response.put("result", "ok");
             response.put("insert_id", savedContact.getId());
@@ -137,6 +169,10 @@ public class ContactController {
             response.put("result", "error");
             response.put("details", e.getLocalizedMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        } catch (Exception e) {
+            response.put("result", "error");
+            response.put("details", "Error extrayendo los datos del token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 

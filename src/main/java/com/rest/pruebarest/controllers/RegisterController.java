@@ -6,7 +6,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +38,6 @@ public class RegisterController {
 
     @PostMapping
     public ResponseEntity register(@RequestBody @Nullable User user) {
-        // List<String> mandatoryParams = List.of("email", "nombre", "password");
         HashMap<String, Object> response = new HashMap<>();
 
         if (user == null) {
@@ -75,6 +86,39 @@ public class RegisterController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
 
+        if (user.getProfilePicture() != null) {
+            String[] tokens = user.getProfilePicture().split(",");
+            if (tokens.length != 2) {
+                response.put("result", "error");
+                response.put("details", "Los datos de la imagen deben llevar solo una coma obligatoriamente");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            Pattern patron = Pattern.compile("data:image/(jpeg|png);base64");
+
+            Matcher matcher = patron.matcher(tokens[0].trim());
+
+            if (!matcher.find()) {
+                response.put("result", "error");
+                response.put("details", "La imagen debe ser formato jpeg o png");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
+
+            String filename = generateFilename(matcher.group(1));
+
+            try {
+                String route = "src/main/resources/static/" + filename;
+                Files.write(Paths.get(route), imgBytes);
+                user.setProfilePicture("http://localhost:8080/" + filename);
+            } catch (IOException e) {
+                response.put("result", "error");
+                response.put("details", "Ha ocurrido un error intentando subir la imagen");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            }
+        }
+
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         userRepo.save(user);
@@ -91,6 +135,11 @@ public class RegisterController {
         response.put("result", "error");
         response.put("details", "Verbo HTTP incorrecto.");
         return ResponseEntity.badRequest().body(response);
+    }
+
+    private String generateFilename(String extension) {
+        String id = UUID.randomUUID().toString().replace("-", "");
+        return new StringBuilder(id).append('.').append(extension).toString();
     }
 
 }

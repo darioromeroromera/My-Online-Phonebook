@@ -20,4 +20,5 @@ public class User {
     private String password;
     private boolean enabled;
     private String token;
+    private String profilePicture;
 }
