@@ -1,13 +1,21 @@
 package com.rest.pruebarest.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -160,6 +168,40 @@ public class ContactController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             contact.setUserId(userId);
+
+            if (contact.getContactPicture() != null) {
+                String[] tokens = contact.getContactPicture().split(",");
+                if (tokens.length != 2) {
+                    response.put("result", "error");
+                    response.put("details", "Los datos de la imagen deben llevar solo una coma obligatoriamente");
+                    return ResponseEntity.badRequest().body(response);
+                }
+
+                Pattern patron = Pattern.compile("data:image/(jpeg|png);base64");
+
+                Matcher matcher = patron.matcher(tokens[0].trim());
+
+                if (!matcher.find()) {
+                    response.put("result", "error");
+                    response.put("details", "La imagen debe ser formato jpeg o png");
+                    return ResponseEntity.badRequest().body(response);
+                }
+
+                byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
+
+                String filename = ImageHelper.generateFilename(matcher.group(1));
+
+                try {
+                    String route = "src/main/resources/static/" + filename;
+                    Files.write(Paths.get(route), imgBytes);
+                    contact.setContactPicture("http://localhost:8080/" + filename);
+                } catch (IOException e) {
+                    response.put("result", "error");
+                    response.put("details", "Ha ocurrido un error intentando subir la imagen");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+                }
+            }
+
             Contact savedContact = contactRepo.save(contact);
             response.put("result", "ok");
             response.put("insert_id", savedContact.getId());
@@ -191,4 +233,5 @@ public class ContactController {
         response.put("details", "Verbo HTTP incorrecto.");
         return ResponseEntity.badRequest().body(response);
     }
+
 }

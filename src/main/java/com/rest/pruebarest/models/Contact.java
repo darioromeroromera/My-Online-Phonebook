@@ -21,4 +21,5 @@ public class Contact {
     private String fullName;
     @OneToOne
     private Telefono telefono;
+    private String contactPicture;
 }

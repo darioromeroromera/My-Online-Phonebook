@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,8 +14,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -106,7 +101,7 @@ public class RegisterController {
 
             byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
 
-            String filename = generateFilename(matcher.group(1));
+            String filename = ImageHelper.generateFilename(matcher.group(1));
 
             try {
                 String route = "src/main/resources/static/" + filename;
@@ -124,7 +119,7 @@ public class RegisterController {
         userRepo.save(user);
 
         response.put("result", "ok");
-        response.put("data", user);
+        response.put("picture", user.getProfilePicture());
         return ResponseEntity.ok(response);
 
     }
@@ -135,11 +130,6 @@ public class RegisterController {
         response.put("result", "error");
         response.put("details", "Verbo HTTP incorrecto.");
         return ResponseEntity.badRequest().body(response);
-    }
-
-    private String generateFilename(String extension) {
-        String id = UUID.randomUUID().toString().replace("-", "");
-        return new StringBuilder(id).append('.').append(extension).toString();
     }
 
 }
