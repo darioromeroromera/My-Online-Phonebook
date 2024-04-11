@@ -6,16 +6,20 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rest.pruebarest.exceptions.TokenException;
 import com.rest.pruebarest.models.User;
+import com.rest.pruebarest.repos.UserRepo;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwe;
@@ -26,6 +30,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 public class JWTHelper {
+
+    @Autowired
+    static UserRepo userRepo;
 
     private static String SECRET_KEY = "Una clave super secreta que no se puede revelar";
 
@@ -65,5 +72,15 @@ public class JWTHelper {
         JsonNode nameNode = mapper.readTree(body);
 
         return nameNode.get("id").asLong();
+    }
+
+    public static void checkTokenMatching(Long userId, String token) throws TokenException {
+        Optional<User> oUser = userRepo.findById(userId);
+
+        if (!oUser.isPresent())
+            throw new TokenException("El id del usuario en el token no corresponde con ningún usuario existente");
+
+        if (!oUser.get().getToken().equals(token))
+            throw new TokenException("El token introducido no corresponde con el token del usuario");
     }
 }

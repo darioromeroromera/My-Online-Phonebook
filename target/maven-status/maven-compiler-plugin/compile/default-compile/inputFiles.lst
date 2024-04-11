@@ -1,4 +1,5 @@
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\controllers\ContactController.java
+C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\exceptions\ImageUploadErrorException.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\repos\TelefonoRepo.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\repos\UserRepo.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\controllers\RegisterController.java
@@ -8,6 +9,9 @@ C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\contr
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\config\SecurityConfiguration.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\models\Contact.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\PruebarestApplication.java
+C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\controllers\ImageHelper.java
+C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\exceptions\NoImageException.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\controllers\JWTHelper.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\models\Telefono.java
 C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\models\User.java
+C:\Users\Darío Romero\Desktop\pruebarest\src\main\java\com\rest\pruebarest\exceptions\ImageBadFormatException.java
