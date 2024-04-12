@@ -1,22 +1,13 @@
 package com.rest.pruebarest.controllers;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.rest.pruebarest.exceptions.ContactBadBodyException;
+import com.rest.pruebarest.exceptions.ContactColisionException;
 import com.rest.pruebarest.exceptions.ImageBadFormatException;
 import com.rest.pruebarest.exceptions.ImageUploadErrorException;
 import com.rest.pruebarest.exceptions.NoImageException;
 import com.rest.pruebarest.exceptions.TokenException;
 import com.rest.pruebarest.models.Contact;
-import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
-import com.rest.pruebarest.repos.UserRepo;
 
 import io.micrometer.common.lang.Nullable;
 
@@ -47,9 +37,6 @@ public class ContactController {
 
     @Autowired
     private ContactRepo contactRepo;
-
-    @Autowired
-    private UserRepo userRepo;
 
     @GetMapping
     public ResponseEntity getAll(@RequestHeader("token") @Nullable String token) {
@@ -77,35 +64,6 @@ public class ContactController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getOne(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
-        HashMap<String, Object> response = new HashMap<>();
-
-        if (token == null) {
-            response.put("result", "error");
-            response.put("details", "El token no ha sido especificado");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (!id.matches("\\d+")) {
-            response.put("result", "error");
-            response.put("details", "El id debe ser un número");
-            // Aquí es donde necesito la respuesta errónea
-            return ResponseEntity.badRequest().body(response);
-        }
-        // Sí es un número y hace la petición bien
-        Optional<Contact> oContacto = contactRepo.findById(Long.parseLong(id));
-        if (oContacto.isPresent()) {
-            response.put("result", "ok");
-            response.put("data", oContacto.get());
-            return ResponseEntity.ok(response);
-        }
-
-        response.put("result", "error");
-        response.put("details", "El contacto no existe");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
-
     @PostMapping
     public ResponseEntity saveContact(@RequestBody @Nullable Contact contact,
             @RequestHeader("token") @Nullable String token) {
@@ -115,23 +73,10 @@ public class ContactController {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
         }
 
-        if (contact == null) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El body no puede estar vacío"));
-        }
-
-        if (contact.getId() != null) {
-            return ResponseEntity.badRequest()
-                    .body(ResponseHelper.getErrorResponse("El id no puede estar especificado"));
-        }
-
-        if (contact.getContactName() == null) {
-            return ResponseEntity.badRequest()
-                    .body(ResponseHelper.getErrorResponse("El campo contact_name es obligatorio"));
-        }
-
-        if (contact.getFullName() == null) {
-            return ResponseEntity.badRequest()
-                    .body(ResponseHelper.getErrorResponse("El campo full_name es obligatorio"));
+        try {
+            CheckerHelper.checkContactParams(contact);
+        } catch (ContactBadBodyException e) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 
         try {
@@ -141,17 +86,20 @@ public class ContactController {
 
             contact.setUserId(userId);
 
+            try {
+                CheckerHelper.checkContactColision(contact);
+            } catch (ContactColisionException e) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseHelper.getErrorResponse(e.getMessage()));
+            }
+
             if (contact.getContactPicture() != null) {
                 try {
-                    changeContactPicture(contact);
+                    ImageHelper.changeContactPicture(contact);
                 } catch (ImageBadFormatException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.badRequest().body(response);
+                    return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
                 } catch (ImageUploadErrorException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ResponseHelper.getErrorResponse(e.getMessage()));
                 }
             }
 
@@ -172,75 +120,40 @@ public class ContactController {
     @PutMapping("/{id}")
     public ResponseEntity updateContact(@PathVariable String id, @RequestBody @Nullable Contact newContact,
             @RequestHeader("token") @Nullable String token) {
+
         HashMap<String, Object> response = new HashMap<>();
 
-        if (token == null) {
-            response.put("result", "error");
-            response.put("details", "El token no ha sido especificado");
-            return ResponseEntity.badRequest().body(response);
+        if (token == null || !JWTHelper.verifyToken(token)) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
         }
 
         if (!id.matches("\\d+")) {
-            response.put("result", "error");
-            response.put("details", "El id debe ser un número");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El id debe ser un número"));
         }
 
         Optional<Contact> oContacto = contactRepo.findById(Long.parseLong(id));
 
         if (!oContacto.isPresent()) {
-            response.put("result", "error");
-            response.put("details", "El contacto con el id especificado no existe");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ResponseHelper.getErrorResponse("El contacto con el id especificado no exite"));
         }
 
         Contact oldContact = oContacto.get();
 
-        if (newContact == null) {
-            response.put("result", "error");
-            response.put("details", "El body no puede estar vacío");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (newContact.getId() != null) {
-            response.put("result", "error");
-            response.put("details", "El id no puede estar especificado");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (newContact.getContactName() == null) {
-            response.put("result", "error");
-            response.put("details", "El campo contact_name es obligatorio");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (newContact.getFullName() == null) {
-            response.put("result", "error");
-            response.put("details", "El campo full_name es obligatorio");
-            return ResponseEntity.badRequest().body(response);
+        try {
+            CheckerHelper.checkContactParams(newContact);
+        } catch (ContactBadBodyException e) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 
         try {
             Long userId = JWTHelper.getUserId(token);
 
-            Optional<User> oUser = userRepo.findById(userId);
-
-            if (!oUser.isPresent()) {
-                response.put("result", "error");
-                response.put("details", "El id del usuario en el token no corresponde con ningún usuario existente");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-
-            if (!oUser.get().getToken().equals(token)) {
-                response.put("result", "error");
-                response.put("details", "El token introducido no corresponde con el token del usuario");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
+            JWTHelper.checkTokenMatching(userId, token);
 
             if (oldContact.getUserId() != userId) {
-                response.put("result", "error");
-                response.put("details", "Permiso denegado. Este contacto no pertenece a su usuario");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        ResponseHelper.getErrorResponse("Permiso denegado. ESte contacto no pertenece a su usuario"));
             }
 
             newContact.setUserId(userId);
@@ -249,15 +162,12 @@ public class ContactController {
 
             if (newContact.getContactPicture() != null) {
                 try {
-                    changeContactPicture(newContact);
+                    ImageHelper.changeContactPicture(newContact);
                 } catch (ImageBadFormatException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.badRequest().body(response);
+                    return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
                 } catch (ImageUploadErrorException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ResponseHelper.getErrorResponse(e.getMessage()));
                 }
             } else if (oldContact.getContactPicture() != null)
                 newContact.setContactPicture(oldContact.getContactPicture());
@@ -268,13 +178,13 @@ public class ContactController {
             return ResponseEntity.ok(response);
 
         } catch (DataAccessException e) {
-            response.put("result", "error");
-            response.put("details", e.getLocalizedMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse(e.getLocalizedMessage()));
         } catch (JsonProcessingException e) {
-            response.put("result", "error");
-            response.put("details", "Error extrayendo los datos del token");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseHelper.getErrorResponse("Error extrayendo los datos del token"));
+        } catch (TokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
     }
 
@@ -283,23 +193,19 @@ public class ContactController {
         HashMap<String, Object> response = new HashMap<>();
 
         if (token == null) {
-            response.put("result", "error");
-            response.put("details", "El token no ha sido especificado");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest()
+                    .body(ResponseHelper.getErrorResponse("El token no ha sido especificado"));
         }
 
         if (!id.matches("\\d+")) {
-            response.put("result", "error");
-            response.put("details", "El id debe ser un número");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El id debe ser un número"));
         }
 
         Optional<Contact> oContacto = contactRepo.findById(Long.parseLong(id));
 
         if (!oContacto.isPresent()) {
-            response.put("result", "error");
-            response.put("details", "El contacto con el id especificado no existe");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ResponseHelper.getErrorResponse("El contacto con el id especificado no existe"));
         }
 
         Contact contact = oContacto.get();
@@ -307,37 +213,21 @@ public class ContactController {
         try {
             Long userId = JWTHelper.getUserId(token);
 
-            Optional<User> oUser = userRepo.findById(userId);
-
-            if (!oUser.isPresent()) {
-                response.put("result", "error");
-                response.put("details", "El id del usuario en el token no corresponde con ningún usuario existente");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-
-            if (!oUser.get().getToken().equals(token)) {
-                response.put("result", "error");
-                response.put("details", "El token introducido no corresponde con el token del usuario");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
+            JWTHelper.checkTokenMatching(userId, token);
 
             if (contact.getUserId() != userId) {
-                response.put("result", "error");
-                response.put("details", "Permiso denegado. Este contacto no pertenece a su usuario");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        ResponseHelper.getErrorResponse("Permiso denegado. Este contacto no pertenece a su usuario"));
             }
 
             if (contact.getContactPicture() != null) {
                 try {
-                    deleteContactPicture(contact);
+                    ImageHelper.deleteContactPicture(contact);
                 } catch (NoImageException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(ResponseHelper.getErrorResponse(e.getMessage()));
                 } catch (ImageBadFormatException e) {
-                    response.put("result", "error");
-                    response.put("details", e.getMessage());
-                    return ResponseEntity.badRequest().body(response);
+                    return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
                 }
             }
 
@@ -347,82 +237,23 @@ public class ContactController {
             return ResponseEntity.ok(response);
 
         } catch (DataAccessException e) {
-            response.put("result", "error");
-            response.put("details", e.getLocalizedMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse(e.getLocalizedMessage()));
         } catch (JsonProcessingException e) {
-            response.put("result", "error");
-            response.put("details", "Error extrayendo los datos del token");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseHelper.getErrorResponse("Error extrayendo los datos del token"));
+        } catch (TokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
     }
 
     @RequestMapping
     public ResponseEntity badMethod() {
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("result", "error");
-        response.put("details", "Verbo HTTP incorrecto.");
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
     }
 
     @RequestMapping("/{id}")
-    public void badIdMethod() {
-        badMethod();
+    public ResponseEntity badIdMethod() {
+        return badMethod();
     }
-
-    public void changeContactPicture(Contact contact) throws ImageBadFormatException, ImageUploadErrorException {
-        String[] tokens = contact.getContactPicture().split(",");
-        if (tokens.length != 2) {
-            throw new ImageBadFormatException("Los datos de la imagen deben llevar solo una coma obligatoriamente");
-        }
-
-        Pattern patron = Pattern.compile("data:image/(jpeg|png);base64");
-
-        Matcher matcher = patron.matcher(tokens[0].trim());
-
-        if (!matcher.find()) {
-            throw new ImageBadFormatException("La imagen debe ser formato jpeg o png");
-        }
-
-        byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
-
-        String filename = ImageHelper.generateFilename(matcher.group(1));
-
-        try {
-            String route = "src/main/resources/static/" + filename;
-            Files.write(Paths.get(route), imgBytes);
-            contact.setContactPicture("http://localhost:8080/" + filename);
-        } catch (IOException e) {
-            throw new ImageUploadErrorException("Ha ocurrido un error intentando subir la imagen");
-        }
-    }
-
-    public void deleteContactPicture(Contact contact) throws NoImageException, ImageBadFormatException {
-        if (contact.getContactPicture() == null) {
-            throw new NoImageException("El contacto no tiene una imagen para poder borrarla");
-        }
-
-        Pattern pattern = Pattern.compile("http://localhost:8080/(.+)");
-
-        Matcher matcher = pattern.matcher(contact.getContactPicture());
-
-        if (!matcher.matches()) {
-            throw new ImageBadFormatException(
-                    "El campo contact_picture del contacto no tiene el formato correcto. Poniendo el campo a vacío");
-        }
-
-        contact.setContactPicture(null);
-        contactRepo.save(contact);
-
-        String route = "src/main/resources/static/" + matcher.group(1);
-
-        File imgFile = new File(route);
-
-        if (imgFile.exists()) {
-            imgFile.delete();
-        } else {
-            throw new NoImageException("La imagen que tenía asociada el contacto no existe. Poniendo el campo vacío.");
-        }
-    }
-
 }

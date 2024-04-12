@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+import com.rest.pruebarest.exceptions.LoginBadBodyException;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
@@ -26,37 +27,19 @@ public class AuthController {
     public ResponseEntity login(@RequestBody @Nullable User user) {
         HashMap<String, Object> response = new HashMap<>();
 
-        if (user == null) {
-            response.put("result", "error");
-            response.put("details", "El body no puede estar vacío");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (user.getUsername() == null) {
-            response.put("result", "error");
-            response.put("details", "El campo username es obligatorio");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        if (user.getPassword() == null) {
-            response.put("result", "error");
-            response.put("details", "El campo password es obligatorio");
-            return ResponseEntity.badRequest().body(response);
+        try {
+            CheckerHelper.checkLoginParams(user);
+        } catch (LoginBadBodyException e) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 
         User foundUser = userRepo.findByUsername(user.getUsername());
-        if (foundUser == null) {
-            response.put("result", "error");
-            response.put("details", "Credenciales incorrectas");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (!encoder.matches(user.getPassword(), foundUser.getPassword())) {
-            response.put("result", "error");
-            response.put("details", "Credenciales incorrectas");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        if (foundUser == null || !encoder.matches(user.getPassword(), foundUser.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseHelper.getErrorResponse("Credenciales incorrectas"));
         }
 
         String token = JWTHelper.generateToken(foundUser.getId(), foundUser.getUsername());
@@ -72,9 +55,6 @@ public class AuthController {
 
     @RequestMapping
     public ResponseEntity badMethod() {
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("result", "error");
-        response.put("details", "Verbo HTTP incorrecto.");
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
     }
 }

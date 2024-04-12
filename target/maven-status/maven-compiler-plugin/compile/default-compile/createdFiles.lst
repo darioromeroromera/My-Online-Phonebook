@@ -3,9 +3,6 @@ com\rest\pruebarest\repos\ContactRepo.class
 com\rest\pruebarest\repos\UserRepo.class
 com\rest\pruebarest\config\SecurityConfiguration.class
 com\rest\pruebarest\models\Contact.class
-com\rest\pruebarest\controllers\ContactController.class
 com\rest\pruebarest\controllers\RegisterController.class
 com\rest\pruebarest\controllers\AuthController.class
-com\rest\pruebarest\models\Telefono.class
-com\rest\pruebarest\repos\TelefonoRepo.class
 com\rest\pruebarest\models\User.class

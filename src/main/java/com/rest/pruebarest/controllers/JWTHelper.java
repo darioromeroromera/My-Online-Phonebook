@@ -1,17 +1,11 @@
 package com.rest.pruebarest.controllers;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
 import javax.crypto.SecretKey;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -21,20 +15,19 @@ import com.rest.pruebarest.exceptions.TokenException;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwe;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 public class JWTHelper {
 
-    @Autowired
-    static UserRepo userRepo;
+    private static UserRepo userRepo;
 
     private static String SECRET_KEY = "Una clave super secreta que no se puede revelar";
+
+    public static void setUserRepo(UserRepo userRepo) {
+        JWTHelper.userRepo = userRepo;
+    }
 
     public static String generateToken(Long id, String username) {
         byte[] bKey = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
