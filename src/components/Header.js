@@ -2,7 +2,7 @@ import './css/Header.css';
 
 const Header = () => {
     return (
-        <header class="Header">
+        <header className="Header">
             <h1>My Online Agenda</h1>
         </header>
     );

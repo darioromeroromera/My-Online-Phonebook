@@ -30,3 +30,17 @@
     margin: 20px 0px;
     border-radius: 5px;
 }
+
+.RegistrationForm__Error {
+    color: #F00;
+}
+
+@media screen and (max-width: 768px) {
+    .RegistrationForm__Form {
+        width: 90%;
+    }
+
+    .RegistrationForm__Input {
+        margin-bottom: 15px;
+    }
+}
