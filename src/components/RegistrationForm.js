@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "./Header";
-import './css/RegistrationForm.css';
+import './css/RegistrationAndLoginForm.css';
 import { Helmet } from "react-helmet";
 
 const RegistrationForm = () => {
@@ -22,6 +22,10 @@ const RegistrationForm = () => {
     const [passwordFlag, setPasswordFlag] = useState(false);
 
     const [confirmPasswordFlag, setConfirmPasswordFlag] = useState(false);
+
+    const [isErrorVisible, setIsErrorVisible] = useState(false);
+
+    const [apiError, setApiError] = useState('');
 
     const checkUsername = () => {
         setErrors(errors => {
@@ -78,20 +82,37 @@ const RegistrationForm = () => {
         confirmPasswordFlag ? checkConfirmPassword() : setConfirmPasswordFlag(true);
     }, [confirmPassword]);
 
-    const register = () => {
-        alert(JSON.stringify({username, email, password}));
-        const res = fetch('http://192.168.1.133:8080/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            body: JSON.stringify({username, email, password})
-        });
+    const register = async () => {
+        try {
+            const res = await fetch('http://localhost:8080/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                body: JSON.stringify({username, email, password})
+            })
+    
+            const json = await res.json();
+            
+            if (json.result === undefined) {
+                setApiError("Ha ocurrido un error desconocido. Inténtelo más tarde");
+                setIsErrorVisible(true);
+            } else if (json.result === 'error') {
+                setApiError(json.details);
+                setIsErrorVisible(true);
+            } else {
+                setIsErrorVisible(false);
+                setApiError("");
+            }
+        } catch (err) {
+            setApiError(err.toString());
+            setIsErrorVisible(true);
+        }
     };
 
     return (
-        <div className="RegistrationForm__Container">
+        <div className="RegistrationAndLoginForm__Container">
 
             <Helmet>
                 <title>Registrarse</title>
@@ -99,7 +120,7 @@ const RegistrationForm = () => {
 
             <Header/>
 
-            <form className="RegistrationForm__Form" onSubmit={e => {
+            <form className="RegistrationAndLoginForm__Form" onSubmit={e => {
                 e.preventDefault();
                 checkUsername();
                 checkEmail();
@@ -110,25 +131,29 @@ const RegistrationForm = () => {
                     register();
             }}>
                 <p>Regístrate</p>
-                <input className="RegistrationForm__Input" type="text" placeholder="Nombre de usuario" value={username}
+                <input className="RegistrationAndLoginForm__Input" type="text" placeholder="Nombre de usuario" value={username}
                     onChange={e => {
                         setUsername(e.target.value);
                     }}/>
-                <p className="RegistrationForm__Error">{errors.username}</p>
-                <input className="RegistrationForm__Input" type="email" placeholder="Correo electrónico" value={email}
+                <p className="RegistrationAndLoginForm__InputError">{errors.username}</p>
+                <input className="RegistrationAndLoginForm__Input" type="email" placeholder="Correo electrónico" value={email}
                     onChange={e => setEmail(e.target.value)}/>
-                <p className="RegistrationForm__Error">{errors.email}</p>
-                <input className="RegistrationForm__Input" type="password" placeholder="Contraseña" value={password}
+                <p className="RegistrationAndLoginForm__InputError">{errors.email}</p>
+                <input className="RegistrationAndLoginForm__Input" type="password" placeholder="Contraseña" value={password}
                     onChange={e => setPassword(e.target.value)}/>
-                <p className="RegistrationForm__Error">{errors.password}</p>
-                <input className="RegistrationForm__Input" type="password" placeholder="Confirmar contraseña" value={confirmPassword}
+                <p className="RegistrationAndLoginForm__InputError">{errors.password}</p>
+                <input className="RegistrationAndLoginForm__Input" type="password" placeholder="Confirmar contraseña" value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}/>
-                <p className="RegistrationForm__Error">{errors.confirmPassword}</p>
+                <p className="RegistrationAndLoginForm__InputError">{errors.confirmPassword}</p>
 
-                <button className="RegistrationForm__Btn">Registrarse</button>
+                <button className="RegistrationAndLoginForm__Btn">Registrarse</button>
+
+                <div className={isErrorVisible ? 'RegistrationAndLoginForm__Error' : 'RegistrationAndLoginForm_Hidden'}>
+                    <p>{apiError}</p>
+                </div>
             </form>
         </div>
     );
 };
 
-export default RegistrationForm;
+export default RegistrationForm ;

@@ -1,0 +1,75 @@
+.RegistrationAndLoginForm__Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.RegistrationAndLoginForm__Form {
+    background-color: #F2F2F2;
+    width: 80%;
+    padding: 20px;
+}
+
+.RegistrationAndLoginForm__Input {
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.RegistrationAndLoginForm__Btn {
+    width: 100%;
+    background-color: #007BFF;
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    margin: 20px 0px;
+    border-radius: 5px;
+}
+
+.RegistrationAndLoginForm__InputError {
+    color: #F00;
+}
+
+.RegistrationAndLoginForm__Error {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    animation: showAnimation 0.3s ease
+}
+
+.RegistrationAndLoginForm__Hidden {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .RegistrationAndLoginForm__Form {
+        width: 90%;
+    }
+
+    .RegistrationAndLoginForm__Input {
+        margin-bottom: 15px;
+    }
+
+    .RegistrationAndLoginForm__InputError {
+        font-size: 14px;
+    }
+}
+
+@keyframes showAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
