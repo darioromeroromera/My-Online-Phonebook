@@ -14,70 +14,47 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration implements WebMvcConfigurer {
     @Autowired
     private DataSource dataSource;
 
     @Autowired
-        public void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.jdbcAuthentication()
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled "
-                    + "from user "
-                    + "where username = ?");
-        }
+                        + "from user "
+                        + "where username = ?");
+    }
 
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /*@Bean
-    public SecurityFilterChain filter(HttpSecurity http) throws Exception {
-                
-                // Con Spring Security 6.2 y 7: usando Lambda DSL
-
-    return http
-        .authorizeHttpRequests((requests) -> requests
-            .requestMatchers("/api/**")
-            .permitAll() 
-                        // ).headers(headers -> headers
-                        //         .frameOptions(frameOptions -> frameOptions
-                        //                 .sameOrigin())
-                        // ).sessionManagement((session) -> session
-                        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        )
-                        .formLogin((formLogin) -> formLogin
-                                //.loginPage("/login")
-                                .permitAll()
-                        ).rememberMe(
-                                Customizer.withDefaults()
-                        ).logout((logout) -> logout
-                                .invalidateHttpSession(true)
-                                .logoutSuccessUrl("/")
-                                // .deleteCookies("JSESSIONID") // no es necesario, JSESSIONID se hace por defecto
-                                .deleteCookies("JSESSIONID")
-                                .permitAll()                                
-                        // ).csrf((protection) -> protection
-                        //         .disable()
-                        // ).cors((protection)-> protection
-                        //         .disable()
-                        ).build();
-
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .anyRequest().permitAll()
-                )
+                        .anyRequest().permitAll())
                 .httpBasic(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost", "http://localhost:3000", "http://dario.es")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }

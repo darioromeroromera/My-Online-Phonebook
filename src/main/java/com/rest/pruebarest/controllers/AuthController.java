@@ -42,7 +42,7 @@ public class AuthController {
                     .body(ResponseHelper.getErrorResponse("Credenciales incorrectas"));
         }
 
-        String token = JWTHelper.generateToken(foundUser.getId(), foundUser.getUsername());
+        String token = JWTHelper.generateToken(foundUser.getId(), foundUser.getUsername(), foundUser.getEmail());
 
         foundUser.setToken(token);
 

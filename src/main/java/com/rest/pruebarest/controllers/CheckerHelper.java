@@ -43,7 +43,7 @@ public class CheckerHelper {
 
     public static void checkContactColision(Contact contact) throws ContactColisionException {
         int numberOfUsersByUsername = contactRepo.getByContactNameAndUserId(contact.getUserId(),
-                contact.getContactName());
+            contact.getContactName());
 
         if (numberOfUsersByUsername != 0)
             throw new ContactColisionException("Ya tienes un contacto con ese nombre, no se pueden repetir");
@@ -74,9 +74,9 @@ public class CheckerHelper {
         }
 
         if (user.getPassword().length() < 8 || !user.getPassword().matches(".*[a-z]+.*")
-                || !user.getPassword().matches(".*[A-Z]+.*")
-                || !user.getPassword().matches(".*\\d+.*")) {
-            throw new RegisterBadBodyException(
+            || !user.getPassword().matches(".*[A-Z]+.*")
+            || !user.getPassword().matches(".*\\d+.*")) {
+                throw new RegisterBadBodyException(
                     "El password debe tener al menos 8 caracteres, minúsculas, mayúsculas y números");
         }
 
@@ -87,6 +87,10 @@ public class CheckerHelper {
         if (user.getId() != null) {
             throw new RegisterBadBodyException("El id no es un parámetro válido");
         }
+
+        /*if (user.getProfilePicture() != null) {
+            throw new RegisterBadBodyException("La foto de perfil no puede ser subida durante el registro");
+        }*/
     }
 
     public static void checkLoginParams(User user) throws LoginBadBodyException {
