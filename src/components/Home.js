@@ -94,6 +94,7 @@ const Home = () => {
             }}>Cerrar Sesión</button>
         </div>
     );
+    
 };
 
 export default Home;

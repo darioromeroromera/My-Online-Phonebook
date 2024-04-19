@@ -36,8 +36,6 @@ const LoginForm = () => {
         setErrors(errors => {
             if (password.trim() == '')
                 return {...errors, password: 'El campo password no puede estar vacío'};
-            else if (password.length < 8 || !/.*[a-z]+.*/.test(password) || !/.*[A-Z]+.*/.test(password) || !/.*\d+.*/.test(password))
-                return {...errors, password:  'El password debe tener al menos 8 caracteres, minúsculas, mayúsculas y números'};
             else
                 return {...errors, password: ''};
         });
@@ -56,11 +54,10 @@ const LoginForm = () => {
             return;
         setLoading(true)
         try {
-            const res = await fetch('http://dario.es:8080/api/auth', {
+            const res = await fetch('http://192.168.1.133:8080/api/auth', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Origin': 'http://localhost:80'
+                    'Content-Type': 'application/json'
                 },
                 mode: 'cors',
                 body: JSON.stringify({username, password})

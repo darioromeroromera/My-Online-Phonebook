@@ -90,11 +90,10 @@ const RegistrationForm = () => {
     const register = async () => {
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:8080/api/register', {
+            const res = await fetch('http://192.168.1.133:8080/api/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Origin': 'http://localhost:80'
+                    'Content-Type': 'application/json'
                 },
                 mode: 'cors',
                 body: JSON.stringify({username, email, password})
@@ -112,7 +111,8 @@ const RegistrationForm = () => {
                 navigate('/login');
             }
         } catch (err) {
-            setApiError('Error: no se ha podido establecer conexión con el servidor');
+            //setApiError('Error: no se ha podido establecer conexión con el servidor');
+            setApiError(err.toString());
             setIsErrorVisible(true);
         }
         setLoading(false);

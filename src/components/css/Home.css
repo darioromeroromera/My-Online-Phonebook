@@ -1,11 +1,7 @@
-/* Home.css */
-
-/* General styles */
 .Home__Container {
     padding: 20px;
 }
 
-/* Profile section styles */
 .Home__Profile {
     display: flex;
     justify-content: center;
@@ -39,11 +35,10 @@
     top: 60%;
     left: 60%;
     background-color: #FFF;
-    width: 24px; /* Adjust size as needed */
-    height: 24px; /* Adjust size as needed */
+    width: 24px;
+    height: 24px;
 }
 
-/* Search section styles */
 .Home__Search__Input {
     width: 100%;
     padding: 10px;
@@ -53,20 +48,19 @@
 }
 
 .Home__ContactList__Container {
-    flex: 1; /* Allow contact list container to grow and take up remaining space */
-    overflow-y: auto; /* Add vertical scrollbar when content overflows */
-    max-height: 400px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 500px;
 }
 
-/* Contact list styles */
 .Home__ContactList {
     display: flex;
-    flex-wrap: wrap; /* Allow flex items to wrap */
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .Home__ContactCard {
-    flex: 0 0 calc(33.33% - 20px); /* 3 contacts per row */
+    flex: 0 0 calc(33.33% - 20px);
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -86,11 +80,11 @@
 }
 
 .Home__ContactCard__EditIcon {
-    position: absolute; /* Position absolute for overlay */
-    bottom: 5px; /* Adjust positioning as needed */
-    right: 5px; /* Adjust positioning as needed */
-    width: 24px; /* Adjust size as needed */
-    height: 24px; /* Adjust size as needed */
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
 }
 
 .Home__ContactCard__Name {
@@ -119,13 +113,12 @@
     background-color: #c82333;
 }
 
-/* Logout button styles */
 .Home__Logout__Button {
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 10px 20px;
-    margin-top: 20px;
+    margin-top: 40px;
     font-size: 16px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -137,28 +130,36 @@
 
 @media (max-width: 768px) {
     .Home__ContactCard {
-        flex: 1 0 100%; /* One element per row for mobile */
+        flex: 1 0 100%;
     }
 
     .Home__Profile {
-        margin-bottom: 10px; /* Reduce margin for mobile */
+        margin-bottom: 10px;
     }
 
     .Home__Profile__Message {
-        font-size: 18px; /* Increase font size for mobile */
+        font-size: 18px;
     }
 
     .Home__Profile__ImgSet {
-        margin-bottom: 10px; /* Reduce margin for mobile */
+        margin-bottom: 10px;
     }
 
     .Home__Profile__ProfilePicture {
-        width: 60px; /* Decrease profile picture size for mobile */
-        height: 60px; /* Decrease profile picture size for mobile */
+        width: 60px;
+        height: 60px;
     }
 
     .Home__Profile__EditIcon {
-        width: 20px; /* Decrease edit icon size for mobile */
-        height: 20px; /* Decrease edit icon size for mobile */
+        width: 20px;
+        height: 20px;
+    }
+
+    .Home__ContactList__Container {
+        max-height: 400px;
+    }
+
+    .Home__Logout__Button {
+        margin-top: 20px;
     }
 }
