@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import './css/RegistrationAndLoginForm.css';
 import { Helmet } from "react-helmet";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
 
@@ -26,6 +27,10 @@ const RegistrationForm = () => {
     const [isErrorVisible, setIsErrorVisible] = useState(false);
 
     const [apiError, setApiError] = useState('');
+
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const checkUsername = () => {
         setErrors(errors => {
@@ -83,11 +88,13 @@ const RegistrationForm = () => {
     }, [confirmPassword]);
 
     const register = async () => {
+        setLoading(true);
         try {
             const res = await fetch('http://localhost:8080/api/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Origin': 'http://localhost:80'
                 },
                 mode: 'cors',
                 body: JSON.stringify({username, email, password})
@@ -102,23 +109,28 @@ const RegistrationForm = () => {
                 setApiError(json.details);
                 setIsErrorVisible(true);
             } else {
-                setIsErrorVisible(false);
-                setApiError("");
+                navigate('/login');
             }
         } catch (err) {
-            setApiError(err.toString());
+            setApiError('Error: no se ha podido establecer conexión con el servidor');
             setIsErrorVisible(true);
         }
+        setLoading(false);
     };
 
     return (
         <div className="RegistrationAndLoginForm__Container">
 
             <Helmet>
-                <title>Registrarse</title>
+                <title>Registrarse - My Online Phonebook</title>
             </Helmet>
 
             <Header/>
+
+            {loading && 
+                <div className="RegistrationAndLoginForm__SpinnerDiv">
+                    <div className="RegistrationAndLoginForm__Spinner"></div>    
+                </div>}
 
             <form className="RegistrationAndLoginForm__Form" onSubmit={e => {
                 e.preventDefault();
@@ -134,17 +146,19 @@ const RegistrationForm = () => {
                 <input className="RegistrationAndLoginForm__Input" type="text" placeholder="Nombre de usuario" value={username}
                     onChange={e => {
                         setUsername(e.target.value);
-                    }}/>
+                    }} required/>
                 <p className="RegistrationAndLoginForm__InputError">{errors.username}</p>
                 <input className="RegistrationAndLoginForm__Input" type="email" placeholder="Correo electrónico" value={email}
-                    onChange={e => setEmail(e.target.value)}/>
+                    onChange={e => setEmail(e.target.value)} required/>
                 <p className="RegistrationAndLoginForm__InputError">{errors.email}</p>
                 <input className="RegistrationAndLoginForm__Input" type="password" placeholder="Contraseña" value={password}
-                    onChange={e => setPassword(e.target.value)}/>
+                    onChange={e => setPassword(e.target.value)} required/>
                 <p className="RegistrationAndLoginForm__InputError">{errors.password}</p>
                 <input className="RegistrationAndLoginForm__Input" type="password" placeholder="Confirmar contraseña" value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}/>
+                    onChange={e => setConfirmPassword(e.target.value)} required />
                 <p className="RegistrationAndLoginForm__InputError">{errors.confirmPassword}</p>
+
+                <p>¿Ya tienes una cuenta? <Link to='/login'>Iniciar Sesión</Link></p>
 
                 <button className="RegistrationAndLoginForm__Btn">Registrarse</button>
 

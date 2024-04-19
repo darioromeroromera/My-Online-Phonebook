@@ -29,6 +29,7 @@
     border: none;
     margin: 20px 0px;
     border-radius: 5px;
+    cursor: pointer
 }
 
 .RegistrationAndLoginForm__InputError {
@@ -49,6 +50,31 @@
 .RegistrationAndLoginForm__Hidden {
     display: none;
 }
+
+.RegistrationAndLoginForm__SpinnerDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.RegistrationAndLoginForm__Spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: rotate 1s linear infinite;
+}
+  
+
 
 @media screen and (max-width: 768px) {
     .RegistrationAndLoginForm__Form {
@@ -73,3 +99,8 @@
         opacity: 1;
     }
 }
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

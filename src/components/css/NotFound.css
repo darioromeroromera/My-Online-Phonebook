@@ -1,0 +1,20 @@
+.NotFound__container {
+    text-align: center;
+    margin-top: 50px;
+}
+  
+.NotFound__title {
+    font-size: 36px;
+    color: #ff4d4d;
+}
+  
+.NotFound__message {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+  
+.NotFound__image {
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+}

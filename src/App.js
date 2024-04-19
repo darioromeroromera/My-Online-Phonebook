@@ -4,6 +4,8 @@ import RegistrationForm from './components/RegistrationForm';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
+import LoginForm from './components/LoginForm';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -11,7 +13,8 @@ function App() {
       <Routes>
         <Route exact path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
         <Route path='/register' element={<RegistrationForm/>}/>
-        <Route path='*' element={<p>Not Found</p>}/>
+        <Route path='/login' element={<LoginForm/>}/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
     </>
   );
