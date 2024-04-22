@@ -15,11 +15,12 @@
 
 .Home__Profile__ImgSet {
     position: relative;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .Home__Profile__ImgSet:hover {
     transform: scale(1.1);
+    filter: brightness(80%);
 }
 
 .Home__Profile__ProfilePicture {
