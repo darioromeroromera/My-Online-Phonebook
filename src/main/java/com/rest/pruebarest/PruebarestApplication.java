@@ -33,6 +33,7 @@ public class PruebarestApplication {
 	@Bean
 	public boolean setImageHelperRepo() {
 		ImageHelper.setContactRepo(contactRepo);
+		ImageHelper.setUserRepo(userRepo);
 		return true;
 	}
 

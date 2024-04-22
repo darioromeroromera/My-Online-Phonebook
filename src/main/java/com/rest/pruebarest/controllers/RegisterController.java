@@ -3,9 +3,7 @@ package com.rest.pruebarest.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rest.pruebarest.exceptions.ImageBadFormatException;
-import com.rest.pruebarest.exceptions.ImageUploadErrorException;
-import com.rest.pruebarest.exceptions.RegisterBadBodyException;
+import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
@@ -34,9 +32,11 @@ public class RegisterController {
 
         try {
             CheckerHelper.checkRegisterParams(user);
-        } catch (RegisterBadBodyException e) {
+        } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
+
+        user.setToken(null);
 
         user.setEnabled(true);
         User foundUser = null;
@@ -53,6 +53,10 @@ public class RegisterController {
                     .body(ResponseHelper.getErrorResponse("Ese usuario ya existe en el sistema"));
         }
 
+        user.setProfilePicture(null);
+
+        /*
+
         if (user.getProfilePicture() != null) {
             try {
                 ImageHelper.changeProfilePicture(user);
@@ -63,6 +67,8 @@ public class RegisterController {
                         .body(ResponseHelper.getErrorResponse(e.getMessage()));
             }
         }
+
+        */
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));

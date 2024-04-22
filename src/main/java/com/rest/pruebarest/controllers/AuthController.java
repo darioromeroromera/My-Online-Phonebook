@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
-import com.rest.pruebarest.exceptions.LoginBadBodyException;
+import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
@@ -29,7 +29,7 @@ public class AuthController {
 
         try {
             CheckerHelper.checkLoginParams(user);
-        } catch (LoginBadBodyException e) {
+        } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 

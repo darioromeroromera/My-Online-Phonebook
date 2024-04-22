@@ -15,13 +15,20 @@ import com.rest.pruebarest.exceptions.NoImageException;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.UserRepo;
 
 public class ImageHelper {
 
     private static ContactRepo contactRepo;
 
+    private static UserRepo userRepo;
+
     public static void setContactRepo(ContactRepo contactRepo) {
         ImageHelper.contactRepo = contactRepo;
+    }
+
+    public static void setUserRepo(UserRepo userRepo) {
+        ImageHelper.userRepo = userRepo;
     }
 
     public static String generateFilename(String extension) {
@@ -99,6 +106,34 @@ public class ImageHelper {
 
         contact.setContactPicture(null);
         contactRepo.save(contact);
+
+        String route = "src/main/resources/static/" + matcher.group(1);
+
+        File imgFile = new File(route);
+
+        if (imgFile.exists()) {
+            imgFile.delete();
+        } else {
+            throw new NoImageException("La imagen que tenía asociada el contacto no existe. Poniendo el campo vacío.");
+        }
+    }
+
+    public static void deleteProfilePicture(User user) throws NoImageException, ImageBadFormatException {
+        if (user.getProfilePicture() == null) {
+            throw new NoImageException("El usuario no tiene una imagen para poder borrarla");
+        }
+
+        Pattern pattern = Pattern.compile("http://localhost:8080/(.+)");
+
+        Matcher matcher = pattern.matcher(user.getProfilePicture());
+
+        if (!matcher.matches()) {
+            throw new ImageBadFormatException(
+                    "El campo profile_picture del usuario no tiene el formato correcto. Poniendo el campo a vacío");
+        }
+
+        user.setProfilePicture(null);
+        userRepo.save(user);
 
         String route = "src/main/resources/static/" + matcher.group(1);
 

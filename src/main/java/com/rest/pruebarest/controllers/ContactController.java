@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.rest.pruebarest.exceptions.ContactBadBodyException;
+import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.exceptions.ContactColisionException;
 import com.rest.pruebarest.exceptions.ImageBadFormatException;
 import com.rest.pruebarest.exceptions.ImageUploadErrorException;
@@ -75,7 +75,7 @@ public class ContactController {
 
         try {
             CheckerHelper.checkContactParams(contact);
-        } catch (ContactBadBodyException e) {
+        } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 
@@ -135,14 +135,14 @@ public class ContactController {
 
         if (!oContacto.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ResponseHelper.getErrorResponse("El contacto con el id especificado no exite"));
+                    .body(ResponseHelper.getErrorResponse("El contacto con el id especificado no existe"));
         }
 
         Contact oldContact = oContacto.get();
 
         try {
             CheckerHelper.checkContactParams(newContact);
-        } catch (ContactBadBodyException e) {
+        } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
 
