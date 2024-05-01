@@ -51,7 +51,7 @@ public class ContactController {
 
             JWTHelper.checkTokenMatching(userId, token);
 
-            List<Contact> contacts = contactRepo.findByUserId(userId);
+            List<Contact> contacts = contactRepo.findByUserIdOrderByContactName(userId);
             response.put("result", "ok");
             response.put("data", contacts);
             return ResponseEntity.ok(response);

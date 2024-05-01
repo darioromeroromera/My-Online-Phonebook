@@ -2,7 +2,6 @@ com/rest/pruebarest/exceptions/NoImageException.class
 com/rest/pruebarest/controllers/RegisterController.class
 com/rest/pruebarest/controllers/ResponseHelper.class
 com/rest/pruebarest/exceptions/TokenException.class
-com/rest/pruebarest/exceptions/LoginBadBodyException.class
 com/rest/pruebarest/PruebarestApplication.class
 com/rest/pruebarest/repos/UserRepo.class
 com/rest/pruebarest/models/Contact.class
@@ -10,7 +9,6 @@ com/rest/pruebarest/exceptions/ImageUploadErrorException.class
 com/rest/pruebarest/exceptions/ImageBadFormatException.class
 com/rest/pruebarest/controllers/ImageHelper.class
 com/rest/pruebarest/controllers/ErrorController.class
-com/rest/pruebarest/exceptions/RegisterBadBodyException.class
 com/rest/pruebarest/exceptions/ContactColisionException.class
 com/rest/pruebarest/controllers/CheckerHelper.class
 com/rest/pruebarest/controllers/AuthController.class
@@ -18,5 +16,4 @@ com/rest/pruebarest/models/User.class
 com/rest/pruebarest/config/SecurityConfiguration.class
 com/rest/pruebarest/controllers/JWTHelper.class
 com/rest/pruebarest/controllers/ContactController.class
-com/rest/pruebarest/exceptions/ContactBadBodyException.class
 com/rest/pruebarest/repos/ContactRepo.class

@@ -15,4 +15,6 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
 
     @Query(value = "SELECT count(*) FROM contact WHERE user_id = ?1 AND telefono = ?2", nativeQuery = true)
     public int getByTelefonoAndUserId(Long userId, String telefono);
+
+    public List<Contact> findByUserIdOrderByContactName(Long userId);
 }

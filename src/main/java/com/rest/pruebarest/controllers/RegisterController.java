@@ -55,21 +55,6 @@ public class RegisterController {
 
         user.setProfilePicture(null);
 
-        /*
-
-        if (user.getProfilePicture() != null) {
-            try {
-                ImageHelper.changeProfilePicture(user);
-            } catch (ImageBadFormatException e) {
-                return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-            } catch (ImageUploadErrorException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(ResponseHelper.getErrorResponse(e.getMessage()));
-            }
-        }
-
-        */
-
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         userRepo.save(user);

@@ -1,12 +1,10 @@
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/NoImageException.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/ImageHelper.java
-/home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/LoginBadBodyException.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/ErrorController.java
-/home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/ContactBadBodyException.java
+/home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/BadBodyException.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/RegisterController.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/ContactColisionException.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/ImageUploadErrorException.java
-/home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/RegisterBadBodyException.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/JWTHelper.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/CheckerHelper.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/config/SecurityConfiguration.java
@@ -16,6 +14,7 @@
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/repos/ContactRepo.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/models/Contact.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/exceptions/ImageBadFormatException.java
+/home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/UserController.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/PruebarestApplication.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/ContactController.java
 /home/dario/acceso_datos/pruebarest/src/main/java/com/rest/pruebarest/controllers/AuthController.java

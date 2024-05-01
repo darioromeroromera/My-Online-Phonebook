@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -31,6 +31,39 @@ public class UserController {
 
     @Autowired
     UserRepo userRepo;
+
+    @GetMapping("/profile-picture")
+    public ResponseEntity getProfilePicture(@RequestHeader("token") @Nullable String token) {
+        if (token == null || !JWTHelper.verifyToken(token)) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
+        }
+
+        Long userId;
+        try {
+            userId = JWTHelper.getUserId(token);
+            
+            JWTHelper.checkTokenMatching(userId, token);
+
+            Optional<User> oUser = userRepo.findById(userId);
+    
+            if (!oUser.isPresent())
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario indicado en el token no existe"));
+    
+            User foundUser = oUser.get();
+
+            HashMap<String, Object> response = new HashMap<>();
+
+            response.put("result", "ok");
+            response.put("picture", foundUser.getProfilePicture());
+            return ResponseEntity.ok(response);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse("Error procesando el token"));
+        } catch (TokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
+        }
+    }
+
 
     @PutMapping("/profile-picture")
     public ResponseEntity updateProfilePicture(@RequestHeader("token") @Nullable String token, @RequestBody @Nullable User user) {

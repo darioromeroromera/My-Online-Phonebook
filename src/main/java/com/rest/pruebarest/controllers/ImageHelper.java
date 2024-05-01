@@ -52,7 +52,7 @@ public class ImageHelper {
 
         byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
 
-        String filename = ImageHelper.generateFilename(matcher.group(1));
+        String filename = generateFilename(matcher.group(1));
 
         try {
             String route = "src/main/resources/static/" + filename;
@@ -79,7 +79,7 @@ public class ImageHelper {
 
         byte[] imgBytes = Base64.getDecoder().decode(tokens[1]);
 
-        String filename = ImageHelper.generateFilename(matcher.group(1));
+        String filename = generateFilename(matcher.group(1));
 
         try {
             String route = "src/main/resources/static/" + filename;
