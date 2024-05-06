@@ -54,7 +54,7 @@ const LoginForm = () => {
             return;
         setLoading(true)
         try {
-            const res = await fetch('http://192.168.1.133:8080/api/auth', {
+            const res = await fetch('http://localhost:8080/api/auth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

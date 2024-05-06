@@ -90,7 +90,7 @@ const RegistrationForm = () => {
     const register = async () => {
         setLoading(true);
         try {
-            const res = await fetch('http://192.168.1.133:8080/api/register', {
+            const res = await fetch('http://localhost:8080/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
