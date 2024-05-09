@@ -111,9 +111,6 @@ const Home = () => {
     }
 
     const removeContact= async id => {
-        if (loading)
-            return;
-        setLoading(true);
         try {
             const data = await fetch('http://localhost:8080/api/contacts/' + id, {
                 method: 'DELETE',
@@ -138,7 +135,6 @@ const Home = () => {
             setContactError('Error: no se ha podido establecer conexión con el servidor');
             setIsContactErrorVisible(true);
         }
-        setLoading(false);
     }
 
     
