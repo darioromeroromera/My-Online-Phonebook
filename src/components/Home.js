@@ -83,6 +83,18 @@ const Home = () => {
         getContacts();
     }, []);
 
+    const [search, setSearch] = useState("");
+
+    const [filteredContacts, setFilteredContacts] = useState([]);
+
+    const filterContacts = () => {
+        setFilteredContacts(contacts.filter(contact => contact.contact_name.toLowerCase().includes(search.toLowerCase()) || contact.full_name.toLowerCase().includes(search.toLowerCase()) || contact.telefono.includes(search)));
+    }
+
+    useEffect(() => {
+        filterContacts();
+    }, [contacts, search]);
+
     const [isContactsErrorVisible, setIsContactErrorVisible] = useState(false);
 
     const [contactError, setContactError] = useState('');
@@ -97,9 +109,9 @@ const Home = () => {
                 </div>
             )
         else if (!isContactsErrorVisible) {
-            return contacts.length > 0 ?
+            return filteredContacts.length > 0 ?
                 <div className="Home__ContactList">
-                {contacts.map(contact => (
+                {filteredContacts.map(contact => (
                     <ContactCard removeContact={removeContact} key={contact.id} id={contact.id} name={contact.contact_name} fullname={contact.full_name} 
                     phone={contact.telefono} details={contact.details} picture={contact.contact_picture}/>
                 ))}
@@ -158,7 +170,10 @@ const Home = () => {
             </div>
 
             <div>
-                <input className="Home__Search__Input" type="text" placeholder="Busca contactos por nombre o número"/>
+                <input className="Home__Search__Input" type="text" value={search} placeholder="Busca contactos por nombre o número"
+                    onChange={e => {
+                        setSearch(e.target.value);
+                    }}/>
             </div>
             <div className="Home__ContactList__Container">
                 <div className={isContactsErrorVisible ? 'Home__Error' : 'Home__Hidden'}>

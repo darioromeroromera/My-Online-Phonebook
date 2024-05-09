@@ -16,6 +16,7 @@
 
 .Home__Profile__ImgSet {
     position: relative;
+    cursor: pointer;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -25,10 +26,13 @@
 
 .Home__Profile__ProfilePicture {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin-right: 20px;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
 }
 
 .Home__Profile__EditIcon {
@@ -148,8 +152,8 @@
     }
 
     .Home__Profile__ProfilePicture {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
 
     .Home__Profile__EditIcon {
