@@ -6,6 +6,7 @@ import Home from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
 import LoginForm from './components/LoginForm';
 import NotFound from './components/NotFound';
+import AddOrUpdateContact from './components/AddOrUpdateContact';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <Route exact path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
         <Route path='/register' element={<RegistrationForm/>}/>
         <Route path='/login' element={<LoginForm/>}/>
+        <Route path='/add' element={<AddOrUpdateContact isEdit={false}/>}/>
+        <Route path='/edit/:id' element={<AddOrUpdateContact isEdit={true}/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
     </>

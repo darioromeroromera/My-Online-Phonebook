@@ -116,10 +116,9 @@ const Home = () => {
                     phone={contact.telefono} details={contact.details} picture={contact.contact_picture}/>
                 ))}
             </div> :
-                <p>No contacts found.</p>
+                <p>{search == '' ? 'No hay contactos' : 'No se han encontrado contactos con ese filtro'}</p>
                 
         }
-
     }
 
     const removeContact= async id => {
@@ -182,6 +181,8 @@ const Home = () => {
                 {renderContacts()}
             </div>
 
+            <div className="Home__ButtonContainer">
+            <button className="Home__AddUser__Button" onClick={() => navigate('/add')}>Añadir usuario</button>
 
             <button className="Home__Logout__Button" onClick={() => {
                 localStorage.removeItem('token');
@@ -190,6 +191,8 @@ const Home = () => {
                 localStorage.removeItem('id');
                 navigate('/login');
             }}>Cerrar Sesión</button>
+            </div>
+
         </div>
     );
     
