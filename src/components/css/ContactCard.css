@@ -27,7 +27,23 @@
     margin-bottom: 5px;
 }
 
-.ContactCard__Button {
+.ContactCard__UpdateButton {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin: 6px 0px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.ContactCard__UpdateButton:hover {
+    background-color: #218838;
+}
+
+.ContactCard__DeleteButton {
     background-color: #dc3545;
     color: #fff;
     border: none;
@@ -39,7 +55,7 @@
     cursor: pointer;
 }
 
-.ContactCard__Button:hover {
+.ContactCard__DeleteButton:hover {
     background-color: #c82333;
 }
 
