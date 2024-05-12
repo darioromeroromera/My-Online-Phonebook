@@ -61,7 +61,45 @@ public class ContactController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ResponseHelper.getErrorResponse("Error procesando el token"));
         }
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity getOne(@RequestHeader("token") @Nullable String token, @Nullable @PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (id == null)
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("No se ha especificado ningún id de contacto"));
+
+        if (!id.matches("\\d+"))
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El id debe ser un número"));
+        
+        if (token == null || !JWTHelper.verifyToken(token)) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
+        }
+
+        try {
+            Long userId = JWTHelper.getUserId(token);
+
+            JWTHelper.checkTokenMatching(userId, token);
+
+            Optional<Contact> oContact = contactRepo.findById(Long.parseLong(id));
+
+            if (oContact.isPresent()) {
+                Contact contact = oContact.get();
+                if (contact.getUserId() != userId)
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseHelper.getErrorResponse("El id del usuario propietario no coincide con el del usuario del token"));
+                response.put("result", "ok");
+                response.put("data", contact);
+                return ResponseEntity.ok(response);
+            }
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario con id solicitado no existe"));
+        } catch (TokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse("Error procesando el token"));
+        }
     }
 
     @PostMapping
@@ -122,6 +160,9 @@ public class ContactController {
             @RequestHeader("token") @Nullable String token) {
 
         HashMap<String, Object> response = new HashMap<>();
+
+        if (id == null)
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("No se ha especificado ningún id de contacto"));
 
         if (token == null || !JWTHelper.verifyToken(token)) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
@@ -191,6 +232,9 @@ public class ContactController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteContact(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
         HashMap<String, Object> response = new HashMap<>();
+
+        if (id == null)
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("No se ha especificado ningún id de contacto"));
 
         if (token == null) {
             return ResponseEntity.badRequest()
