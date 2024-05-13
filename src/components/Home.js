@@ -17,7 +17,8 @@ const Home = () => {
             const data = await fetch('http://localhost:8080/api/user/profile-picture', {
                 headers: {
                     token: localStorage.getItem('token')
-                }
+                },
+                mode: 'cors'
             });
     
             const json = await data.json();
@@ -56,7 +57,8 @@ const Home = () => {
             const data = await fetch('http://localhost:8080/api/contacts', {
                 headers: {
                     token: localStorage.getItem('token')
-                }
+                },
+                mode: 'cors'
             });
     
             const json = await data.json();
@@ -112,7 +114,7 @@ const Home = () => {
             return filteredContacts.length > 0 ?
                 <div className="Home__ContactList">
                 {filteredContacts.map(contact => (
-                    <ContactCard removeContact={removeContact} key={contact.id} id={contact.id} name={contact.contact_name} fullname={contact.full_name} 
+                    <ContactCard removeContact={removeContact} removePicture={removeContactPicture} key={contact.id} id={contact.id} name={contact.contact_name} fullname={contact.full_name} 
                     phone={contact.telefono} details={contact.details} picture={contact.contact_picture}/>
                 ))}
             </div> :
@@ -121,13 +123,14 @@ const Home = () => {
         }
     }
 
-    const removeContact= async id => {
+    const removeContact = async id => {
         try {
             const data = await fetch('http://localhost:8080/api/contacts/' + id, {
                 method: 'DELETE',
                 headers: {
                     token: localStorage.getItem('token')
-                }
+                },
+                mode: 'cors'
             });
     
             const json = await data.json();
@@ -140,6 +143,35 @@ const Home = () => {
                 setIsContactErrorVisible(true);
             } else {
                 setContacts(contacts => contacts.filter(contact => contact.id != id));
+            }
+
+        } catch (err) {
+            setContactError('Error: no se ha podido establecer conexión con el servidor');
+            setIsContactErrorVisible(true);
+        }
+    }
+
+    const removeContactPicture = async id => {
+        try {
+            const data = await fetch('http://localhost:8080/api/contacts/' + id + '/picture', {
+                method: 'DELETE',
+                headers: {
+                    token: localStorage.getItem('token')
+                },
+                mode: 'cors'
+            });
+    
+            const json = await data.json();
+
+            if (json.result === undefined) {
+                setContactError('Ha ocurrido un error desconocido. Inténtelo más tarde');
+                setIsContactErrorVisible(true);
+            } else if (json.result === 'error') {
+                setContactError(json.details);
+                setIsContactErrorVisible(true);
+            } else {
+                const updatedContact = json.data;
+                setContacts(contacts => contacts.map(contact => contact.id === id ? updatedContact : contact));
             }
 
         } catch (err) {

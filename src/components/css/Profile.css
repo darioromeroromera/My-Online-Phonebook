@@ -1,0 +1,147 @@
+.Profile__Container {
+    padding: 20px;
+}
+
+.Profile__Content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+.Profile__Section {
+    flex: 1;
+    max-width: 400px; /* Limiting maximum width for better spacing on larger screens */
+}
+
+.Profile__ImageContainer {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.Profile__Image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    object-fit: contain;
+    border: 4px solid #007bff;
+}
+
+.Profile__FileInput {
+    display: block;
+    margin-top: 10px;
+}
+
+.Profile__ButtonGroup {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.Profile__Button {
+    background-color: #007bff;
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Profile__Button:hover {
+    background-color: #0056b3;
+}
+
+.Profile__PasswordForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Profile__FormInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.Profile__ButtonSubmit {
+    background-color: #28a745;
+}
+
+.Profile__ButtonSubmit:hover {
+    background-color: #218838;
+}
+
+.Profile__ButtonDelete {
+    background-color: #dc3545;
+}
+
+.Profile__ButtonDelete:hover {
+    background-color: #c82333;
+}
+
+.Profile__ButtonBack {
+    background-color: #007bff;
+}
+
+.Profile__ApiError {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.Profile__Hidden {
+    display: none;
+}
+
+.Profile__Error,
+.Profile__Success {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.Profile__Success {
+    background-color: #C8E6C9;
+    color: #388E3C;
+    border-color: #388E3C;
+}
+
+.Profile__SpinnerDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.Profile__Spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: rotate 1s linear infinite;
+}
+
+@media screen and (max-width: 768px) {
+    .Profile__Content {
+        flex-direction: column;
+        align-items: center;
+    }
+}

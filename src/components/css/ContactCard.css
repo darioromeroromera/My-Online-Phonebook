@@ -10,7 +10,8 @@
 }
 
 .ContactCard__Picture {
-    height: 300px;
+    max-width: 420px;
+    max-height: 300px;
     align-self: center;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -65,7 +66,7 @@
     }
 
     .ContactCard__Picture {
-        height: 200px;
+        max-height: 200px;
     }
 
     .ContactList__Container {

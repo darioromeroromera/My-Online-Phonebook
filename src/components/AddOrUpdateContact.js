@@ -123,8 +123,43 @@ const AddOrUpdateContact = ({isEdit}) => {
         
     }
 
-    const updateContact = () => {
-        alert('EDIT');
+    const updateContact = async () => {
+        if (loading)
+            return;
+        setLoading(true);
+        let imageData = null;
+        if (contactImage) {
+            imageData = await readFileAsBase64(contactImage);
+            console.log(imageData);
+        }
+        const data = await fetch('http://localhost:8080/api/contacts/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                token: localStorage.getItem('token')
+            },
+            mode: 'cors',
+            body: JSON.stringify({'contact_name': contactName, 'full_name': fullName, 'telefono': phoneNumber, 'contact_picture': imageData})
+        });
+
+        const json = await data.json();
+
+        console.log(json);
+
+        if (json.result === undefined) {
+            setLoading(false);
+            setApiError('Ha ocurrido un error desconocido. Inténtelo más tarde');
+            setIsErrorVisible(true);
+        } else if (json.result === 'error') {
+            setLoading(false);
+            setApiError(json.details);
+            setIsErrorVisible(true);
+        } else {
+            setTimeout(() => {
+                setLoading(false);
+                navigate('/');
+            }, 1000);
+        }
     }
 
     const handleSubmit = (e) => {

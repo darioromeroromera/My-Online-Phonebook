@@ -1,19 +1,19 @@
-.NotFound__container {
+.NotFound__Container {
     text-align: center;
     margin-top: 50px;
 }
   
-.NotFound__title {
+.NotFound__Title {
     font-size: 36px;
     color: #ff4d4d;
 }
   
-.NotFound__message {
+.NotFound__Message {
     font-size: 18px;
     margin-bottom: 20px;
 }
   
-.NotFound__image {
+.NotFound__Image {
     width: 300px;
     height: auto;
     margin: 0 auto;
