@@ -2,6 +2,7 @@ package com.rest.pruebarest.controllers;
 
 import com.rest.pruebarest.exceptions.ContactColisionException;
 import com.rest.pruebarest.exceptions.BadBodyException;
+import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
@@ -71,15 +72,19 @@ public class CheckerHelper {
             throw new BadBodyException("El password no puede estar vacío");
         }
 
-        if (user.getPassword().length() < 8 || !user.getPassword().matches(".*[a-z]+.*")
-            || !user.getPassword().matches(".*[A-Z]+.*")
-            || !user.getPassword().matches(".*\\d+.*")) {
-                throw new BadBodyException(
-                    "El password debe tener al menos 8 caracteres, minúsculas, mayúsculas y números");
-        }
+        checkPassword(user.getPassword());
 
         if (user.getId() != null) {
             throw new BadBodyException("El id no es un parámetro válido");
+        }
+    }
+
+    public static void checkPassword(String password) throws BadBodyException {
+        if (password.length() < 8 || !password.matches(".*[a-z]+.*")
+        || !password.matches(".*[A-Z]+.*")
+        || !password.matches(".*\\d+.*")) {
+            throw new BadBodyException(
+                "El password debe tener al menos 8 caracteres, minúsculas, mayúsculas y números");
         }
     }
 
@@ -103,5 +108,14 @@ public class CheckerHelper {
 
         if (user.getProfilePicture() == null)
             throw new BadBodyException("El campo profile_picture es obligatorio");
+    }
+
+    public static void checkChangePasswordParams(ChangePasswordRequest request) throws BadBodyException {
+        if (request == null)
+            throw new BadBodyException("El body no puede estar vacío");
+        if (request.getOldPassword() == null)
+            throw new BadBodyException("EL campo old_password es obligatorio");
+        if (request.getNewPassword() == null)
+            throw new BadBodyException("El campo new_password es obligatorio");
     }
 }

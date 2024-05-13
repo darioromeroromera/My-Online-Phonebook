@@ -203,11 +203,16 @@ public class ContactController {
 
             if (newContact.getContactPicture() != null) {
                 try {
+                    if (oldContact.getContactPicture() != null)
+                        ImageHelper.deleteContactPicture(oldContact);
                     ImageHelper.changeContactPicture(newContact);
                 } catch (ImageBadFormatException e) {
                     return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
                 } catch (ImageUploadErrorException e) {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ResponseHelper.getErrorResponse(e.getMessage()));
+                } catch (NoImageException e) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body(ResponseHelper.getErrorResponse(e.getMessage()));
                 }
             } else if (oldContact.getContactPicture() != null)
@@ -291,6 +296,65 @@ public class ContactController {
         }
     }
 
+    @DeleteMapping("/{id}/picture")
+    public ResponseEntity deleteContactPicture(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (id == null)
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("No se ha especificado ningún id de contacto"));
+
+        if (token == null) {
+            return ResponseEntity.badRequest()
+                    .body(ResponseHelper.getErrorResponse("El token no ha sido especificado"));
+        }
+
+        if (!id.matches("\\d+")) {
+            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El id debe ser un número"));
+        }
+
+        Optional<Contact> oContacto = contactRepo.findById(Long.parseLong(id));
+
+        if (!oContacto.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ResponseHelper.getErrorResponse("El contacto con el id especificado no existe"));
+        }
+
+        Contact contact = oContacto.get();
+
+        try {
+            Long userId = JWTHelper.getUserId(token);
+
+            JWTHelper.checkTokenMatching(userId, token);
+
+            if (contact.getUserId() != userId) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                        ResponseHelper.getErrorResponse("Permiso denegado. Este contacto no pertenece a su usuario"));
+            }
+
+            try {
+                ImageHelper.deleteContactPicture(contact);
+            } catch (NoImageException e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(ResponseHelper.getErrorResponse(e.getMessage()));
+            } catch (ImageBadFormatException e) {
+                return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
+            }
+            response.put("result", "ok");
+            response.put("data", contact);
+
+            return ResponseEntity.ok(response);
+
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse(e.getLocalizedMessage()));
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ResponseHelper.getErrorResponse("Error extrayendo los datos del token"));
+        } catch (TokenException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
+        }
+    }
+
     @RequestMapping
     public ResponseEntity badMethod() {
         return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
@@ -298,6 +362,11 @@ public class ContactController {
 
     @RequestMapping("/{id}")
     public ResponseEntity badIdMethod() {
+        return badMethod();
+    }
+
+    @RequestMapping("/{id}/picture")
+    public ResponseEntity badPictureMethod() {
         return badMethod();
     }
 }
