@@ -57,13 +57,16 @@ const AddOrUpdateContact = ({isEdit}) => {
     }
 
     const checkContactImage = () => {
-        console.log(contactImage);
         if (contactImage != null) {
-            setContactRender(URL.createObjectURL(contactImage));
-            console.log(contactRender);
-            setErrors(errors => {
-                return (contactImage.type != 'image/jpeg' && contactImage.type != 'image/png') ? { ...errors, contactImage: 'El campo de imagen debe ser formato jpeg o png' } : { ...errors, contactImage: '' };
-            });
+            const isValidFormat = contactImage.type === 'image/jpeg' || contactImage.type === 'image/png';
+
+            if (isValidFormat) {
+                setContactRender(URL.createObjectURL(contactImage));
+            }
+            setErrors(errors => ({
+                ...errors,
+                contactImage: isValidFormat ? '' : 'El campo de imagen debe ser formato jpeg o png'
+            }));        
         }
     }
 
@@ -269,10 +272,10 @@ const AddOrUpdateContact = ({isEdit}) => {
                     />
                     <p className="AddOrUpdateContact__Error">{errors.phoneNumber}</p>
 
-                    <input className="AddOrUpdateContact__Form__Input"
-                        type="file"
-                        onChange={(e) => setContactImage(e.target.files[0])}
-                    />
+                    <div className="AddOrUpdateContact__Form__FileInputContainer AddOrUpdateContact__Form__InputButton" >
+                        <span for="contactPictureInput">Cambiar foto de perfil</span>
+                        <input id="contactPictureInput" className="AddOrUpdateContact__Form__FileInput" type="file" onChange={(e) => setContactImage(e.target.files[0])} />
+                    </div>
 
                     <p className="AddOrUpdateContact__Error">{errors.contactImage}</p>
 

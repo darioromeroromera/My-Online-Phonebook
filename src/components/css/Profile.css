@@ -11,7 +11,7 @@
 
 .Profile__Section {
     flex: 1;
-    max-width: 400px; /* Limiting maximum width for better spacing on larger screens */
+    max-width: 400px;
 }
 
 .Profile__ImageContainer {
@@ -27,9 +27,20 @@
     border: 4px solid #007bff;
 }
 
+.Profile__FileInputContainer {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
 .Profile__FileInput {
-    display: block;
-    margin-top: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 .Profile__ButtonGroup {
@@ -47,11 +58,14 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .Profile__Button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .Profile__PasswordForm {
@@ -62,9 +76,25 @@
 
 .Profile__FormInput {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid #ccc; 
+    border-radius: 0;
+    background-color: transparent; 
+    transition: border-color 0.3s ease; 
+}
+
+.Profile__FormInput:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.Profile__FormLabel {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block; 
 }
 
 .Profile__ButtonSubmit {

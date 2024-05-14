@@ -25,7 +25,6 @@
 }
 
 .Home__Profile__ProfilePicture {
-    position: relative;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -33,7 +32,9 @@
     overflow: hidden;
     object-fit: cover;
     object-position: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .Home__Profile__EditIcon {
     position: absolute;
@@ -46,10 +47,18 @@
 
 .Home__Search__Input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.Home__Search__Input:focus {
+    outline: none;
+    border-color: #007bff;
 }
 
 .Home__ContactList__Container {
@@ -57,6 +66,7 @@
     overflow-y: auto;
     max-height: 500px;
     position: relative;
+    padding: 10px;
 }
 
 .Home__ContactList {
@@ -102,12 +112,15 @@
     margin-top: 20px;
     font-size: 16px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .Home__AddUser__Button:hover {
     background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .Home__Logout__Button {
@@ -118,12 +131,16 @@
     margin-top: 20px;
     font-size: 16px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .Home__Logout__Button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
 }
 
 .Home__Error {
