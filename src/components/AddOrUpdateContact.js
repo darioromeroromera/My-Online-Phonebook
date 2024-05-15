@@ -273,7 +273,7 @@ const AddOrUpdateContact = ({isEdit}) => {
                     <p className="AddOrUpdateContact__Error">{errors.phoneNumber}</p>
 
                     <div className="AddOrUpdateContact__Form__FileInputContainer AddOrUpdateContact__Form__InputButton" >
-                        <span for="contactPictureInput">Cambiar foto de perfil</span>
+                        <span for="contactPictureInput">Cambiar foto de contacto</span>
                         <input id="contactPictureInput" className="AddOrUpdateContact__Form__FileInput" type="file" onChange={(e) => setContactImage(e.target.files[0])} />
                     </div>
 

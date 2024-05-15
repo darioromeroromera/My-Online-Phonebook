@@ -157,7 +157,7 @@ const Profile = () => {
                     <div className="Profile__ImageContainer">
                         <img className="Profile__Image" src={profileRender} alt="Foto de perfil" />
                         <div className="Profile__FileInputContainer Profile__Button" >
-                            <span for="profilePictureInput">Cambiar foto de contacto</span>
+                            <span for="profilePictureInput">Cambiar foto de perfil</span>
                             <input id="profilePictureInput" className="Profile__FileInput" type="file" onChange={handleProfilePictureUpload} />
                         </div>
 
