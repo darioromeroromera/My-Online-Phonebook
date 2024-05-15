@@ -1,11 +1,13 @@
 package com.rest.pruebarest.controllers;
 
 import java.security.DrbgParameters.Reseed;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Optional;
 
 import org.hibernate.query.results.ResultsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,7 +61,8 @@ public class UserController {
 
             response.put("result", "ok");
             response.put("picture", foundUser.getProfilePicture());
-            return ResponseEntity.ok(response);
+            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
+            return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(response);
         } catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ResponseHelper.getErrorResponse("Error procesando el token"));
@@ -107,7 +110,8 @@ public class UserController {
             response.put("result", "ok");
             response.put("picture", foundUser.getProfilePicture());
 
-            return ResponseEntity.ok(response);
+            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
+            return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(response);
 
         } catch (TokenException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));

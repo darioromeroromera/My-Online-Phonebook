@@ -1,11 +1,13 @@
 package com.rest.pruebarest.controllers;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -145,7 +147,8 @@ public class ContactController {
             response.put("result", "ok");
             response.put("insert_id", savedContact.getId());
             response.put("picture", savedContact.getContactPicture());
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
+            return ResponseEntity.status(HttpStatus.CREATED).cacheControl(cacheControl).body(response);
 
         } catch (TokenException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
@@ -221,7 +224,8 @@ public class ContactController {
             Contact updatedContact = contactRepo.save(newContact);
             response.put("result", "ok");
             response.put("picture", updatedContact.getContactPicture());
-            return ResponseEntity.ok(response);
+            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
+            return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(response);
 
         } catch (DataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
