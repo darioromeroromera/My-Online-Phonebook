@@ -50,6 +50,8 @@ const RegistrationForm = () => {
     };
 
     const checkPassword = () => {
+        if (confirmPassword.trim() != '')
+            checkConfirmPassword();
         setErrors(errors => {
             if (password.trim() == '')
                 return {...errors, password: 'El campo password no puede estar vacío'};
@@ -61,14 +63,14 @@ const RegistrationForm = () => {
     };
 
     const checkConfirmPassword = () => {
-        setErrors(errros => {
+        setErrors(errors => {
             if (confirmPassword.trim() == '')
                 return {...errors, confirmPassword: 'El campo de confirmar contraseña no puede estar vacío'};
             else if (password.trim() != '' && confirmPassword != password)
                 return {...errors, confirmPassword: 'Las contraseñas no coinciden'};
             else
                 return {...errors, confirmPassword: ''};
-        })
+        });
     };
 
     useEffect(() => {
