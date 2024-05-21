@@ -170,4 +170,8 @@
         flex-direction: column;
         align-items: center;
     }
+
+    .Profile__ButtonBack {
+        margin-top: 20px;
+    }
 }

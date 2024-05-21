@@ -214,9 +214,9 @@ const Home = () => {
             </div>
 
             <div className="Home__ButtonContainer">
-            <button className="Home__AddUser__Button" onClick={() => navigate('/add')}>Añadir usuario</button>
+            <button className="Home__Button Home__AddUser__Button" onClick={() => navigate('/add')}>Añadir usuario</button>
 
-            <button className="Home__Logout__Button" onClick={() => {
+            <button className="Home__Button" onClick={() => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
                 localStorage.removeItem('email');

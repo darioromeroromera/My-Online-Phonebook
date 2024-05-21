@@ -287,7 +287,7 @@ const AddOrUpdateContact = ({isEdit}) => {
 
                     <button className="AddOrUpdateContact__Form__Button" type="submit">{isEdit ? 'Guardar cambios' : 'Guardar'}</button>
 
-                    <button className="AddOrUpdateContact__Form__Button__Back" onClick={e => {
+                    <button className="AddOrUpdateContact__Form__Button AddOrUpdateContact__Form__Button__Back" onClick={e => {
                         e.preventDefault();
                         navigate('/');
                     }}>Volver a inicio</button>

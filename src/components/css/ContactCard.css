@@ -35,7 +35,7 @@
     margin-bottom: 5px;
 }
 
-.ContactCard__UpdateButton {
+.ContactCard__Button {
     background-color: #28a745;
     color: #fff;
     border: none;
@@ -48,7 +48,7 @@
     cursor: pointer;
 }
 
-.ContactCard__UpdateButton:hover {
+.ContactCard__Button:hover {
     background-color: #218838;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -56,21 +56,10 @@
 
 .ContactCard__DeleteButton {
     background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    margin: 6px 0px;
-    font-size: 14px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
 }
 
 .ContactCard__DeleteButton:hover {
     background-color: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {

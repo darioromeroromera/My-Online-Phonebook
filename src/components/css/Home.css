@@ -104,26 +104,7 @@
     align-items: flex-start;
 }
 
-.Home__AddUser__Button {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.Home__AddUser__Button:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.Home__Logout__Button {
+.Home__Button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -136,11 +117,20 @@
     cursor: pointer;
 }
 
-.Home__Logout__Button:hover {
+.Home__Button:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    
+}
+
+.Home__AddUser__Button {
+    background-color: #28a745;
+}
+
+.Home__AddUser__Button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .Home__Error {

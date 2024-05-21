@@ -13,9 +13,9 @@ const ContactCard = React.memo(({name, fullname, phone, details, picture, remove
             <p className="ContactCard__FullName">{fullname}</p>
             <p className="ContactCard__Phone">{phone}</p>
             <p className="ContactCard__Details">{details}</p>
-            <button className="ContactCard__UpdateButton" onClick={() => {navigate('/edit/' + id)}}>Modificar</button>
-            <button className="ContactCard__DeleteButton" onClick={() => {removeContact(id)}}>Eliminar</button>
-            {picture != null ? <button className="ContactCard__DeleteButton" onClick={() => {removePicture(id)}}>Eliminar foto</button> : ''}
+            <button className="ContactCard__Button" onClick={() => {navigate('/edit/' + id)}}>Modificar</button>
+            <button className="ContactCard__Button ContactCard__DeleteButton" onClick={() => {removeContact(id)}}>Eliminar</button>
+            {picture != null ? <button className="ContactCard__Button ContactCard__DeleteButton" onClick={() => {removePicture(id)}}>Eliminar foto</button> : ''}
         </div>
     )
 });

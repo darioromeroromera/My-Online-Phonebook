@@ -85,23 +85,11 @@
 }
 
 .AddOrUpdateContact__Form__Button__Back {
-    width: 100%;
     background-color: #dc3545;
-    color: #FFF;
-    font-size: 16px;
-    padding: 10px 20px;
-    border: none;
-    margin: 10px 0px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
 }
 
 .AddOrUpdateContact__Form__Button__Back:hover {
     background-color: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .AddOrUpdateContact__Error {
