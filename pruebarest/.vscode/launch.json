@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PruebarestApplication<pruebarest>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rest.pruebarest.PruebarestApplication",
+            "projectName": "pruebarest",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
