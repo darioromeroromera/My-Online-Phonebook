@@ -53,6 +53,21 @@ public class RegisterController {
                     .body(ResponseHelper.getErrorResponse("Ese usuario ya existe en el sistema"));
         }
 
+        User foundEmailUser = null;
+
+        try {
+            foundEmailUser = userRepo.findByEmail(user.getEmail());
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ResponseHelper.getErrorResponse(
+                            "Error fatal, hay varios usuarios con esas credenciales, cuando deberían ser únicos"));
+        }
+
+        if (foundEmailUser != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(ResponseHelper.getErrorResponse("Ese correo ya pertenece a un usuario del sistema"));
+        }
+
         user.setProfilePicture(null);
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
