@@ -1,0 +1,145 @@
+.AddOrUpdateContact__Container {
+    padding: 20px;
+}
+
+.AddOrUpdateContact__FormContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.AddOrUpdateContact__Form {
+    background-color: #F2F2F2;
+    width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.AddOrUpdateContact__Form__Input {
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.AddOrUpdateContact__Form__FileInputContainer {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.AddOrUpdateContact__Form__InputButton {
+    background-color: #007bff;
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.AddOrUpdateContact__Form__InputButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.AddOrUpdateContact__Form__FileInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.AddOrUpdateContact__Form__Render {
+    height: 300px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.AddOrUpdateContact__Form__Button {
+    width: 100%;
+    background-color: #007bff;
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    margin: 20px 0px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.AddOrUpdateContact__Form__Button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.AddOrUpdateContact__Form__Button__Back {
+    background-color: #dc3545;
+}
+
+.AddOrUpdateContact__Form__Button__Back:hover {
+    background-color: #c82333;
+}
+
+.AddOrUpdateContact__Error {
+    color: #F00;
+}
+
+.AddOrUpdateContact__ApiError {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    animation: showAnimation 0.3s ease
+}
+
+.AddOrUpdateContact__Hidden {
+    display: none;
+}
+
+.AddOrUpdateContact__SpinnerDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.AddOrUpdateContact__Spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: rotate 1s linear infinite;
+}
+
+@media screen and (max-width: 768px) {
+    .AddOrUpdateContact__Form {
+        width: 90%;
+    }
+
+    .AddOrUpdateContact__Form__Render {
+        height: 200px;
+    }
+}

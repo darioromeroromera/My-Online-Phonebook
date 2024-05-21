@@ -1,0 +1,200 @@
+.Home__Container {
+    padding: 20px;
+}
+
+.Home__Profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.Home__Profile__Message {
+    margin-right: 20px;
+}
+
+.Home__Profile__ImgSet {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.Home__Profile__ImgSet:hover {
+    transform: scale(1.1);
+}
+
+.Home__Profile__ProfilePicture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.Home__Profile__EditIcon {
+    position: absolute;
+    top: 60%;
+    left: 60%;
+    background-color: #FFF;
+    width: 24px;
+    height: 24px;
+}
+
+.Home__Search__Input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.Home__Search__Input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.Home__ContactList__Container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 500px;
+    position: relative;
+    padding: 10px;
+}
+
+.Home__ContactList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.Home__Spinner__Div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.Home__Spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007BFF;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: rotate 1s linear infinite;
+}
+
+.Home__ButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Home__Button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.Home__Button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Home__AddUser__Button {
+    background-color: #28a745;
+}
+
+.Home__AddUser__Button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Home__Error {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    animation: showAnimation 0.3s ease
+}
+
+.Home__Hidden {
+    display: none;
+}
+
+@keyframes showAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .Home__ContactCard {
+        flex: 1 0 100%;
+    }
+
+    .Home__Profile {
+        margin-bottom: 10px;
+    }
+
+    .Home__Profile__Message {
+        font-size: 18px;
+    }
+
+    .Home__Profile__ImgSet {
+        margin-bottom: 10px;
+    }
+
+    .Home__Profile__ProfilePicture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .Home__Profile__EditIcon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .Home__ContactList__Container {
+        max-height: 400px;
+    }
+
+    .Home__Logout__Button {
+        margin-top: 20px;
+    }
+}
