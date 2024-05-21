@@ -1,4 +1,4 @@
-package com.rest.pruebarest.controllers;
+package com.rest.pruebarest.helpers;
 
 import com.rest.pruebarest.exceptions.ContactColisionException;
 import com.rest.pruebarest.exceptions.BadBodyException;

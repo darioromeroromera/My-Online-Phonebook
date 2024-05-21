@@ -23,6 +23,10 @@ import com.rest.pruebarest.exceptions.ImageBadFormatException;
 import com.rest.pruebarest.exceptions.ImageUploadErrorException;
 import com.rest.pruebarest.exceptions.NoImageException;
 import com.rest.pruebarest.exceptions.TokenException;
+import com.rest.pruebarest.helpers.CheckerHelper;
+import com.rest.pruebarest.helpers.ImageHelper;
+import com.rest.pruebarest.helpers.JWTHelper;
+import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.repos.ContactRepo;
 

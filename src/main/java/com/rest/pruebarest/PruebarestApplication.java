@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.rest.pruebarest.controllers.CheckerHelper;
-import com.rest.pruebarest.controllers.ImageHelper;
-import com.rest.pruebarest.controllers.JWTHelper;
+import com.rest.pruebarest.helpers.CheckerHelper;
+import com.rest.pruebarest.helpers.ImageHelper;
+import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.repos.ContactRepo;
 import com.rest.pruebarest.repos.UserRepo;
 

@@ -1,4 +1,4 @@
-package com.rest.pruebarest.controllers;
+package com.rest.pruebarest.helpers;
 
 import java.io.File;
 import java.io.IOException;
