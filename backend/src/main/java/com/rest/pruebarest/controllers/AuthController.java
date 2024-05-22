@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
+import com.rest.pruebarest.exceptions.AuthenticationException;
 import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.helpers.CheckerHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
@@ -28,36 +29,38 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity login(@RequestBody @Nullable User user) {
-        HashMap<String, Object> response = new HashMap<>();
-
         try {
             CheckerHelper.checkLoginParams(user);
+            User foundUser = authenticateUser(user);
+            String token = generateAndSaveToken(foundUser);
+            return ResponseEntity.ok(ResponseHelper.getSuccessfulTokenResponse(token));
         } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
+        } catch(AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
-
-        User foundUser = userRepo.findByUsername(user.getUsername());
-
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        if (foundUser == null || !encoder.matches(user.getPassword(), foundUser.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(ResponseHelper.getErrorResponse("Credenciales incorrectas"));
-        }
-
-        String token = JWTHelper.generateToken(foundUser.getId(), foundUser.getUsername(), foundUser.getEmail());
-
-        foundUser.setToken(token);
-
-        userRepo.save(foundUser);
-
-        response.put("result", "ok");
-        response.put("token", token);
-        return ResponseEntity.ok(response);
     }
 
     @RequestMapping
     public ResponseEntity badMethod() {
         return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
+    }
+
+    private User authenticateUser(User user) throws AuthenticationException {
+        User foundUser = userRepo.findByUsername(user.getUsername());
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if (foundUser == null || !encoder.matches(user.getPassword(), foundUser.getPassword())) {
+            throw new AuthenticationException("Credenciales incorrectas");
+        }
+
+        return foundUser;
+    }
+
+    private String generateAndSaveToken(User user) {
+        String token = JWTHelper.generateToken(user.getId(), user.getUsername(), user.getEmail());
+        user.setToken(token);
+        userRepo.save(user);
+        return token;
     }
 }

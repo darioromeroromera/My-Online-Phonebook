@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.pruebarest.exceptions.BadBodyException;
+import com.rest.pruebarest.exceptions.ConflictException;
 import com.rest.pruebarest.helpers.CheckerHelper;
 import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.User;
@@ -30,56 +31,20 @@ public class RegisterController {
 
     @PostMapping
     public ResponseEntity register(@RequestBody @Nullable User user) {
-        HashMap<String, Object> response = new HashMap<>();
-
         try {
             CheckerHelper.checkRegisterParams(user);
+            checkConflict(user);
+            saveUser(user);
+            return ResponseEntity.ok(ResponseHelper.getSuccessfulResponse());
         } catch (BadBodyException e) {
             return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-        }
-
-        user.setToken(null);
-
-        user.setEnabled(true);
-        User foundUser = null;
-        try {
-            foundUser = userRepo.findByUsername(user.getUsername());
-        } catch (IncorrectResultSizeDataAccessException e) {
+        } catch(IncorrectResultSizeDataAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ResponseHelper.getErrorResponse(
                             "Error fatal, hay varios usuarios con esas credenciales, cuando deberían ser únicos"));
+        } catch(ConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseHelper.getErrorResponse(e.getMessage()));
         }
-
-        if (foundUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(ResponseHelper.getErrorResponse("Ese usuario ya existe en el sistema"));
-        }
-
-        User foundEmailUser = null;
-
-        try {
-            foundEmailUser = userRepo.findByEmail(user.getEmail());
-        } catch (IncorrectResultSizeDataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseHelper.getErrorResponse(
-                            "Error fatal, hay varios usuarios con esas credenciales, cuando deberían ser únicos"));
-        }
-
-        if (foundEmailUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(ResponseHelper.getErrorResponse("Ese correo ya pertenece a un usuario del sistema"));
-        }
-
-        user.setProfilePicture(null);
-
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepo.save(user);
-
-        response.put("result", "ok");
-        response.put("picture", user.getProfilePicture());
-        return ResponseEntity.ok(response);
-
     }
 
     @RequestMapping
@@ -87,4 +52,26 @@ public class RegisterController {
         return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
     }
 
+
+    private void checkConflict(User user) throws IncorrectResultSizeDataAccessException, ConflictException {
+        User foundUser = userRepo.findByUsername(user.getUsername());
+        if (foundUser != null) {
+            throw new ConflictException("Ese usuario ya existe en el sistema");
+        }
+
+        User foundEmailUser = null;
+        foundEmailUser = userRepo.findByEmail(user.getEmail());
+        if (foundEmailUser != null) {
+            throw new ConflictException("Ese correo ya pertenece a un usuario del sistema");
+        }
+    }
+
+    private void saveUser(User user) {
+        user.setToken(null);
+        user.setEnabled(true);
+        user.setProfilePicture(null);
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepo.save(user);
+    }
 }
