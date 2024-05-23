@@ -1,7 +1,11 @@
 package com.rest.pruebarest.helpers;
 
 import com.rest.pruebarest.exceptions.ContactColisionException;
+
+import org.springframework.http.ResponseEntity;
+
 import com.rest.pruebarest.exceptions.BadBodyException;
+import com.rest.pruebarest.exceptions.BadPathVariable;
 import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.User;
@@ -117,5 +121,13 @@ public class CheckerHelper {
             throw new BadBodyException("EL campo old_password es obligatorio");
         if (request.getNewPassword() == null)
             throw new BadBodyException("El campo new_password es obligatorio");
+    }
+
+    public static void checkIdFormat(String id) throws BadPathVariable {
+        if (id == null)
+            throw new BadPathVariable("No se ha especificado ningún id de contacto");
+
+        if (!id.matches("\\d+"))
+            throw new BadPathVariable("El id debe ser un número");
     }
 }

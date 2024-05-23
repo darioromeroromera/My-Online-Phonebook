@@ -12,6 +12,5 @@ com\rest\pruebarest\repos\UserRepo.class
 com\rest\pruebarest\models\Contact.class
 com\rest\pruebarest\exceptions\ContactColisionException.class
 com\rest\pruebarest\controllers\ErrorController.class
-com\rest\pruebarest\exceptions\TokenException.class
 com\rest\pruebarest\controllers\AuthController.class
 com\rest\pruebarest\models\User.class

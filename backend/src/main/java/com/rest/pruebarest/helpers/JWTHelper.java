@@ -11,7 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rest.pruebarest.exceptions.TokenException;
+import com.rest.pruebarest.exceptions.TokenAuthException;
+import com.rest.pruebarest.exceptions.TokenValidationException;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.UserRepo;
 
@@ -38,7 +39,10 @@ public class JWTHelper {
         return token;
     }
 
-    public static boolean verifyToken(String token) {
+    public static boolean isTokenValid(String token) {
+        if (token == null)
+            return false;
+
         String[] tokens = token.split("\\.");
         if (tokens.length < 3) {
             return false;
@@ -57,7 +61,7 @@ public class JWTHelper {
         }
     }
 
-    public static Long getUserId(String token) throws JsonMappingException, JsonProcessingException {
+    private static Long extractId(String token) throws JsonMappingException, JsonProcessingException {
         String[] tokens = token.split("\\.");
         String body = new String(Base64.getUrlDecoder().decode(tokens[1]), StandardCharsets.UTF_8);
 
@@ -67,13 +71,23 @@ public class JWTHelper {
         return nameNode.get("id").asLong();
     }
 
-    public static void checkTokenMatching(Long userId, String token) throws TokenException {
+    public static void checkTokenMatching(Long userId, String token) throws TokenAuthException {
         Optional<User> oUser = userRepo.findById(userId);
 
         if (!oUser.isPresent())
-            throw new TokenException("El id del usuario en el token no corresponde con ningún usuario existente");
+            throw new TokenAuthException("El id del usuario en el token no corresponde con ningún usuario existente");
 
         if (!oUser.get().getToken().equals(token))
-            throw new TokenException("El token introducido no corresponde con el token del usuario");
+            throw new TokenAuthException("El token introducido no corresponde con el token del usuario");
+    }
+
+
+    public static Long getUserIdFromToken(String token) throws TokenValidationException, JsonMappingException, JsonProcessingException, TokenAuthException {
+        if (!isTokenValid(token))
+            throw new TokenValidationException("El token no es válido");
+        Long userId = JWTHelper.extractId(token);
+
+        JWTHelper.checkTokenMatching(userId, token);
+        return userId;
     }
 }

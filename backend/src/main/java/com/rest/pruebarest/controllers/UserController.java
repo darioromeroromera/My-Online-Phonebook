@@ -1,14 +1,10 @@
 package com.rest.pruebarest.controllers;
 
-import java.time.Duration;
-import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.rest.pruebarest.exceptions.AuthenticationException;
 import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.exceptions.ImageBadFormatException;
 import com.rest.pruebarest.exceptions.ImageUploadErrorException;
 import com.rest.pruebarest.exceptions.NoImageException;
-import com.rest.pruebarest.exceptions.TokenException;
+import com.rest.pruebarest.exceptions.NotFoundException;
+import com.rest.pruebarest.exceptions.TokenAuthException;
+import com.rest.pruebarest.exceptions.TokenValidationException;
 import com.rest.pruebarest.helpers.CheckerHelper;
 import com.rest.pruebarest.helpers.ImageHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
@@ -37,39 +37,23 @@ import io.micrometer.common.lang.Nullable;
 @RequestMapping("/api/user")
 public class UserController {
 
+    private final PasswordEncoder encoder;
+
+    @Autowired
+    public UserController(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
     @Autowired
     UserRepo userRepo;
 
     @GetMapping("/profile-picture")
     public ResponseEntity getProfilePicture(@RequestHeader("token") @Nullable String token) {
-        if (token == null || !JWTHelper.verifyToken(token)) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
-        }
-
-        Long userId;
         try {
-            userId = JWTHelper.getUserId(token);
-            
-            JWTHelper.checkTokenMatching(userId, token);
-
-            Optional<User> oUser = userRepo.findById(userId);
-    
-            if (!oUser.isPresent())
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario indicado en el token no existe"));
-    
-            User foundUser = oUser.get();
-
-            HashMap<String, Object> response = new HashMap<>();
-
-            response.put("result", "ok");
-            response.put("picture", foundUser.getProfilePicture());
-            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
-            return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(response);
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseHelper.getErrorResponse("Error procesando el token"));
-        } catch (TokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
+            String picture = fetchProfilePicture(token);
+            return ResponseHelper.buildSuccessfulPictureResponseEntity(picture);
+        } catch(Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
         }
     }
 
@@ -78,90 +62,23 @@ public class UserController {
     public ResponseEntity updateProfilePicture(@RequestHeader("token") @Nullable String token, @RequestBody @Nullable User user) {
         try {
             CheckerHelper.checkProfilePictureParams(user);
-        } catch (BadBodyException e) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-        }
+            Long userId = JWTHelper.getUserIdFromToken(token);
 
-        if (token == null || !JWTHelper.verifyToken(token)) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
-        }
-
-        try {
-            Long userId = JWTHelper.getUserId(token);
-
-            JWTHelper.checkTokenMatching(userId, token);
-
-            ImageHelper.changeProfilePicture(user);
-
-            Optional<User> oUser = userRepo.findById(userId);
-
-            if (!oUser.isPresent())
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario indicado en el token no existe"));
-
-            User foundUser = oUser.get();
-
-            if (foundUser.getProfilePicture() != null)
-                deleteProfilePicture(token);
-
-            foundUser.setProfilePicture(user.getProfilePicture());
-
-            userRepo.save(foundUser);
-
-            HashMap<String, Object> response = new HashMap<>();
-
-            response.put("result", "ok");
-            response.put("picture", foundUser.getProfilePicture());
-
-            CacheControl cacheControl = CacheControl.noCache().noStore().mustRevalidate().maxAge(Duration.ZERO);
-            return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(response);
-
-        } catch (TokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseHelper.getErrorResponse("Error procesando el token"));
-        } catch (ImageBadFormatException e) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-        } catch (ImageUploadErrorException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse(e.getMessage()));
+            String picture = setProfilePicture(user, userId);
+            return ResponseHelper.buildSuccessfulPictureResponseEntity(picture);
+        } catch (Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
         }
     }
 
     @DeleteMapping("/profile-picture")
     public ResponseEntity deleteProfilePicture(@RequestHeader("token") @Nullable String token) {
-        if (token == null || !JWTHelper.verifyToken(token)) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
-        }
-
         try {
-            Long userId = JWTHelper.getUserId(token);
-
-            JWTHelper.checkTokenMatching(userId, token);
-
-            Optional<User> oUser = userRepo.findById(userId);
-
-            if (!oUser.isPresent())
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario indicado en el token no existe"));
-
-            User foundUser = oUser.get();
-
-            ImageHelper.deleteProfilePicture(foundUser);
-
-            HashMap<String, Object> response = new HashMap<>();
-
-            response.put("result", "ok");
-
-            return ResponseEntity.ok(response);
-
-        } catch (TokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseHelper.getErrorResponse("Error procesando el token"));
-        } catch (ImageBadFormatException e) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-        } catch (NoImageException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse(e.getMessage()));
+            Long userId = JWTHelper.getUserIdFromToken(token);
+            removeImage(userId);
+            return ResponseHelper.buildSuccessfulResponseEntity();
+        } catch(Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
         }
     }
 
@@ -169,52 +86,11 @@ public class UserController {
     public ResponseEntity updatePassword(@RequestHeader("token") @Nullable String token, @RequestBody @Nullable ChangePasswordRequest request) {
         try {
             CheckerHelper.checkChangePasswordParams(request);
-        } catch (BadBodyException e) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse(e.getMessage()));
-        }
-
-        if (token == null || !JWTHelper.verifyToken(token)) {
-            return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("El token no es válido"));
-        }
-
-        try {
-            Long userId = JWTHelper.getUserId(token);
-
-            JWTHelper.checkTokenMatching(userId, token);
-
-            Optional<User> oUser = userRepo.findById(userId);
-
-            if (!oUser.isPresent())
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseHelper.getErrorResponse("El usuario indicado en el token no existe"));
-
-            User foundUser = oUser.get();
-
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-            if (!encoder.matches(request.getOldPassword(), foundUser.getPassword()))
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse("La antigua contraseña enviada no es correcta"));
-
-            try {
-                CheckerHelper.checkPassword(request.getNewPassword());
-            } catch (BadBodyException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseHelper.getErrorResponse("La nueva contraseña no cumple con los parámetros necesarios"));
-            }
-
-            foundUser.setPassword(encoder.encode(request.getNewPassword()));
-
-            userRepo.save(foundUser);
-
-            HashMap<String, Object> response = new HashMap<>();
-
-            response.put("result", "ok");
-
-            return ResponseEntity.ok(response);
-
-        } catch (TokenException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseHelper.getErrorResponse(e.getMessage()));
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ResponseHelper.getErrorResponse("Error procesando el token"));
+            Long userId = JWTHelper.getUserIdFromToken(token);
+            changePassword(request, userId);
+            return ResponseHelper.buildSuccessfulResponseEntity();
+        } catch (Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
         }
     }
 
@@ -226,5 +102,52 @@ public class UserController {
     @RequestMapping("/change-password")
     public ResponseEntity badPasswordMethod() {
         return badMethod();
+    }
+
+    private String setProfilePicture(User user, Long userId) throws NotFoundException, ImageBadFormatException, ImageUploadErrorException {
+        ImageHelper.changeProfilePicture(user);
+
+        User foundUser = getUser(userId);
+
+        deleteProfilePicture(foundUser.getToken());
+
+        foundUser.setProfilePicture(user.getProfilePicture());
+
+        userRepo.save(foundUser);
+        return foundUser.getProfilePicture();
+    }
+
+    private void removeImage(Long userId) throws NotFoundException, NoImageException, ImageBadFormatException {
+        ImageHelper.deleteProfilePicture(getUser(userId));
+    }
+
+    private String fetchProfilePicture(String token) throws JsonMappingException, JsonProcessingException, TokenValidationException, TokenAuthException, NotFoundException {
+        Long userId = JWTHelper.getUserIdFromToken(token);
+        return getUser(userId).getProfilePicture();
+    }
+
+    private User getUser(Long userId) throws NotFoundException {
+        Optional<User> oUser = userRepo.findById(userId);
+
+        if (!oUser.isPresent())
+            throw new NotFoundException("El usuario indicado en el token no existe");
+
+        return oUser.get();
+    }
+
+    private void changePassword(ChangePasswordRequest request, Long userId) throws BadBodyException, AuthenticationException, NotFoundException {  
+        User foundUser = getUser(userId);
+        if (!doesPasswordMatch(request.getOldPassword(), foundUser.getPassword()))
+            throw new AuthenticationException("La antigua contraseña enviada no es correcta");
+
+        CheckerHelper.checkPassword(request.getNewPassword());
+
+        foundUser.setPassword(encoder.encode(request.getNewPassword()));
+
+        userRepo.save(foundUser);
+    }
+
+    public boolean doesPasswordMatch(String oldPassword, String databasePassword) {
+        return (encoder.matches(oldPassword, databasePassword));
     }
 }
