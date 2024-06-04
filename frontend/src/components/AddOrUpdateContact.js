@@ -107,8 +107,6 @@ const AddOrUpdateContact = ({isEdit}) => {
 
         const json = await data.json();
 
-        console.log(json);
-
         if (json.result === undefined) {
             setLoading(false);
             setApiError('Ha ocurrido un error desconocido. Inténtelo más tarde');
@@ -289,8 +287,8 @@ const AddOrUpdateContact = ({isEdit}) => {
 
                     <button className="AddOrUpdateContact__Form__Button AddOrUpdateContact__Form__Button__Back" onClick={e => {
                         e.preventDefault();
-                        navigate('/');
-                    }}>Volver a inicio</button>
+                        navigate('/contacts');
+                    }}>Volver</button>
                 </form>
             </div>
         </div>

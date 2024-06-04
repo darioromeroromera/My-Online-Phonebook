@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import './css/Profile.css';
+import NavBar from "./NavBar";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -253,6 +254,8 @@ const Profile = () => {
 
             <Header />
 
+            <NavBar/>
+
             <div className="Profile__Content">
                 <div className="Profile__Section">
                     <h2>Foto de perfil</h2>
@@ -299,7 +302,6 @@ const Profile = () => {
                     {isSuccessPasswordVisible && <p className="Profile__Success">{successPasswordMessage}</p>}
                 </div>
             </div>
-            <button className="Profile__Button Profile__ButtonBack" onClick={() => navigate('/')}>Volver</button>
             {loading && 
                 <div className='Profile__SpinnerDiv'>
                     <div className='Profile__Spinner'></div>    

@@ -9,6 +9,7 @@ import com.rest.pruebarest.helpers.CheckerHelper;
 import com.rest.pruebarest.helpers.ImageHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.ContactGroupRepo;
 import com.rest.pruebarest.repos.UserRepo;
 
 @SpringBootApplication
@@ -19,6 +20,8 @@ public class PruebarestApplication {
 
 	@Autowired
 	private ContactRepo contactRepo;
+
+	@Autowired ContactGroupRepo groupRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PruebarestApplication.class, args);
@@ -40,6 +43,7 @@ public class PruebarestApplication {
 	@Bean
 	public boolean setCheckerHelperRepo() {
 		CheckerHelper.setContactRepo(contactRepo);
+		CheckerHelper.setGroupRepo(groupRepo);
 		return true;
 	}
 

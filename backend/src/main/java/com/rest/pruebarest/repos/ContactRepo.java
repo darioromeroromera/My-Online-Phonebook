@@ -17,4 +17,6 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
     public int getByTelefonoAndUserId(Long userId, String telefono);
 
     public List<Contact> findByUserIdOrderByContactName(Long userId);
+
+    public List<Contact> findByGroupId(Long groupId);
 }

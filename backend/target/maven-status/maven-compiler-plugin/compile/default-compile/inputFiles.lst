@@ -6,7 +6,7 @@ C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenAuthException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NotFoundException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadPathVariable.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ContactColisionException.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ContactGroup.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ForbiddenAccessException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Contact.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\JWTHelper.java
@@ -21,8 +21,11 @@ C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ChangePasswordRequest.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ImageHelper.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenValidationException.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\GroupController.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ResponseHelper.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\User.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\AuthenticationException.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\CollisionException.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\ContactGroupRepo.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\UserController.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\UserRepo.java

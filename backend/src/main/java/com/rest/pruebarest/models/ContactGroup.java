@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Contact {
+public class ContactGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
 
-    private String contactName;
-    private String fullName;
-    private String telefono;
-    private String contactPicture;
-    private Long groupId;
+    private String name;
+
+    private Long userId;
 }

@@ -142,7 +142,7 @@ public class ContactController {
         if (oContact.isPresent()) {
             Contact contact = oContact.get();
             if (contact.getUserId() != userId)
-                throw new ForbiddenAccessException("El id del usuario propietario no coincide con el del usuario del token");
+                throw new ForbiddenAccessException("El contacto no pertenece a este usuario");
             return contact;
         } else {
             throw new NotFoundException("El contacto con el id especificado no existe");

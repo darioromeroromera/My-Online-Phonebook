@@ -13,7 +13,7 @@ import com.rest.pruebarest.exceptions.AuthenticationException;
 import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.exceptions.BadPathVariable;
 import com.rest.pruebarest.exceptions.ConflictException;
-import com.rest.pruebarest.exceptions.ContactColisionException;
+import com.rest.pruebarest.exceptions.CollisionException;
 import com.rest.pruebarest.exceptions.ForbiddenAccessException;
 import com.rest.pruebarest.exceptions.ImageBadFormatException;
 import com.rest.pruebarest.exceptions.ImageUploadErrorException;
@@ -106,10 +106,10 @@ public class ResponseHelper {
         } else if (e instanceof IncorrectResultSizeDataAccessException) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse(
             "Error fatal, hay varios usuarios con esas credenciales, cuando deberían ser únicos"));
-        } else if (e instanceof ConflictException || e instanceof ContactColisionException) {
+        } else if (e instanceof ConflictException || e instanceof CollisionException) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseHelper.getErrorResponse(e.getMessage()));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse("Error desconocido"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse("Error desconocido."));
         }
     }
 }

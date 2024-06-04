@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from 'react';
-import { computeHeadingLevel } from "@testing-library/react";
 
 const PrivateRoute = ({children}) => {
     const navigate = useNavigate();

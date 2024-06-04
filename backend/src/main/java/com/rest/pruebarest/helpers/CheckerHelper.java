@@ -1,6 +1,6 @@
 package com.rest.pruebarest.helpers;
 
-import com.rest.pruebarest.exceptions.ContactColisionException;
+import com.rest.pruebarest.exceptions.CollisionException;
 
 import org.springframework.http.ResponseEntity;
 
@@ -8,15 +8,23 @@ import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.exceptions.BadPathVariable;
 import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.Contact;
+import com.rest.pruebarest.models.ContactGroup;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.ContactGroupRepo;
 
 public class CheckerHelper {
 
     private static ContactRepo contactRepo;
 
+    private static ContactGroupRepo groupRepo;
+
     public static void setContactRepo(ContactRepo contactRepo) {
         CheckerHelper.contactRepo = contactRepo;
+    }
+
+    public static void setGroupRepo(ContactGroupRepo groupRepo) {
+        CheckerHelper.groupRepo = groupRepo;
     }
 
     public static void checkContactParams(Contact contact) throws BadBodyException {
@@ -44,16 +52,16 @@ public class CheckerHelper {
             throw new BadBodyException("El teléfono no tiene el formato correcto. Ej: '612345678'");
     }
 
-    public static void checkContactColision(Contact contact) throws ContactColisionException {
+    public static void checkContactColision(Contact contact) throws CollisionException {
         int numberOfUsersByUsername = contactRepo.getByContactNameAndUserId(contact.getUserId(),
             contact.getContactName());
 
         if (numberOfUsersByUsername != 0)
-            throw new ContactColisionException("Ya tienes un contacto con ese nombre, no se pueden repetir");
+            throw new CollisionException("Ya tienes un contacto con ese nombre, no se pueden repetir");
 
         int numberOfUsersByPhone = contactRepo.getByTelefonoAndUserId(contact.getUserId(), contact.getTelefono());
         if (numberOfUsersByPhone != 0)
-            throw new ContactColisionException("Ya tienes un contacto con ese número, no se pueden repetir");
+            throw new CollisionException("Ya tienes un contacto con ese número, no se pueden repetir");
     }
 
     public static void checkRegisterParams(User user) throws BadBodyException {
@@ -129,5 +137,23 @@ public class CheckerHelper {
 
         if (!id.matches("\\d+"))
             throw new BadPathVariable("El id debe ser un número");
+    }
+
+    public static void checkGroupParams(ContactGroup group) throws BadBodyException {
+        if (group == null)
+            throw new BadBodyException("El body no puede estar vacío");
+
+        if (group.getId() != null)
+            throw new BadBodyException("El id no puede ser especificado");
+
+        if (group.getName() == null)
+            throw new BadBodyException("El campo name es obligatorio");
+    }
+
+    public static void checkGroupCollision(ContactGroup group) throws CollisionException {
+        ContactGroup foundGroup = groupRepo.findByName(group.getName());
+
+        if (foundGroup != null)
+            throw new CollisionException("Ya tienes un grupo con ese nombre, no se pueden repetir");
     }
 }
