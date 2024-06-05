@@ -73,6 +73,14 @@ public class ResponseHelper {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulPictureResponse(picture));
     }
 
+    public static HashMap<String, Object> getSuccessfulCountingResponse(int contactNumber, int groupNumber) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("result", "ok");
+        response.put("contact_number", contactNumber);
+        response.put("group_number", groupNumber);
+        return response;
+    }
+
     public static HashMap<String, Object> getSuccessfulInsertIdAndPictureResponse(Long id, String picture) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("result", "ok");
@@ -83,6 +91,10 @@ public class ResponseHelper {
 
     public static ResponseEntity buildSuccessfulInsertIdAndPictureResponse(Long id, String picture) {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulInsertIdAndPictureResponse(id, picture));
+    }
+
+    public static ResponseEntity buildSuccessfulCountingResponse(int contactNumber, int groupNumber) {
+        return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulCountingResponse(contactNumber, groupNumber));
     }
 
     public static CacheControl getCacheControl() {

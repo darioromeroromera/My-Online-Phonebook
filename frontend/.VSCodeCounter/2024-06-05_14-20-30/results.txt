@@ -1,0 +1,73 @@
+Date : 2024-06-05 14:20:30
+Directory : c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend
+Total : 37 files,  20958 codes, 29 comments, 485 blanks, all 21472 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |     18,572 |          0 |          3 |     18,575 |
+| JavaScript |         18 |      1,400 |          5 |        288 |      1,693 |
+| CSS        |         13 |        926 |          1 |        160 |      1,087 |
+| Markdown   |          1 |         38 |          0 |         33 |         71 |
+| HTML       |          1 |         21 |         23 |          1 |         45 |
+| XML        |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                       | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                          |         37 |     20,958 |         29 |        485 |     21,472 |
+| . (Files)                                                                                                  |          3 |     18,585 |          0 |         35 |     18,620 |
+| public                                                                                                     |          2 |         46 |         23 |          2 |         71 |
+| src                                                                                                        |         32 |      2,327 |          6 |        448 |      2,781 |
+| src (Files)                                                                                                |          8 |        108 |          4 |         17 |        129 |
+| src\components                                                                                             |         24 |      2,219 |          2 |        431 |      2,652 |
+| src\components (Files)                                                                                     |         13 |      1,338 |          1 |        279 |      1,618 |
+| src\components\css                                                                                         |         11 |        881 |          1 |        152 |      1,034 |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                   | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\README.md                                       | Markdown   |         38 |          0 |         33 |         71 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\package-lock.json                               | JSON       |     18,506 |          0 |          1 |     18,507 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\package.json                                    | JSON       |         41 |          0 |          1 |         42 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\public\index.html                               | HTML       |         21 |         23 |          1 |         45 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\public\manifest.json                            | JSON       |         25 |          0 |          1 |         26 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\App.css                                     | CSS        |         33 |          0 |          6 |         39 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\App.js                                      | JavaScript |         30 |          0 |          3 |         33 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\App.test.js                                 | JavaScript |          7 |          0 |          2 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\AddOrUpdateContact.js            | JavaScript |        242 |          0 |         56 |        298 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\ContactCard.js                   | JavaScript |         19 |          0 |          4 |         23 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\Contacts.js                      | JavaScript |        154 |          0 |         36 |        190 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\Groups.js                        | JavaScript |        217 |          0 |         22 |        239 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\Header.js                        | JavaScript |          9 |          0 |          2 |         11 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\Home.js                          | JavaScript |         69 |          0 |         23 |         92 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\LoginForm.js                     | JavaScript |        103 |          0 |         29 |        132 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\NavBar.js                        | JavaScript |         23 |          0 |          5 |         28 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\NotFound.js                      | JavaScript |         15 |          0 |          4 |         19 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\PrivateRoute.js                  | JavaScript |         17 |          0 |          6 |         23 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\Profile.js                       | JavaScript |        280 |          0 |         42 |        322 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\ProfilePicture.js                | JavaScript |         51 |          0 |         15 |         66 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\RegistrationForm.js              | JavaScript |        139 |          1 |         35 |        175 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\AddOrUpdateContact.css       | CSS        |        126 |          0 |         20 |        146 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\ContactCard.css              | CSS        |         66 |          0 |         11 |         77 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\Groups.css                   | CSS        |        155 |          1 |         29 |        185 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\Header.css                   | CSS        |          7 |          0 |          0 |          7 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\HomeAndContacts.css          | CSS        |        121 |          0 |         20 |        141 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\NavBar.css                   | CSS        |         58 |          0 |         10 |         68 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\NotFound.css                 | CSS        |         17 |          0 |          3 |         20 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\Profile.css                  | CSS        |        151 |          0 |         27 |        178 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\ProfilePicture.css           | CSS        |         76 |          0 |         15 |         91 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\RegistrationAndLoginForm.css | CSS        |         98 |          0 |         17 |        115 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\components\css\general.css                  | CSS        |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\index.css                                   | CSS        |         12 |          0 |          2 |         14 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\index.js                                    | JavaScript |         12 |          0 |          1 |         13 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\logo.svg                                    | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\reportWebVitals.js                          | JavaScript |         12 |          0 |          2 |         14 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\frontend\src\setupTests.js                               | JavaScript |          1 |          4 |          1 |          6 |
+| Total                                                                                                      |            |     20,958 |         29 |        485 |     21,472 |
++------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

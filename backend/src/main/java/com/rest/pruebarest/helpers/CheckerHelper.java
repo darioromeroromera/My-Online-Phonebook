@@ -148,10 +148,13 @@ public class CheckerHelper {
 
         if (group.getName() == null)
             throw new BadBodyException("El campo name es obligatorio");
+
+        if (group.getName().trim().equals(""))
+            throw new BadBodyException("El campo name no puede estar vacío");
     }
 
-    public static void checkGroupCollision(ContactGroup group) throws CollisionException {
-        ContactGroup foundGroup = groupRepo.findByName(group.getName());
+    public static void checkGroupCollision(ContactGroup group, Long userId) throws CollisionException {
+        ContactGroup foundGroup = groupRepo.findByNameAndUserId(group.getName(), userId);
 
         if (foundGroup != null)
             throw new CollisionException("Ya tienes un grupo con ese nombre, no se pueden repetir");

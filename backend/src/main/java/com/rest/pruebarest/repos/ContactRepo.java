@@ -19,4 +19,7 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
     public List<Contact> findByUserIdOrderByContactName(Long userId);
 
     public List<Contact> findByGroupId(Long groupId);
+
+    @Query(value = "SELECT count(*) FROM contact WHERE user_id = ?1", nativeQuery = true)
+    public int countContacts(Long userId);
 }

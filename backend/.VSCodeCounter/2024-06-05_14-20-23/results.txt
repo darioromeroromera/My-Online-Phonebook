@@ -1,0 +1,143 @@
+Date : 2024-06-05 14:20:23
+Directory : c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend
+Total : 74 files,  2232 codes, 123 comments, 390 blanks, all 2745 lines
+
+Languages
++-----------------+------------+------------+------------+------------+------------+
+| language        | files      | code       | comment    | blank      | total      |
++-----------------+------------+------------+------------+------------+------------+
+| Java            |         64 |      1,985 |         47 |        335 |      2,367 |
+| Batch           |          2 |        121 |         51 |         37 |        209 |
+| XML             |          1 |         80 |          0 |          6 |         86 |
+| YAML            |          1 |         23 |          0 |          3 |         26 |
+| Java Properties |          2 |         16 |         24 |          6 |         46 |
+| Shell Script    |          1 |          4 |          1 |          3 |          8 |
+| Properties      |          2 |          2 |          0 |          0 |          2 |
+| SQL             |          1 |          1 |          0 |          0 |          1 |
++-----------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                       |         74 |      2,232 |        123 |        390 |      2,745 |
+| . (Files)                                                                                                                               |          5 |        206 |         52 |         46 |        304 |
+| src                                                                                                                                     |         33 |      1,260 |         12 |        336 |      1,608 |
+| src\main                                                                                                                                |         32 |      1,251 |         12 |        331 |      1,594 |
+| src\main\java                                                                                                                           |         31 |      1,243 |          0 |        328 |      1,571 |
+| src\main\java\com                                                                                                                       |         31 |      1,243 |          0 |        328 |      1,571 |
+| src\main\java\com\rest                                                                                                                  |         31 |      1,243 |          0 |        328 |      1,571 |
+| src\main\java\com\rest\pruebarest                                                                                                       |         31 |      1,243 |          0 |        328 |      1,571 |
+| src\main\java\com\rest\pruebarest (Files)                                                                                               |          1 |         39 |          0 |         12 |         51 |
+| src\main\java\com\rest\pruebarest\config                                                                                                |          1 |         49 |          0 |          9 |         58 |
+| src\main\java\com\rest\pruebarest\controllers                                                                                           |          6 |        568 |          0 |        113 |        681 |
+| src\main\java\com\rest\pruebarest\exceptions                                                                                            |         12 |         72 |          0 |         34 |        106 |
+| src\main\java\com\rest\pruebarest\helpers                                                                                               |          4 |        413 |          0 |        121 |        534 |
+| src\main\java\com\rest\pruebarest\models                                                                                                |          4 |         68 |          0 |         16 |         84 |
+| src\main\java\com\rest\pruebarest\repos                                                                                                 |          3 |         34 |          0 |         23 |         57 |
+| src\main\resources                                                                                                                      |          1 |          8 |         12 |          3 |         23 |
+| src\test                                                                                                                                |          1 |          9 |          0 |          5 |         14 |
+| src\test\java                                                                                                                           |          1 |          9 |          0 |          5 |         14 |
+| src\test\java\com                                                                                                                       |          1 |          9 |          0 |          5 |         14 |
+| src\test\java\com\rest                                                                                                                  |          1 |          9 |          0 |          5 |         14 |
+| src\test\java\com\rest\pruebarest                                                                                                       |          1 |          9 |          0 |          5 |         14 |
+| stack-spring                                                                                                                            |          3 |         25 |          0 |          3 |         28 |
+| target                                                                                                                                  |         33 |        741 |         59 |          5 |        805 |
+| target\classes                                                                                                                          |         32 |        734 |         59 |          5 |        798 |
+| target\classes (Files)                                                                                                                  |          1 |          8 |         12 |          3 |         23 |
+| target\classes\com                                                                                                                      |         31 |        726 |         47 |          2 |        775 |
+| target\classes\com\rest                                                                                                                 |         31 |        726 |         47 |          2 |        775 |
+| target\classes\com\rest\pruebarest                                                                                                      |         31 |        726 |         47 |          2 |        775 |
+| target\classes\com\rest\pruebarest (Files)                                                                                              |          1 |         14 |          0 |          1 |         15 |
+| target\classes\com\rest\pruebarest\config                                                                                               |          1 |         13 |         31 |          0 |         44 |
+| target\classes\com\rest\pruebarest\controllers                                                                                          |          6 |        251 |          0 |          1 |        252 |
+| target\classes\com\rest\pruebarest\exceptions                                                                                           |         12 |         72 |          0 |          0 |         72 |
+| target\classes\com\rest\pruebarest\helpers                                                                                              |          4 |        219 |         16 |          0 |        235 |
+| target\classes\com\rest\pruebarest\models                                                                                               |          4 |        139 |          0 |          0 |        139 |
+| target\classes\com\rest\pruebarest\repos                                                                                                |          3 |         18 |          0 |          0 |         18 |
+| target\test-classes                                                                                                                     |          1 |          7 |          0 |          0 |          7 |
+| target\test-classes\com                                                                                                                 |          1 |          7 |          0 |          0 |          7 |
+| target\test-classes\com\rest                                                                                                            |          1 |          7 |          0 |          0 |          7 |
+| target\test-classes\com\rest\pruebarest                                                                                                 |          1 |          7 |          0 |          0 |          7 |
++-----------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| filename                                                                                                                                | language        | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\.env                                                                          | Properties      |          1 |          0 |          0 |          1 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\init.bat                                                                      | Batch           |          3 |          0 |          0 |          3 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\init.sh                                                                       | Shell Script    |          4 |          1 |          3 |          8 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\mvnw.cmd                                                                      | Batch           |        118 |         51 |         37 |        206 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\pom.xml                                                                       | XML             |         80 |          0 |          6 |         86 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\PruebarestApplication.java                  | Java            |         39 |          0 |         12 |         51 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\config\SecurityConfiguration.java           | Java            |         49 |          0 |          9 |         58 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\AuthController.java             | Java            |         57 |          0 |         14 |         71 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\ContactController.java          | Java            |        143 |          0 |         21 |        164 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\ErrorController.java            | Java            |         21 |          0 |          4 |         25 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\GroupController.java            | Java            |        144 |          0 |         21 |        165 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\RegisterController.java         | Java            |         59 |          0 |         14 |         73 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\UserController.java             | Java            |        144 |          0 |         39 |        183 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\AuthenticationException.java     | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadBodyException.java            | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadPathVariable.java             | Java            |          6 |          0 |          2 |          8 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\CollisionException.java          | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ConflictException.java           | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ForbiddenAccessException.java    | Java            |          6 |          0 |          2 |          8 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ImageBadFormatException.java     | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ImageUploadErrorException.java   | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NoImageException.java            | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NotFoundException.java           | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenAuthException.java          | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenValidationException.java    | Java            |          6 |          0 |          3 |          9 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\CheckerHelper.java                  | Java            |        123 |          0 |         40 |        163 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ImageHelper.java                    | Java            |        110 |          0 |         39 |        149 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\JWTHelper.java                      | Java            |         71 |          0 |         23 |         94 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ResponseHelper.java                 | Java            |        109 |          0 |         19 |        128 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ChangePasswordRequest.java           | Java            |          9 |          0 |          3 |         12 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Contact.java                         | Java            |         21 |          0 |          4 |         25 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ContactGroup.java                    | Java            |         17 |          0 |          5 |         22 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\User.java                            | Java            |         21 |          0 |          4 |         25 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\ContactGroupRepo.java                 | Java            |         11 |          0 |          8 |         19 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\ContactRepo.java                      | Java            |         16 |          0 |         10 |         26 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\UserRepo.java                         | Java            |          7 |          0 |          5 |         12 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\resources\application.properties                                     | Java Properties |          8 |         12 |          3 |         23 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\test\java\com\rest\pruebarest\PruebarestApplicationTests.java             | Java            |          9 |          0 |          5 |         14 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\stack-spring\.env                                                             | Properties      |          1 |          0 |          0 |          1 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\stack-spring\docker-compose.yml                                               | YAML            |         23 |          0 |          3 |         26 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\stack-spring\setup.sql                                                        | SQL             |          1 |          0 |          0 |          1 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\application.properties                                         | Java Properties |          8 |         12 |          3 |         23 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\PruebarestApplication.class                | Java            |         14 |          0 |          1 |         15 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\config\SecurityConfiguration.class         | Java            |         13 |         31 |          0 |         44 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\AuthController.class           | Java            |         37 |          0 |          0 |         37 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\ContactController.class        | Java            |         50 |          0 |          0 |         50 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\ErrorController.class          | Java            |         13 |          0 |          0 |         13 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\GroupController.class          | Java            |         52 |          0 |          1 |         53 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\RegisterController.class       | Java            |         38 |          0 |          0 |         38 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\controllers\UserController.class           | Java            |         61 |          0 |          0 |         61 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\AuthenticationException.class   | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\BadBodyException.class          | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\BadPathVariable.class           | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\CollisionException.class        | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\ConflictException.class         | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\ForbiddenAccessException.class  | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\ImageBadFormatException.class   | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\ImageUploadErrorException.class | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\NoImageException.class          | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\NotFoundException.class         | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\TokenAuthException.class        | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\exceptions\TokenValidationException.class  | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\helpers\CheckerHelper.class                | Java            |         57 |         16 |          0 |         73 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\helpers\ImageHelper.class                  | Java            |         61 |          0 |          0 |         61 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\helpers\JWTHelper.class                    | Java            |         53 |          0 |          0 |         53 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\helpers\ResponseHelper.class               | Java            |         48 |          0 |          0 |         48 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\models\ChangePasswordRequest.class         | Java            |         31 |          0 |          0 |         31 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\models\Contact.class                       | Java            |         46 |          0 |          0 |         46 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\models\ContactGroup.class                  | Java            |         22 |          0 |          0 |         22 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\models\User.class                          | Java            |         40 |          0 |          0 |         40 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\repos\ContactGroupRepo.class               | Java            |          4 |          0 |          0 |          4 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\repos\ContactRepo.class                    | Java            |          8 |          0 |          0 |          8 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\classes\com\rest\pruebarest\repos\UserRepo.class                       | Java            |          6 |          0 |          0 |          6 |
+| c:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\target\test-classes\com\rest\pruebarest\PruebarestApplicationTests.class      | Java            |          7 |          0 |          0 |          7 |
+| Total                                                                                                                                   |                 |      2,232 |        123 |        390 |      2,745 |
++-----------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+

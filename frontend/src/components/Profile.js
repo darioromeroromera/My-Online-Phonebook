@@ -306,6 +306,14 @@ const Profile = () => {
                 <div className='Profile__SpinnerDiv'>
                     <div className='Profile__Spinner'></div>    
                 </div>}
+
+            <button className="Profile__Button Profile__ButtonBack" onClick={() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('email');
+                localStorage.removeItem('id');
+                navigate('/login');
+            }}>Cerrar Sesión</button>
         </div>
     );
 };

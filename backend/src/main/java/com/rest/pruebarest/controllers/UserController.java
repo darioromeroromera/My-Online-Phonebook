@@ -29,6 +29,8 @@ import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.User;
+import com.rest.pruebarest.repos.ContactGroupRepo;
+import com.rest.pruebarest.repos.ContactRepo;
 import com.rest.pruebarest.repos.UserRepo;
 
 import io.micrometer.common.lang.Nullable;
@@ -36,6 +38,12 @@ import io.micrometer.common.lang.Nullable;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    @Autowired
+    ContactRepo contactRepo;
+
+    @Autowired
+    ContactGroupRepo groupRepo;
 
     private final PasswordEncoder encoder;
 
@@ -94,6 +102,22 @@ public class UserController {
         }
     }
 
+    @GetMapping("/statistics")
+    public ResponseEntity getStatistics(@RequestHeader("token") @Nullable String token) {
+        try {
+            Long userId = JWTHelper.getUserIdFromToken(token);
+
+            int contactNumber = contactRepo.countContacts(userId);
+
+            int groupNumber = groupRepo.countGroups(userId);
+
+            return ResponseHelper.buildSuccessfulCountingResponse(contactNumber, groupNumber);
+        } catch (Exception e) {
+            ResponseHelper.buildErrorResponse(e);
+        }
+        return null;
+    }
+
     @RequestMapping("/profile-picture")
     public ResponseEntity badMethod() {
         return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
@@ -101,6 +125,11 @@ public class UserController {
 
     @RequestMapping("/change-password")
     public ResponseEntity badPasswordMethod() {
+        return badMethod();
+    }
+
+    @RequestMapping("/statistics")
+    public ResponseEntity badStatisticsMethod() {
         return badMethod();
     }
 

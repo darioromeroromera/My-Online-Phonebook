@@ -15,10 +15,10 @@ const NavBar = () => {
                 <span>☰</span>
             </button>
             <div className={`NavBar__Links ${isMenuOpen ? 'NavBar__Links--open' : ''}`}>
-                <NavLink exact to="/" className="NavBar__NavLink" activeClassName="active">Inicio</NavLink>
-                <NavLink to="/contacts" className="NavBar__NavLink" activeClassName="active">Contactos</NavLink>
-                <NavLink to="/groups" className="NavBar__NavLink" activeClassName="active">Grupos</NavLink>
-                <NavLink to="/profile" className="NavBar__NavLink" activeClassName="active">Perfil</NavLink>
+                <NavLink to="/" className="NavBar__NavLink" activeclassname="active">Inicio</NavLink>
+                <NavLink to="/contacts" className="NavBar__NavLink" activeclassname="active">Contactos</NavLink>
+                <NavLink to="/groups" className="NavBar__NavLink" activeclassname="active">Grupos</NavLink>
+                <NavLink to="/profile" className="NavBar__NavLink" activeclassname="active">Perfil</NavLink>
             </div>
         </nav>
     );

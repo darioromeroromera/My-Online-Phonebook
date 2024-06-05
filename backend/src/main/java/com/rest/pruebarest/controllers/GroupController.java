@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.pruebarest.exceptions.ForbiddenAccessException;
-import com.rest.pruebarest.exceptions.ImageBadFormatException;
-import com.rest.pruebarest.exceptions.ImageUploadErrorException;
-import com.rest.pruebarest.exceptions.NoImageException;
 import com.rest.pruebarest.exceptions.NotFoundException;
 import com.rest.pruebarest.helpers.CheckerHelper;
-import com.rest.pruebarest.helpers.ImageHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.Contact;
@@ -82,7 +78,7 @@ public class GroupController {
             CheckerHelper.checkGroupParams(group);
             Long userId = JWTHelper.getUserIdFromToken(token);
             group.setUserId(userId);
-            CheckerHelper.checkGroupCollision(group);
+            CheckerHelper.checkGroupCollision(group, userId);
             ContactGroup savedGroup = groupRepo.save(group);
             return ResponseHelper.buildSuccessfulDataResponseEntity(savedGroup);
         } catch (Exception e) {
@@ -97,6 +93,7 @@ public class GroupController {
             CheckerHelper.checkIdFormat(id);
             CheckerHelper.checkGroupParams(newGroup);
             Long userId = JWTHelper.getUserIdFromToken(token);
+            CheckerHelper.checkGroupCollision(newGroup, userId);
             ContactGroup oldGroup = findGroupByIdAndUserId(Long.parseLong(id), userId);
             setNewGroupFieldsAndSave(oldGroup, newGroup);
             return ResponseHelper.buildSuccessfulResponseEntity();

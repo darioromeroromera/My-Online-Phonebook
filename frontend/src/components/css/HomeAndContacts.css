@@ -2,47 +2,10 @@
     padding: 20px;
 }
 
-.Home__Profile {
+.Home__Statistics {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-.Home__Profile__Message {
-    margin-right: 20px;
-}
-
-.Home__Profile__ImgSet {
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.Home__Profile__ImgSet:hover {
-    transform: scale(1.1);
-}
-
-.Home__Profile__ProfilePicture {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
-    overflow: hidden;
-    object-fit: cover;
-    object-position: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-
-.Home__Profile__EditIcon {
-    position: absolute;
-    top: 60%;
-    left: 60%;
-    background-color: #FFF;
-    width: 24px;
-    height: 24px;
 }
 
 .Home__Search__Input {
@@ -166,28 +129,6 @@
 @media (max-width: 768px) {
     .Home__ContactCard {
         flex: 1 0 100%;
-    }
-
-    .Home__Profile {
-        margin-bottom: 10px;
-    }
-
-    .Home__Profile__Message {
-        font-size: 18px;
-    }
-
-    .Home__Profile__ImgSet {
-        margin-bottom: 10px;
-    }
-
-    .Home__Profile__ProfilePicture {
-        width: 80px;
-        height: 80px;
-    }
-
-    .Home__Profile__EditIcon {
-        width: 20px;
-        height: 20px;
     }
 
     .Home__ContactList__Container {
