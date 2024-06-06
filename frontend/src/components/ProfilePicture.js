@@ -16,7 +16,7 @@ const ProfilePicture = () => {
         try {
             const data = await fetch('http://localhost:8080/api/user/profile-picture', {
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 mode: 'cors'
             });

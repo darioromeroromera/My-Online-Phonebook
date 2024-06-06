@@ -1,6 +1,10 @@
 package com.rest.pruebarest.helpers;
 
 import com.rest.pruebarest.exceptions.CollisionException;
+import com.rest.pruebarest.exceptions.ForbiddenAccessException;
+import com.rest.pruebarest.exceptions.NotFoundException;
+
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,11 +13,15 @@ import com.rest.pruebarest.exceptions.BadPathVariable;
 import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.ContactGroup;
+import com.rest.pruebarest.models.Message;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.UserRepo;
 import com.rest.pruebarest.repos.ContactGroupRepo;
 
 public class CheckerHelper {
+
+    private static UserRepo userRepo;
 
     private static ContactRepo contactRepo;
 
@@ -25,6 +33,10 @@ public class CheckerHelper {
 
     public static void setGroupRepo(ContactGroupRepo groupRepo) {
         CheckerHelper.groupRepo = groupRepo;
+    }
+
+    public static void setUserRepo(UserRepo userRepo) {
+        CheckerHelper.userRepo = userRepo;
     }
 
     public static void checkContactParams(Contact contact) throws BadBodyException {
@@ -48,8 +60,7 @@ public class CheckerHelper {
             throw new BadBodyException("El campo telefono es obligatorio");
         }
 
-        if (!contact.getTelefono().matches("[679]\\d{8}"))
-            throw new BadBodyException("El teléfono no tiene el formato correcto. Ej: '612345678'");
+        checkTelefono(contact.getTelefono());
     }
 
     public static void checkContactColision(Contact contact) throws CollisionException {
@@ -86,6 +97,11 @@ public class CheckerHelper {
 
         checkPassword(user.getPassword());
 
+        if (user.getTelefono() == null)
+        throw new BadBodyException("El teléfono no puede estar vacío");
+
+        checkTelefono(user.getTelefono());
+
         if (user.getId() != null) {
             throw new BadBodyException("El id no es un parámetro válido");
         }
@@ -98,6 +114,11 @@ public class CheckerHelper {
             throw new BadBodyException(
                 "El password debe tener al menos 8 caracteres, minúsculas, mayúsculas y números");
         }
+    }
+
+    public static void checkTelefono(String telefono) throws BadBodyException {
+        if (!telefono.matches("[679]\\d{8}"))
+            throw new BadBodyException("El teléfono no tiene el formato correcto. Ej: '612345678'");
     }
 
     public static void checkLoginParams(User user) throws BadBodyException {
@@ -133,7 +154,7 @@ public class CheckerHelper {
 
     public static void checkIdFormat(String id) throws BadPathVariable {
         if (id == null)
-            throw new BadPathVariable("No se ha especificado ningún id de contacto");
+            throw new BadPathVariable("No se ha especificado ningún id");
 
         if (!id.matches("\\d+"))
             throw new BadPathVariable("El id debe ser un número");
@@ -159,4 +180,38 @@ public class CheckerHelper {
         if (foundGroup != null)
             throw new CollisionException("Ya tienes un grupo con ese nombre, no se pueden repetir");
     }
+
+    public static void checkGroupAuthorization(Long groupId, Long userId) throws NotFoundException, ForbiddenAccessException {
+        Optional<ContactGroup> oGroup = groupRepo.findById(groupId);
+        if (!oGroup.isPresent())
+            throw new NotFoundException("El grupo requerido no existe");
+
+        ContactGroup group = oGroup.get();
+
+        if (group.getUserId() != userId)
+            throw new ForbiddenAccessException("El grupo al que se intenta acceder no pertenece a su usuario");
+    }
+
+    public static void checkMessageParams(Message message) throws BadBodyException, NotFoundException {
+        if (message == null)
+            throw new BadBodyException("El body no puede estar vacío");
+
+        if (message.getDestinationId() == null)
+            throw new BadBodyException("El campo destination_id no puede estar vacío");
+
+        Optional<User> oUser = userRepo.findById(message.getDestinationId());
+
+        if (oUser.isEmpty())
+            throw new NotFoundException("El destino del mensaje no existe");
+    
+        if (message.getSubject() == null)
+            throw new BadBodyException("El campo subject no puede estar vacío");
+
+        if (message.getText() == null)
+            throw new BadBodyException("El campo text no puede estar vacío");
+
+        if (message.getId() != null)
+            throw new BadBodyException("El id no puede ser especificado");
+    }
+        
 }

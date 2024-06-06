@@ -12,6 +12,22 @@ const Contacts = () => {
 
     const [contacts, setContacts] = useState([]);
 
+    const [groups, setGroups] = useState([]);
+
+    const [groupedContacts, setGroupedContacts] = useState([]);
+
+    const [isContactsErrorVisible, setIsContactErrorVisible] = useState(false);
+
+    const [contactError, setContactError] = useState('');
+
+    const [loading, setLoading] = useState(false);
+
+    const [search, setSearch] = useState("");
+
+    const [filteredContacts, setFilteredContacts] = useState([]);
+
+    const [selectedGroup, setSelectedGroup] = useState('Todos');
+
     const getContacts = async () => {
         if (loading)
             return;
@@ -19,7 +35,7 @@ const Contacts = () => {
         try {
             const data = await fetch('http://localhost:8080/api/contacts', {
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 mode: 'cors'
             });
@@ -34,6 +50,7 @@ const Contacts = () => {
                 setIsContactErrorVisible(true);
             } else {
                 setContacts(json.data);
+                setGroupedContacts(json.data);
                 console.log(json.data);
             }
 
@@ -44,27 +61,64 @@ const Contacts = () => {
         setLoading(false);
     }
 
-    useEffect(() => {
-        getContacts();
-    }, []);
+    const getGroups = async () => {
+        try {
+            const data = await fetch('http://localhost:8080/api/groups', {
+                headers: {
+                    Bearer: localStorage.getItem('token')
+                },
+                mode: 'cors'
+            });
 
-    const [search, setSearch] = useState("");
+            const json = await data.json();
 
-    const [filteredContacts, setFilteredContacts] = useState([]);
+            if (json.result === undefined) {
+                setContactError('Ha ocurrido un error desconocido. Inténtelo más tarde');
+                setIsContactErrorVisible(true);
+            } else if (json.result === 'error') {
+                setContactError(json.details);
+                setIsContactErrorVisible(true);
+            } else {
+                setGroups(json.data);
+            }
 
-    const filterContacts = () => {
-        setFilteredContacts(contacts.filter(contact => contact.contact_name.toLowerCase().includes(search.toLowerCase()) || contact.full_name.toLowerCase().includes(search.toLowerCase()) || contact.telefono.includes(search)));
+        } catch (err) {
+            setContactError('Error: no se ha podido establecer conexión con el servidor');
+            setIsContactErrorVisible(true);
+        }
     }
 
     useEffect(() => {
+        getContacts();
+        getGroups();
+    }, []);
+
+    const filterContacts = () => {
+        setFilteredContacts(groupedContacts.filter(contact => contact.contact_name.toLowerCase().includes(search.toLowerCase()) || contact.full_name.toLowerCase().includes(search.toLowerCase()) || contact.telefono.includes(search)));
+    }
+
+    useEffect(() => {
+        if (contacts != []) {
+            handleGroupFilter();
+        }
+    }, [contacts]);
+
+    useEffect(() => {
         filterContacts();
-    }, [contacts, search]);
+    }, [groupedContacts, search]);
 
-    const [isContactsErrorVisible, setIsContactErrorVisible] = useState(false);
+    const groupMap = {};
+    groups.forEach(group => {
+        groupMap[group.id] = group.name;
+    });
 
-    const [contactError, setContactError] = useState('');
-
-    const [loading, setLoading] = useState(false);
+    const handleGroupFilter = () => {
+        if (selectedGroup == 'Todos') {
+            setGroupedContacts(contacts);
+        } else {
+            setGroupedContacts(contacts.filter(contact => contact.group_id == selectedGroup));
+        }
+    };
 
     const renderContacts = () => {
         if (loading) 
@@ -75,10 +129,10 @@ const Contacts = () => {
             )
         else if (!isContactsErrorVisible) {
             return filteredContacts.length > 0 ?
-                <div className="Home__ContactList">
+                <div className="Contacts__ContactList">
                 {filteredContacts.map(contact => (
                     <ContactCard removeContact={removeContact} removePicture={removeContactPicture} key={contact.id} id={contact.id} name={contact.contact_name} fullname={contact.full_name} 
-                    phone={contact.telefono} details={contact.details} picture={contact.contact_picture}/>
+                    phone={contact.telefono} details={contact.details} picture={contact.contact_picture} group={groupMap[contact.group_id] || 'Ninguno'}/>
                 ))}
             </div> :
                 <p>{search == '' ? 'No hay contactos' : 'No se han encontrado contactos con ese filtro'}</p>
@@ -91,7 +145,7 @@ const Contacts = () => {
             const data = await fetch('http://localhost:8080/api/contacts/' + id, {
                 method: 'DELETE',
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 mode: 'cors'
             });
@@ -106,6 +160,7 @@ const Contacts = () => {
                 setIsContactErrorVisible(true);
             } else {
                 setContacts(contacts => contacts.filter(contact => contact.id != id));
+                handleGroupFilter();
             }
 
         } catch (err) {
@@ -119,7 +174,7 @@ const Contacts = () => {
             const data = await fetch('http://localhost:8080/api/contacts/' + id + '/picture', {
                 method: 'DELETE',
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 mode: 'cors'
             });
@@ -135,6 +190,7 @@ const Contacts = () => {
             } else {
                 const updatedContact = json.data;
                 setContacts(contacts => contacts.map(contact => contact.id === id ? updatedContact : contact));
+                handleGroupFilter();
             }
 
         } catch (err) {
@@ -157,12 +213,25 @@ const Contacts = () => {
             <ProfilePicture/>
 
             <div>
-                <input className="Home__Search__Input" type="text" value={search} placeholder="Busca contactos por nombre o número"
+                <input className="Contacts__Search__Input" type="text" value={search} placeholder="Busca contactos por nombre o número"
                     onChange={e => {
                         setSearch(e.target.value);
                     }}/>
             </div>
-            <div className="Home__ContactList__Container">
+
+            <div className="Contacts__Filter__Container">
+                <select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)}>
+                    <option value="Todos">Todos</option>
+                    {groups.map(group => (
+                        <option key={group.id} value={group.id}>
+                            {group.name}
+                        </option>
+                    ))}
+                </select>
+                <button onClick={handleGroupFilter}>Filtrar</button>
+            </div>
+
+            <div className="Contacts__ContactList__Container">
                 <div className={isContactsErrorVisible ? 'Home__Error' : 'Home__Hidden'}>
                     <p>{contactError}</p>
                 </div>

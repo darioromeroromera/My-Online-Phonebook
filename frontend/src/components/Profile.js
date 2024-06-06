@@ -88,7 +88,7 @@ const Profile = () => {
             const data = await fetch('http://localhost:8080/api/user/change-password', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 method: 'PUT',
                 body: JSON.stringify({'old_password': oldPassword, 'new_password': newPassword})
@@ -126,7 +126,7 @@ const Profile = () => {
         try {
             const data = await fetch('http://localhost:8080/api/user/profile-picture', {
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 }
             });
 
@@ -182,7 +182,7 @@ const Profile = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 body: JSON.stringify({ profile_picture: imageData })
             });
@@ -217,7 +217,7 @@ const Profile = () => {
             const data = await fetch('http://localhost:8080/api/user/profile-picture', {
                 method: 'DELETE',
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 }
             });
 

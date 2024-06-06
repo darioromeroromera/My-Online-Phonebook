@@ -17,7 +17,7 @@ const Home = () => {
         try {
             const data = await fetch('http://localhost:8080/api/user/statistics', {
                 headers: {
-                    token: localStorage.getItem('token')
+                    Bearer: localStorage.getItem('token')
                 },
                 mode: 'cors'
             });

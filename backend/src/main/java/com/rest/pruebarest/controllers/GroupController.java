@@ -37,7 +37,7 @@ public class GroupController {
     ContactRepo contactRepo;
 
     @GetMapping
-    public ResponseEntity getAll(@RequestHeader("token") @Nullable String token) {
+    public ResponseEntity getAll(@RequestHeader("Bearer") @Nullable String token) {
         try {
             Long userId = JWTHelper.getUserIdFromToken(token);
             List<ContactGroup> groups = groupRepo.findByUserIdOrderByName(userId);
@@ -48,7 +48,7 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOne(@RequestHeader("token") @Nullable String token, @Nullable @PathVariable String id) {
+    public ResponseEntity getOne(@RequestHeader("Bearer") @Nullable String token, @Nullable @PathVariable String id) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -60,7 +60,7 @@ public class GroupController {
     }
     
     @GetMapping("/{id}/contacts")
-    public ResponseEntity getContactsFromGroup(@RequestHeader("token") @Nullable String token, @Nullable @PathVariable String id) {
+    public ResponseEntity getContactsFromGroup(@RequestHeader("Bearer") @Nullable String token, @Nullable @PathVariable String id) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -73,7 +73,7 @@ public class GroupController {
 
     @PostMapping
     public ResponseEntity saveGroup(@RequestBody @Nullable ContactGroup group,
-            @RequestHeader("token") @Nullable String token) {
+            @RequestHeader("Bearer") @Nullable String token) {
         try {
             CheckerHelper.checkGroupParams(group);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -88,7 +88,7 @@ public class GroupController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateGroup(@PathVariable String id, @RequestBody @Nullable ContactGroup newGroup,
-        @RequestHeader("token") @Nullable String token) {      
+        @RequestHeader("Bearer") @Nullable String token) {      
         try {
             CheckerHelper.checkIdFormat(id);
             CheckerHelper.checkGroupParams(newGroup);
@@ -103,12 +103,13 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteGroup(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
+    public ResponseEntity deleteGroup(@PathVariable String id, @RequestHeader("Bearer") @Nullable String token) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
             ContactGroup group = findGroupByIdAndUserId(Long.parseLong(id), userId);
             groupRepo.delete(group);
+            contactRepo.setGroupToNull(group.getId());
             return ResponseHelper.buildSuccessfulResponseEntity();
         } catch (Exception e) {
             return ResponseHelper.buildErrorResponse(e);

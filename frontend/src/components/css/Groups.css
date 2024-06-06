@@ -4,6 +4,22 @@
     padding: 20px;
 }
 
+.Groups__Search__Input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.Groups__Search__Input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
 .Groups__AddGroup {
     display: flex;
     width: 100%;
@@ -58,6 +74,7 @@
     gap: 20px;
     justify-content: center;
     padding: 10px;
+    margin: 0px 40px;
 }
 
 .Groups__Card {

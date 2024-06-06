@@ -56,7 +56,7 @@ public class UserController {
     UserRepo userRepo;
 
     @GetMapping("/profile-picture")
-    public ResponseEntity getProfilePicture(@RequestHeader("token") @Nullable String token) {
+    public ResponseEntity getProfilePicture(@RequestHeader("Bearer") @Nullable String token) {
         try {
             String picture = fetchProfilePicture(token);
             return ResponseHelper.buildSuccessfulPictureResponseEntity(picture);
@@ -67,7 +67,7 @@ public class UserController {
 
 
     @PutMapping("/profile-picture")
-    public ResponseEntity updateProfilePicture(@RequestHeader("token") @Nullable String token, @RequestBody @Nullable User user) {
+    public ResponseEntity updateProfilePicture(@RequestHeader("Bearer") @Nullable String token, @RequestBody @Nullable User user) {
         try {
             CheckerHelper.checkProfilePictureParams(user);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @DeleteMapping("/profile-picture")
-    public ResponseEntity deleteProfilePicture(@RequestHeader("token") @Nullable String token) {
+    public ResponseEntity deleteProfilePicture(@RequestHeader("Bearer") @Nullable String token) {
         try {
             Long userId = JWTHelper.getUserIdFromToken(token);
             removeImage(userId);
@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @PutMapping("/change-password")
-    public ResponseEntity updatePassword(@RequestHeader("token") @Nullable String token, @RequestBody @Nullable ChangePasswordRequest request) {
+    public ResponseEntity updatePassword(@RequestHeader("Bearer") @Nullable String token, @RequestBody @Nullable ChangePasswordRequest request) {
         try {
             CheckerHelper.checkChangePasswordParams(request);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -103,7 +103,7 @@ public class UserController {
     }
 
     @GetMapping("/statistics")
-    public ResponseEntity getStatistics(@RequestHeader("token") @Nullable String token) {
+    public ResponseEntity getStatistics(@RequestHeader("Bearer") @Nullable String token) {
         try {
             Long userId = JWTHelper.getUserIdFromToken(token);
 
@@ -132,7 +132,7 @@ public class UserController {
     public ResponseEntity badStatisticsMethod() {
         return badMethod();
     }
-
+    
     private String setProfilePicture(User user, Long userId) throws NotFoundException, ImageBadFormatException, ImageUploadErrorException {
         ImageHelper.changeProfilePicture(user);
 

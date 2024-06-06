@@ -3,9 +3,12 @@ package com.rest.pruebarest.repos;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rest.pruebarest.models.Contact;
+
+import jakarta.transaction.Transactional;
 
 public interface ContactRepo extends JpaRepository<Contact, Long> {
     public abstract List<Contact> findByUserId(Long id);
@@ -22,4 +25,9 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
 
     @Query(value = "SELECT count(*) FROM contact WHERE user_id = ?1", nativeQuery = true)
     public int countContacts(Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE contact SET group_id=null WHERE group_id = ?1", nativeQuery = true)
+    public void setGroupToNull(Long groupId);
 }

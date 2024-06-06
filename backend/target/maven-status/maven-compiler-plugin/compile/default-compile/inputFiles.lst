@@ -6,6 +6,7 @@ C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenAuthException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NotFoundException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadPathVariable.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\MessageController.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ContactGroup.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ForbiddenAccessException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Contact.java
@@ -18,7 +19,9 @@ C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\ContactController.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ImageBadFormatException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NoImageException.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Message.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ChangePasswordRequest.java
+C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\MessageRepo.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ImageHelper.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenValidationException.java
 C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\GroupController.java

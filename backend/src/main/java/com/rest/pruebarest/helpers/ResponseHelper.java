@@ -2,6 +2,7 @@ package com.rest.pruebarest.helpers;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.CacheControl;
@@ -21,6 +22,7 @@ import com.rest.pruebarest.exceptions.NoImageException;
 import com.rest.pruebarest.exceptions.NotFoundException;
 import com.rest.pruebarest.exceptions.TokenAuthException;
 import com.rest.pruebarest.exceptions.TokenValidationException;
+import com.rest.pruebarest.models.Message;
 
 public class ResponseHelper {
     public static HashMap<String, Object> getErrorResponse(String details) {
@@ -89,12 +91,24 @@ public class ResponseHelper {
         return response;
     }
 
+    public static HashMap<String, Object> getSuccessfulMessagesResponse(List<Message> messagesReceived, List<Message> messagesSent) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("result", "ok");
+        response.put("messages_received", messagesReceived);
+        response.put("messages_sent", messagesSent);
+        return response;
+    }
+
     public static ResponseEntity buildSuccessfulInsertIdAndPictureResponse(Long id, String picture) {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulInsertIdAndPictureResponse(id, picture));
     }
 
     public static ResponseEntity buildSuccessfulCountingResponse(int contactNumber, int groupNumber) {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulCountingResponse(contactNumber, groupNumber));
+    }
+
+    public static ResponseEntity buildSuccessfulMessagesResponse(List<Message> messagesReceived, List<Message> messagesSent) {
+        return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulMessagesResponse(messagesReceived, messagesSent));
     }
 
     public static CacheControl getCacheControl() {
@@ -121,7 +135,7 @@ public class ResponseHelper {
         } else if (e instanceof ConflictException || e instanceof CollisionException) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseHelper.getErrorResponse(e.getMessage()));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse("Error desconocido."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseHelper.getErrorResponse("Error desconocido"));
         }
     }
 }

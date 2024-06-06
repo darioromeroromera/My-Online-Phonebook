@@ -38,7 +38,7 @@ public class ContactController {
     private ContactRepo contactRepo;
 
     @GetMapping
-    public ResponseEntity getAll(@RequestHeader("token") @Nullable String token) {
+    public ResponseEntity getAll(@RequestHeader("Bearer") @Nullable String token) {
         try {
             Long userId = JWTHelper.getUserIdFromToken(token);
             List<Contact> contacts = contactRepo.findByUserIdOrderByContactName(userId);
@@ -49,7 +49,7 @@ public class ContactController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getOne(@RequestHeader("token") @Nullable String token, @Nullable @PathVariable String id) {
+    public ResponseEntity getOne(@RequestHeader("Bearer") @Nullable String token, @Nullable @PathVariable String id) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -62,12 +62,14 @@ public class ContactController {
 
     @PostMapping
     public ResponseEntity saveContact(@RequestBody @Nullable Contact contact,
-            @RequestHeader("token") @Nullable String token) {
+            @RequestHeader("Bearer") @Nullable String token) {
         try {
             CheckerHelper.checkContactParams(contact);
             Long userId = JWTHelper.getUserIdFromToken(token);
             contact.setUserId(userId);
             CheckerHelper.checkContactColision(contact);
+            if (contact.getGroupId() != null)
+                CheckerHelper.checkGroupAuthorization(contact.getGroupId(), userId);
             if (contact.getContactPicture() != null)
                 ImageHelper.changeContactPicture(contact);
             Contact savedContact = contactRepo.save(contact);
@@ -79,13 +81,15 @@ public class ContactController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateContact(@PathVariable String id, @RequestBody @Nullable Contact newContact,
-            @RequestHeader("token") @Nullable String token) {
+            @RequestHeader("Bearer") @Nullable String token) {
                 
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
             Contact oldContact = findContactByIdAndUserId(Long.parseLong(id), userId);
             CheckerHelper.checkContactParams(newContact);
+            if (newContact.getGroupId() != null)
+                CheckerHelper.checkGroupAuthorization(newContact.getGroupId(), userId);
             Contact updatedContact = setNewContactFieldsAndSave(oldContact, newContact);
             return ResponseHelper.buildSuccessfulPictureResponseEntity(updatedContact.getContactPicture());
         } catch (Exception e) {
@@ -94,7 +98,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteContact(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
+    public ResponseEntity deleteContact(@PathVariable String id, @RequestHeader("Bearer") @Nullable String token) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
@@ -109,7 +113,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/{id}/picture")
-    public ResponseEntity deleteContactPicture(@PathVariable String id, @RequestHeader("token") @Nullable String token) {
+    public ResponseEntity deleteContactPicture(@PathVariable String id, @RequestHeader("Bearer") @Nullable String token) {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);

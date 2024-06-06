@@ -2,7 +2,7 @@ import React from 'react';
 import './css/ContactCard.css';
 import {useNavigate} from 'react-router-dom';
 
-const ContactCard = React.memo(({name, fullname, phone, details, picture, removeContact, removePicture, id}) => {
+const ContactCard = React.memo(({name, fullname, phone, details, picture, removeContact, removePicture, group, id}) => {
 
     const navigate = useNavigate();
 
@@ -13,6 +13,7 @@ const ContactCard = React.memo(({name, fullname, phone, details, picture, remove
             <p className="ContactCard__FullName">{fullname}</p>
             <p className="ContactCard__Phone">{phone}</p>
             <p className="ContactCard__Details">{details}</p>
+            <p className="ContactCard__Details">Grupo: {group}</p>
             <button className="ContactCard__Button" onClick={() => {navigate('/contacts/edit/' + id)}}>Modificar</button>
             <button className="ContactCard__Button ContactCard__DeleteButton" onClick={() => {removeContact(id)}}>Eliminar</button>
             {picture != null ? <button className="ContactCard__Button ContactCard__DeleteButton" onClick={() => {removePicture(id)}}>Eliminar foto</button> : ''}

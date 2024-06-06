@@ -1,3 +1,4 @@
+com\rest\pruebarest\controllers\MessageController.class
 com\rest\pruebarest\helpers\ResponseHelper.class
 com\rest\pruebarest\PruebarestApplication.class
 com\rest\pruebarest\exceptions\ForbiddenAccessException.class
@@ -6,6 +7,8 @@ com\rest\pruebarest\controllers\UserController.class
 com\rest\pruebarest\exceptions\AuthenticationException.class
 com\rest\pruebarest\controllers\ContactController.class
 com\rest\pruebarest\helpers\CheckerHelper.class
+com\rest\pruebarest\repos\ContactGroupRepo.class
+com\rest\pruebarest\repos\MessageRepo.class
 com\rest\pruebarest\exceptions\ImageBadFormatException.class
 com\rest\pruebarest\helpers\ImageHelper.class
 com\rest\pruebarest\controllers\RegisterController.class
@@ -25,5 +28,7 @@ com\rest\pruebarest\exceptions\NotFoundException.class
 com\rest\pruebarest\models\Contact.class
 com\rest\pruebarest\controllers\GroupController.class
 com\rest\pruebarest\controllers\ErrorController.class
+com\rest\pruebarest\models\Message.class
 com\rest\pruebarest\controllers\AuthController.class
+com\rest\pruebarest\models\ContactGroup.class
 com\rest\pruebarest\models\User.class

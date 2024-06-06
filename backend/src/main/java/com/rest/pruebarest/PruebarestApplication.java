@@ -21,7 +21,8 @@ public class PruebarestApplication {
 	@Autowired
 	private ContactRepo contactRepo;
 
-	@Autowired ContactGroupRepo groupRepo;
+	@Autowired 
+	private ContactGroupRepo groupRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PruebarestApplication.class, args);
@@ -44,6 +45,7 @@ public class PruebarestApplication {
 	public boolean setCheckerHelperRepo() {
 		CheckerHelper.setContactRepo(contactRepo);
 		CheckerHelper.setGroupRepo(groupRepo);
+		CheckerHelper.setUserRepo(userRepo);
 		return true;
 	}
 

@@ -14,11 +14,15 @@ const RegistrationForm = () => {
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [errors, setErrors] = useState({username: "", email: "", password: "", confirmPassword: ""});
+    const [errors, setErrors] = useState({username: "", email: "", phoneNumber: ".", password: "", confirmPassword: ""});
 
     const [usernameFlag, setUsernameFlag] = useState(false);
 
     const [emailFlag, setEmailFlag] = useState(false);
+
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [phoneNumberFlag, setPhoneNumberFlag] = useState(false);
 
     const [passwordFlag, setPasswordFlag] = useState(false);
 
@@ -48,6 +52,12 @@ const RegistrationForm = () => {
                 return {...errors, email: ''};
         });
     };
+
+    const checkPhoneNumber = () => {
+        setErrors(errors => {
+            return phoneNumber.trim() == '' ?  { ...errors, phoneNumber: 'El campo telefono no puede estar vacío' } : /^([679])\d{8}$/.test(phoneNumber) ? { ...errors, phoneNumber: '' } : { ...errors, phoneNumber: 'Formato de teléfono incorrecto'};
+        });
+    }
 
     const checkPassword = () => {
         if (confirmPassword.trim() != '')
@@ -82,6 +92,10 @@ const RegistrationForm = () => {
     }, [email]);
 
     useEffect(() => {
+        phoneNumberFlag ? checkPhoneNumber() : setPhoneNumberFlag(true);
+    }, [phoneNumber]);
+
+    useEffect(() => {
         passwordFlag ? checkPassword() : setPasswordFlag(true);
     }, [password]);
 
@@ -98,7 +112,7 @@ const RegistrationForm = () => {
                     'Content-Type': 'application/json'
                 },
                 mode: 'cors',
-                body: JSON.stringify({username, email, password})
+                body: JSON.stringify({username, email, 'telefono': phoneNumber, password})
             })
     
             const json = await res.json();
@@ -113,8 +127,7 @@ const RegistrationForm = () => {
                 navigate('/login');
             }
         } catch (err) {
-            //setApiError('Error: no se ha podido establecer conexión con el servidor');
-            setApiError(err.toString());
+            setApiError('Error: no se ha podido establecer conexión con el servidor');
             setIsErrorVisible(true);
         }
         setLoading(false);
@@ -153,6 +166,10 @@ const RegistrationForm = () => {
                 <input className="RegistrationAndLoginForm__Input" type="email" placeholder="Correo electrónico" value={email}
                     onChange={e => setEmail(e.target.value)} required/>
                 <p className="RegistrationAndLoginForm__InputError">{errors.email}</p>
+                <input className="RegistrationAndLoginForm__Input" type="tel" placeholder="Teléfono (ej. 612345678)" value={phoneNumber}
+                    onChange={e => setPhoneNumber(e.target.value)} required
+                    />
+                <p className="RegistrationAndLoginForm__InputError">{errors.phoneNumber}</p>
                 <input className="RegistrationAndLoginForm__Input" type="password" placeholder="Contraseña" value={password}
                     onChange={e => setPassword(e.target.value)} required/>
                 <p className="RegistrationAndLoginForm__InputError">{errors.password}</p>

@@ -17,6 +17,9 @@ const Groups = () => {
     const [editingGroupId, setEditingGroupId] = useState(null);
     const [editedGroupName, setEditedGroupName] = useState('');
 
+    const [search, setSearch] = useState("");
+    const [filteredGroups, setFilteredGroups] = useState([]);
+
     const getGroups = async () => {
         if (loading) return;
         setLoading(true);
@@ -24,7 +27,7 @@ const Groups = () => {
         try {
             const response = await fetch('http://localhost:8080/api/groups', {
                 headers: {
-                    token: localStorage.getItem('token'),
+                    Bearer: localStorage.getItem('token'),
                 },
                 mode: 'cors',
             });
@@ -51,6 +54,14 @@ const Groups = () => {
         getGroups();
     }, []);
 
+    const filterGroups = () => {
+        setFilteredGroups(groups.filter(group => group.name.toLowerCase().includes(search.toLowerCase())));
+    };
+
+    useEffect(() => {
+        filterGroups();
+    }, [groups, search]);
+
     const addGroup = async () => {
         if (loading)
             return;
@@ -60,7 +71,7 @@ const Groups = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    token: localStorage.getItem('token'),
+                    Bearer: localStorage.getItem('token'),
                 },
                 mode: 'cors',
                 body: JSON.stringify({ name: newGroupName }),
@@ -90,7 +101,7 @@ const Groups = () => {
             const response = await fetch(`http://localhost:8080/api/groups/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    token: localStorage.getItem('token'),
+                    Bearer: localStorage.getItem('token'),
                 },
                 mode: 'cors',
             });
@@ -121,7 +132,7 @@ const handleSaveEditedGroup = async (groupId) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                token: localStorage.getItem('token'),
+                Bearer: localStorage.getItem('token'),
             },
             mode: 'cors',
             body: JSON.stringify({ name: editedGroupName }),
@@ -144,9 +155,9 @@ const handleSaveEditedGroup = async (groupId) => {
 };
 
     const renderGroups = () => {
-        return groups.length > 0 ? (
+        return filteredGroups.length > 0 ? (
             <div className="Groups__List">
-                {groups.map(group => (
+                {filteredGroups.map(group => (
                     <div key={group.id} className="Groups__Card">
                         {editingGroupId === group.id ? (
                             <input
@@ -190,7 +201,7 @@ const handleSaveEditedGroup = async (groupId) => {
             ))}
             </div>
         ) : (
-            <p>No hay grupos</p>
+            <p>{search == '' ? 'No hay contactos' : 'No se han encontrado contactos con ese filtro'}</p>
         );
     };
 
@@ -205,6 +216,14 @@ const handleSaveEditedGroup = async (groupId) => {
             <NavBar/>
 
             <ProfilePicture/>
+
+            <input
+                className='Groups__Search__Input'
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Buscar grupos por nombre"
+            />
 
             <div className="Groups__AddGroup">
                 <input

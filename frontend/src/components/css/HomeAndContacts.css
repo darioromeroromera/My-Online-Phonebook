@@ -8,7 +8,7 @@
     align-items: center;
 }
 
-.Home__Search__Input {
+.Contacts__Search__Input {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
@@ -19,12 +19,40 @@
     transition: border-color 0.3s ease;
 }
 
-.Home__Search__Input:focus {
+.Contacts__Search__Input:focus {
     outline: none;
     border-color: #007bff;
 }
 
-.Home__ContactList__Container {
+.Contacts__Filter__Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.Contacts__Filter__Container select {
+    padding: 8px;
+    margin-right: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.Contacts__Filter__Container button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Contacts__ContactList__Container {
     flex: 1;
     overflow-y: auto;
     max-height: 500px;
@@ -32,7 +60,7 @@
     padding: 10px;
 }
 
-.Home__ContactList {
+.Contacts__ContactList {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

@@ -9,6 +9,8 @@ const AddOrUpdateContact = ({isEdit}) => {
 
     const [loading, setLoading] = useState(false);
 
+    const [groups, setGroups] = useState([]);
+
     const [contactName, setContactName] = useState('');
 
     const [fullName, setFullName] = useState('');
@@ -18,6 +20,8 @@ const AddOrUpdateContact = ({isEdit}) => {
     const [contactImage, setContactImage] = useState(null);
 
     const [contactRender, setContactRender] = useState("");
+
+    const [selectedGroup, setSelectedGroup] = useState(null);
 
     const [contactNameFlag, setContactNameFlag] = useState(false);
 
@@ -99,10 +103,10 @@ const AddOrUpdateContact = ({isEdit}) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                token: localStorage.getItem('token')
+                Bearer: localStorage.getItem('token')
             },
             mode: 'cors',
-            body: JSON.stringify({'contact_name': contactName, 'full_name': fullName, 'telefono': phoneNumber, 'contact_picture': imageData})
+            body: JSON.stringify({'contact_name': contactName, 'full_name': fullName, 'telefono': phoneNumber, 'contact_picture': imageData, 'group_id': selectedGroup})
         });
 
         const json = await data.json();
@@ -118,7 +122,7 @@ const AddOrUpdateContact = ({isEdit}) => {
         } else {
             setTimeout(() => {
                 setLoading(false);
-                navigate('/');
+                navigate('/contacts');
             }, 1000);
         }
         
@@ -131,21 +135,18 @@ const AddOrUpdateContact = ({isEdit}) => {
         let imageData = null;
         if (contactImage) {
             imageData = await readFileAsBase64(contactImage);
-            console.log(imageData);
         }
         const data = await fetch('http://localhost:8080/api/contacts/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                token: localStorage.getItem('token')
+                Bearer: localStorage.getItem('token')
             },
             mode: 'cors',
-            body: JSON.stringify({'contact_name': contactName, 'full_name': fullName, 'telefono': phoneNumber, 'contact_picture': imageData})
+            body: JSON.stringify({'contact_name': contactName, 'full_name': fullName, 'telefono': phoneNumber, 'contact_picture': imageData, 'group_id': selectedGroup})
         });
 
         const json = await data.json();
-
-        console.log(json);
 
         if (json.result === undefined) {
             setLoading(false);
@@ -158,12 +159,12 @@ const AddOrUpdateContact = ({isEdit}) => {
         } else {
             setTimeout(() => {
                 setLoading(false);
-                navigate('/');
+                navigate('/contacts');
             }, 1000);
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
         checkContactName();
         checkFullName();
@@ -183,7 +184,7 @@ const AddOrUpdateContact = ({isEdit}) => {
     const loadContactData = async () => {
         const data = await fetch('http://localhost:8080/api/contacts/' + id, {
             headers: {
-                token: localStorage.getItem('token')
+                Bearer: localStorage.getItem('token')
             }
         });
 
@@ -199,16 +200,40 @@ const AddOrUpdateContact = ({isEdit}) => {
             setContactName(json.data.contact_name);
             setFullName(json.data.full_name);
             setPhoneNumber(json.data.telefono);
+            setSelectedGroup(json.data.group_id);
             if (json.data.contact_picture != null)
                 setContactRender(json.data.contact_picture);
-            console.log(json.data);
         }
     };
 
     useEffect(() => {
         if (isEdit)
             loadContactData();
+
+        loadGroups();
     }, []);
+
+    const loadGroups = async () => {
+        const data = await fetch('http://localhost:8080/api/groups', {
+            headers: {
+                Bearer: localStorage.getItem('token')
+            }
+        });
+
+        const json = await data.json();
+
+        if (json.result === undefined) {
+            setApiError('Ha ocurrido un error desconocido. Inténtelo más tarde');
+            setIsErrorVisible(true);
+        } else if (json.result === 'error') {
+            setApiError(json.details);
+            setIsErrorVisible(true);
+        } else {
+            setIsErrorVisible(false);
+            setApiError('');
+            setGroups(json.data);
+        }
+    }
 
     const readFileAsBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -247,7 +272,7 @@ const AddOrUpdateContact = ({isEdit}) => {
                         type="text"
                         placeholder="Nombre de Contacto"
                         value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
+                        onChange={e => setContactName(e.target.value)}
                         required
                     />
                     <p className="AddOrUpdateContact__Error">{errors.contactName}</p>
@@ -256,7 +281,7 @@ const AddOrUpdateContact = ({isEdit}) => {
                         type="text"
                         placeholder="Nombre Completo"
                         value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
+                        onChange={e => setFullName(e.target.value)}
                         required
                     />
                     <p className="AddOrUpdateContact__Error">{errors.fullName}</p>
@@ -265,13 +290,26 @@ const AddOrUpdateContact = ({isEdit}) => {
                         type="tel"
                         placeholder="Teléfono (ej. 612345678)"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={e => setPhoneNumber(e.target.value)}
                         required
                     />
                     <p className="AddOrUpdateContact__Error">{errors.phoneNumber}</p>
 
+                    <select
+                        value={selectedGroup || ""}
+                        onChange={e => setSelectedGroup(e.target.value)}
+                        className="AddOrUpdateContact__Form__Input"
+                    >
+                        <option value="">Ninguno</option>
+                        {groups.map((group) => (
+                            <option key={group.id} value={group.id}>
+                                {group.name}
+                            </option>
+                        ))}
+                    </select>
+
                     <div className="AddOrUpdateContact__Form__FileInputContainer AddOrUpdateContact__Form__InputButton" >
-                        <span for="contactPictureInput">Cambiar foto de contacto</span>
+                        <span htmlFor="contactPictureInput">Cambiar foto de contacto</span>
                         <input id="contactPictureInput" className="AddOrUpdateContact__Form__FileInput" type="file" onChange={(e) => setContactImage(e.target.files[0])} />
                     </div>
 

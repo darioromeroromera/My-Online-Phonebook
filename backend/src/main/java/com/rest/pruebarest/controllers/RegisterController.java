@@ -55,11 +55,14 @@ public class RegisterController {
             throw new ConflictException("Ese usuario ya existe en el sistema");
         }
 
-        User foundEmailUser = null;
-        foundEmailUser = userRepo.findByEmail(user.getEmail());
+        User foundEmailUser = userRepo.findByEmail(user.getEmail());
         if (foundEmailUser != null) {
             throw new ConflictException("Ese correo ya pertenece a un usuario del sistema");
         }
+
+        User foundPhoneUser = userRepo.findByTelefono(user.getTelefono());
+        if (foundPhoneUser != null)
+        throw new ConflictException("Ese teléfono ya pertenece a un usuario del sistema");
     }
 
     private void saveUser(User user) {
