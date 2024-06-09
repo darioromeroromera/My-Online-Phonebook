@@ -23,6 +23,7 @@ import com.rest.pruebarest.exceptions.NotFoundException;
 import com.rest.pruebarest.exceptions.TokenAuthException;
 import com.rest.pruebarest.exceptions.TokenValidationException;
 import com.rest.pruebarest.models.Message;
+import com.rest.pruebarest.models.MessageResponse;
 
 public class ResponseHelper {
     public static HashMap<String, Object> getErrorResponse(String details) {
@@ -91,7 +92,7 @@ public class ResponseHelper {
         return response;
     }
 
-    public static HashMap<String, Object> getSuccessfulMessagesResponse(List<Message> messagesReceived, List<Message> messagesSent) {
+    public static HashMap<String, Object> getSuccessfulMessagesResponse(List<MessageResponse> messagesReceived, List<MessageResponse> messagesSent) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("result", "ok");
         response.put("messages_received", messagesReceived);
@@ -107,7 +108,7 @@ public class ResponseHelper {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulCountingResponse(contactNumber, groupNumber));
     }
 
-    public static ResponseEntity buildSuccessfulMessagesResponse(List<Message> messagesReceived, List<Message> messagesSent) {
+    public static ResponseEntity buildSuccessfulMessagesResponse(List<MessageResponse> messagesReceived, List<MessageResponse> messagesSent) {
         return ResponseEntity.status(HttpStatus.OK).cacheControl(getCacheControl()).body(getSuccessfulMessagesResponse(messagesReceived, messagesSent));
     }
 

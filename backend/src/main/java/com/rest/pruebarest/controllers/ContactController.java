@@ -1,7 +1,9 @@
 package com.rest.pruebarest.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,10 @@ import com.rest.pruebarest.helpers.ImageHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.Contact;
+import com.rest.pruebarest.models.Message;
+import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
+import com.rest.pruebarest.repos.UserRepo;
 
 import io.micrometer.common.lang.Nullable;
 
@@ -36,6 +41,9 @@ public class ContactController {
 
     @Autowired
     private ContactRepo contactRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @GetMapping
     public ResponseEntity getAll(@RequestHeader("Bearer") @Nullable String token) {
@@ -125,6 +133,25 @@ public class ContactController {
         }
     }
 
+    @GetMapping("/availables")
+    public ResponseEntity getContactsAvailableForMessaging(@RequestHeader("Bearer") @Nullable String token) {
+        try {
+            Long userId = JWTHelper.getUserIdFromToken(token);
+            List<Contact> allContacts = contactRepo.findByUserIdOrderByContactName(userId);
+            List<Contact> availableContacts = new ArrayList<>();
+
+            for (Contact contact : allContacts) {
+                User user = userRepo.findByTelefono(contact.getTelefono());
+                if (user != null) {
+                    availableContacts.add(contact);
+                }
+            }
+            return ResponseHelper.buildSuccessfulDataResponseEntity(availableContacts);
+        } catch (Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
+        }
+    }
+
     @RequestMapping
     public ResponseEntity badMethod() {
         return ResponseEntity.badRequest().body(ResponseHelper.getErrorResponse("Verbo HTTP incorrecto"));
@@ -137,6 +164,11 @@ public class ContactController {
 
     @RequestMapping("/{id}/picture")
     public ResponseEntity badPictureMethod() {
+        return badMethod();
+    }
+
+    @RequestMapping("/availables")
+    public ResponseEntity badAvailableMethod() {
         return badMethod();
     }
 

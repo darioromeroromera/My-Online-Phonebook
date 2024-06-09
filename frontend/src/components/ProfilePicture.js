@@ -53,14 +53,14 @@ const ProfilePicture = () => {
         <div className="ProfilePicture">
             {username && <h2 className="ProfilePicture__Message">Bienvenido, {username}</h2>}
             <div className="ProfilePicture__ImgSet" onClick={() => navigate('/profile')}>
-                <img className="ProfilePicture__Picture" src={profilePicture === null ? "empty-profile-logo.png" : profilePicture} alt="Foto de perfil"/>
-                <img className="ProfilePicture__EditIcon" src="edit.png" alt="Icono de lápiz"/>
+                    <img className="ProfilePicture__Picture" src={profilePicture === null ? "http://localhost:3000/empty-profile-logo.png" : profilePicture} alt="Foto de perfil"/>
+                    <img className="ProfilePicture__EditIcon" src="http://localhost:3000/edit.png" alt="Icono de lápiz"/>
             </div>
             <div className={isProfileErrorVisible ? 'ProfilePicture__Error' : 'ProfilePicture__Hidden'}>
                 <p>{profileError}</p>
             </div>
         </div>
-    )
+    );
 };
 
 export default ProfilePicture;

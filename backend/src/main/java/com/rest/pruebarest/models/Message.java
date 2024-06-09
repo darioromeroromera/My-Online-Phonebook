@@ -17,9 +17,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    private Long originId;
+    @ManyToOne
+    private User origin;
 
-    private Long destinationId;
+    @ManyToOne
+    private User destination;
 
     String subject;
     String text;

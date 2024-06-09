@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import RegistrationForm from './components/RegistrationForm';
 import { Route, Routes } from 'react-router-dom';
@@ -10,14 +9,21 @@ import NotFound from './components/NotFound';
 import AddOrUpdateContact from './components/AddOrUpdateContact';
 import Profile from './components/Profile';
 import Groups from './components/Groups';
+import Messages from './components/Messages';
+import SingleMessage from './components/SingleMessage';
 
 function App() {
+  
+
   return (
     <>
       <Routes>
         <Route exact path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
         <Route path='/contacts' element={<PrivateRoute><Contacts/></PrivateRoute>}/>
         <Route path='/groups' element={<PrivateRoute><Groups/></PrivateRoute>}/>
+        <Route path='/messages' element={<PrivateRoute><Messages/></PrivateRoute>}/>
+        <Route path='/messages/compose' element={<PrivateRoute><p>Compose</p></PrivateRoute>}/>
+        <Route path='/messages/:id' element={<PrivateRoute><SingleMessage/></PrivateRoute>}/>
         <Route path='/register' element={<RegistrationForm/>}/>
         <Route path='/login' element={<LoginForm/>}/>
         <Route path='/contacts/add' element={<AddOrUpdateContact isEdit={false}/>}/>

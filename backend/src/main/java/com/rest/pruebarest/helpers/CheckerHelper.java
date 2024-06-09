@@ -6,7 +6,9 @@ import com.rest.pruebarest.exceptions.NotFoundException;
 
 import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import com.rest.pruebarest.exceptions.BadBodyException;
 import com.rest.pruebarest.exceptions.BadPathVariable;
@@ -14,6 +16,7 @@ import com.rest.pruebarest.models.ChangePasswordRequest;
 import com.rest.pruebarest.models.Contact;
 import com.rest.pruebarest.models.ContactGroup;
 import com.rest.pruebarest.models.Message;
+import com.rest.pruebarest.models.MessageRequest;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
 import com.rest.pruebarest.repos.UserRepo;
@@ -64,13 +67,13 @@ public class CheckerHelper {
     }
 
     public static void checkContactColision(Contact contact) throws CollisionException {
-        int numberOfUsersByUsername = contactRepo.getByContactNameAndUserId(contact.getUserId(),
+        int numberOfUsersByUsername = contactRepo.countByContactNameAndUserId(contact.getUserId(),
             contact.getContactName());
 
         if (numberOfUsersByUsername != 0)
             throw new CollisionException("Ya tienes un contacto con ese nombre, no se pueden repetir");
 
-        int numberOfUsersByPhone = contactRepo.getByTelefonoAndUserId(contact.getUserId(), contact.getTelefono());
+        int numberOfUsersByPhone = contactRepo.countByTelefonoAndUserId(contact.getUserId(), contact.getTelefono());
         if (numberOfUsersByPhone != 0)
             throw new CollisionException("Ya tienes un contacto con ese número, no se pueden repetir");
     }
@@ -192,26 +195,31 @@ public class CheckerHelper {
             throw new ForbiddenAccessException("El grupo al que se intenta acceder no pertenece a su usuario");
     }
 
-    public static void checkMessageParams(Message message) throws BadBodyException, NotFoundException {
+    public static void checkMessageParams(MessageRequest message, Long userId) throws BadBodyException, NotFoundException, ForbiddenAccessException {
         if (message == null)
             throw new BadBodyException("El body no puede estar vacío");
 
-        if (message.getDestinationId() == null)
-            throw new BadBodyException("El campo destination_id no puede estar vacío");
+        if (message.getDestinationPhone() == null)
+            throw new BadBodyException("El campo destination_phone no puede estar vacío");
 
-        Optional<User> oUser = userRepo.findById(message.getDestinationId());
+        User user = userRepo.findByTelefono(message.getDestinationPhone());
 
-        if (oUser.isEmpty())
+        if (user == null)
             throw new NotFoundException("El destino del mensaje no existe");
+
+        if (user.getId() == userId)
+            throw new BadBodyException("No puedes mandarte un mensaje a ti mismo");
+
+        int numberOfMatchingContacts = contactRepo.countByTelefonoAndUserId(userId, user.getTelefono());
+
+        if (numberOfMatchingContacts == 0)
+            throw new ForbiddenAccessException("El destino del mensaje no pertenece a tus contactos");
     
         if (message.getSubject() == null)
             throw new BadBodyException("El campo subject no puede estar vacío");
 
         if (message.getText() == null)
             throw new BadBodyException("El campo text no puede estar vacío");
-
-        if (message.getId() != null)
-            throw new BadBodyException("El id no puede ser especificado");
     }
         
 }

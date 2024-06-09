@@ -78,17 +78,17 @@
 }
 
 .Groups__Card {
-    background-color: #f5f5f5; /* Light gray background */
+    background-color: #f5f5f5;
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid #aaa; /* Add a subtle border */
+    border: 2px solid #aaa;
 }
 
 .Groups__Card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* New: Enhancing the shadow effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .Groups__Card h3, .Groups__Card input {

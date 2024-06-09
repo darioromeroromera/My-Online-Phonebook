@@ -18,6 +18,7 @@ const NavBar = () => {
                 <NavLink to="/" className="NavBar__NavLink" activeclassname="active">Inicio</NavLink>
                 <NavLink to="/contacts" className="NavBar__NavLink" activeclassname="active">Contactos</NavLink>
                 <NavLink to="/groups" className="NavBar__NavLink" activeclassname="active">Grupos</NavLink>
+                <NavLink to="/messages" className="NavBar__NavLink" activeclassname="active">Mensajes</NavLink>
                 <NavLink to="/profile" className="NavBar__NavLink" activeclassname="active">Perfil</NavLink>
             </div>
         </nav>
