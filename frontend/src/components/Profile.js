@@ -312,6 +312,7 @@ const Profile = () => {
                 localStorage.removeItem('username');
                 localStorage.removeItem('email');
                 localStorage.removeItem('id');
+                localStorage.removeItem('telefono');
                 navigate('/login');
             }}>Cerrar Sesión</button>
         </div>

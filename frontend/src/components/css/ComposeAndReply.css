@@ -1,0 +1,84 @@
+.ComposeAndReply__Container {
+    padding: 20px;
+}
+
+.ComposeAndReply__FormContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.ComposeAndReply__Form {
+    background-color: #F2F2F2;
+    width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ComposeAndReply__Form div {
+    margin-bottom: 15px;
+}
+
+.ComposeAndReply__Form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ComposeAndReply__Form select,
+.ComposeAndReply__Form input,
+.ComposeAndReply__Form textarea {
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.ComposeAndReply__Form button {
+    width: 100%;
+    background-color: #007BFF;
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    margin: 20px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ComposeAndReply__Form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ComposeAndReply__Form button:disabled {
+    background-color: #CCC;
+    cursor: not-allowed;
+}
+
+.ComposeAndReply__Error {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    animation: showAnimation 0.3s ease;
+}
+
+@keyframes showAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

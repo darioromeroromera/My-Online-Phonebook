@@ -76,6 +76,7 @@ const LoginForm = () => {
                 localStorage.setItem('id', jwtDecode(json.token).id);
                 localStorage.setItem('username', jwtDecode(json.token).username);
                 localStorage.setItem('email', jwtDecode(json.token).email);
+                localStorage.setItem('telefono', jwtDecode(json.token).telefono);
                 navigate('/');
             }
         } catch (err) {

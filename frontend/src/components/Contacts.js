@@ -51,7 +51,6 @@
                 } else {
                     setContacts(json.data);
                     setGroupedContacts(json.data);
-                    console.log(json.data);
                 }
 
             } catch (err) {
@@ -239,15 +238,16 @@
                 </div>
 
                 <div className="Home__ButtonContainer">
-                <button className="Home__Button Home__AddUser__Button" onClick={() => navigate('/contacts/add')}>Añadir usuario</button>
+                    <button className="Home__Button Home__AddUser__Button" onClick={() => navigate('/contacts/add')}>Añadir contacto</button>
 
-                <button className="Home__Button" onClick={() => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('username');
-                    localStorage.removeItem('email');
-                    localStorage.removeItem('id');
-                    navigate('/login');
-                }}>Cerrar Sesión</button>
+                    <button className="Home__Button" onClick={() => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('email');
+                        localStorage.removeItem('id');
+                        localStorage.removeItem('telefono');
+                        navigate('/login');
+                    }}>Cerrar Sesión</button>
                 </div>
 
             </div>

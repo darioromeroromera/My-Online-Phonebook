@@ -58,7 +58,7 @@ public class AuthController {
     }
 
     private String generateAndSaveToken(User user) {
-        String token = JWTHelper.generateToken(user.getId(), user.getUsername(), user.getEmail());
+        String token = JWTHelper.generateToken(user.getId(), user.getUsername(), user.getEmail(), user.getTelefono());
         user.setToken(token);
         userRepo.save(user);
         return token;

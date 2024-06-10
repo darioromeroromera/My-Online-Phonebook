@@ -30,12 +30,13 @@ public class JWTHelper {
         JWTHelper.userRepo = userRepo;
     }
 
-    public static String generateToken(Long id, String username, String email) {
+    public static String generateToken(Long id, String username, String email, String telefono) {
         byte[] bKey = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
 
-        String token = Jwts.builder().claim("username", username).claim("email", email).claim("id", id)
-                .issuedAt(new Date())
-                .signWith(Keys.hmacShaKeyFor(bKey), Jwts.SIG.HS256).compact();
+        String token = Jwts.builder().claim("username", username).claim("email", email)
+            .claim("id", id).claim("telefono", telefono)
+            .issuedAt(new Date())
+            .signWith(Keys.hmacShaKeyFor(bKey), Jwts.SIG.HS256).compact();
         return token;
     }
 

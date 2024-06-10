@@ -1,0 +1,82 @@
+.SingleMessage__Container {
+    padding: 20px;
+}
+
+.SingleMessage__Content {
+    background: #fff;
+    border-radius: 8px;
+    border: 2px solid #aaa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.SingleMessage__Content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.SingleMessage__Content p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+.SingleMessage__ButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.SingleMessage__Button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.SingleMessage__Button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.SingleMessage__Reply__Button {
+    background-color: #28a745;
+}
+
+.SingleMessage__Reply__Button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.SingleMessage__Error {
+    background-color: #FFCDD2;
+    color: #D32F2F;
+    border: 1px solid #D32F2F;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    animation: showAnimation 0.3s ease;
+}
+
+.SingleMessage__Hidden {
+    display: none;
+}
+
+@keyframes showAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

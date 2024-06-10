@@ -39,6 +39,49 @@
     width: 100%;
 }
 
+.NavBar__MessageContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.NavBar__IconButton {
+    margin-left: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #333333;
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+}
+  
+.NavBar__IconButton:hover {
+    cursor: pointer;
+}
+  
+.NavBar__IconButton:active {
+    background: #cccccc;
+}
+  
+.NavBar__MessageNumber {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
 @media (max-width: 768px) {
     .NavBar__Hamburger {
         display: block;
@@ -64,4 +107,39 @@
         width: 100%;
         text-align: center;
     }
+
+    .NavBar__MessageContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .NavBar__IconButton {
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        color: #333333;
+        background: #dddddd;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+    }
+
+    .NavBar__MessageNumber {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 25px;
+        height: 25px;
+        background: red;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
 }
+

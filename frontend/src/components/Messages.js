@@ -49,14 +49,16 @@ const Messages = () => {
     }, []);
 
     const renderMessages = () => {
+
+        console.log(receivedMessages);
         if (isReceived) {
             return (
                 <div className="Messages__List">
                     {receivedMessages.length > 0 ? 
                         receivedMessages.map(message => (
-                            <div className="Message__Card" key={message.id} onClick={() => navigate(`/messages/${message.id}`)}>
+                            <div className={message.read ? "Message__Card" : "Message__Card__Unread"} key={message.id} onClick={() => navigate(`/messages/${message.id}`)}>
                                 <div className="Message__Details">
-                                    <span className="Message__Sender">{message.contact_name}</span>
+                                    <span className="Message__ContactName">{message.contact_name}</span>
                                     <span className="Message__Subject">{message.subject}</span>
                                 </div>
                             </div>
@@ -69,7 +71,7 @@ const Messages = () => {
                 <div className="Messages__List">
                     {sentMessages.length > 0 ? 
                         sentMessages.map(message => (
-                            <div className="Message__Card" key={message.id} onClick={() => navigate(`/messages/${message.id}`)}>
+                            <div className={message.read ? "Message__Card" : "Message__Card__Unread"} key={message.id} onClick={() => navigate(`/messages/${message.id}`)}>
                                 <div className="Message__Details">
                                     <span className="Message__ContactName">{message.contact_name}</span>
                                     <span className="Message__Subject">{message.subject}</span>
@@ -114,6 +116,7 @@ const Messages = () => {
                     localStorage.removeItem('username');
                     localStorage.removeItem('email');
                     localStorage.removeItem('id');
+                    localStorage.removeItem('telefono');
                     navigate('/login');
                 }}>Cerrar sesión</button>
             </div>

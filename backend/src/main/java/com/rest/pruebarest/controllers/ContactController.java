@@ -143,7 +143,10 @@ public class ContactController {
             for (Contact contact : allContacts) {
                 User user = userRepo.findByTelefono(contact.getTelefono());
                 if (user != null) {
-                    availableContacts.add(contact);
+                    int friendContactCount = contactRepo.countByTelefonoAndUserId(user.getId(), userRepo.findById(userId).get().getTelefono());
+                    if (friendContactCount > 0) {
+                        availableContacts.add(contact);
+                    }
                 }
             }
             return ResponseHelper.buildSuccessfulDataResponseEntity(availableContacts);

@@ -19,6 +19,7 @@ import com.rest.pruebarest.repos.UserRepo;
 import io.micrometer.common.lang.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,9 @@ public class MessageController {
             Long userId = JWTHelper.getUserIdFromToken(token);
             User user = userRepo.findById(userId).get();
             List<Message> messagesReceived = messageRepo.getByDestination(user);
+            Collections.reverse(messagesReceived);
             List<Message> messagesSent = messageRepo.getByOrigin(user);
+            Collections.reverse(messagesSent);
             return ResponseHelper.buildSuccessfulMessagesResponse(messagesToResponse(messagesReceived, true),
                 messagesToResponse(messagesSent, false));
         } catch (Exception e) {
@@ -63,18 +66,29 @@ public class MessageController {
         try {
             CheckerHelper.checkIdFormat(id);
             Long userId = JWTHelper.getUserIdFromToken(token);
+            User user = userRepo.findById(userId).get();
             Optional<Message> oMessage = messageRepo.findById(Long.parseLong(id));
             if (oMessage.isEmpty())
                 throw new NotFoundException("El mensaje solicitado no existe");
             
             Message message = oMessage.get();
-            System.out.printf("Is message read: %B%n", message.isRead());
             if (message.getOrigin().getId() != userId && message.getDestination().getId() != userId)
                 throw new ForbiddenAccessException("No tienes permisos para acceder a este mensaje");
-            if (!message.isRead())
+            if (user == message.getDestination() && !message.isRead())
                 markAsRead(message);
             boolean isReceived = message.getDestination().getId() == userId;
             return ResponseHelper.buildSuccessfulDataResponseEntity(singleMessageToResponse(message, isReceived));
+        } catch (Exception e) {
+            return ResponseHelper.buildErrorResponse(e);
+        }
+    }
+
+    @GetMapping("/check-new")
+    public ResponseEntity checkNew(@RequestHeader("Bearer") @Nullable String token) {
+        try {
+            Long userId = JWTHelper.getUserIdFromToken(token);
+            int newMessagesNumber = messageRepo.countNewMessages(userId);
+            return ResponseHelper.buildSuccessfulDataResponseEntity(newMessagesNumber);
         } catch (Exception e) {
             return ResponseHelper.buildErrorResponse(e);
         }

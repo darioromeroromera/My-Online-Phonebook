@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MessageRequest {
-    private String DestinationPhone;
+    private String destinationPhone;
     String subject;
     String text;
 }

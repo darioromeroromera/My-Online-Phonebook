@@ -214,6 +214,11 @@ public class CheckerHelper {
 
         if (numberOfMatchingContacts == 0)
             throw new ForbiddenAccessException("El destino del mensaje no pertenece a tus contactos");
+
+        int friendContactCount = contactRepo.countByTelefonoAndUserId(user.getId(), userRepo.findById(userId).get().getTelefono());
+
+        if (friendContactCount == 0)
+            throw new ForbiddenAccessException("El destino del mensaje no te tiene en sus contactos");
     
         if (message.getSubject() == null)
             throw new BadBodyException("El campo subject no puede estar vacío");

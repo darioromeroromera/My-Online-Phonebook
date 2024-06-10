@@ -11,7 +11,7 @@ const NotFound = () => {
 
           <h1 className="NotFound__Title">Error 404 - NOT FOUND</h1>
           <p className="NotFound__Message">La página solicitada no ha sido encontrada.</p>
-          <img className="NotFound__Image" src="sad-face.png" alt="404 Error" />
+          <img className="NotFound__Image" src="http://localhost:3000/sad-face.png" alt="404 Error" />
         </div>
       );
 };
