@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rest.pruebarest.exceptions.NotFoundException;
 import com.rest.pruebarest.exceptions.TokenAuthException;
 import com.rest.pruebarest.exceptions.TokenValidationException;
 import com.rest.pruebarest.models.User;
@@ -72,18 +73,18 @@ public class JWTHelper {
         return nameNode.get("id").asLong();
     }
 
-    public static void checkTokenMatching(Long userId, String token) throws TokenAuthException {
+    public static void checkTokenMatching(Long userId, String token) throws TokenAuthException, NotFoundException {
         Optional<User> oUser = userRepo.findById(userId);
 
         if (!oUser.isPresent())
-            throw new TokenAuthException("El id del usuario en el token no corresponde con ningún usuario existente");
+            throw new NotFoundException("El id del usuario en el token no corresponde con ningún usuario existente");
 
         if (!oUser.get().getToken().equals(token))
             throw new TokenAuthException("El token introducido no corresponde con el token del usuario");
     }
 
 
-    public static Long getUserIdFromToken(String token) throws TokenValidationException, JsonMappingException, JsonProcessingException, TokenAuthException {
+    public static Long getUserIdFromToken(String token) throws TokenValidationException, JsonMappingException, JsonProcessingException, TokenAuthException, NotFoundException {
         if (!isTokenValid(token))
             throw new TokenValidationException("El token no es válido");
         Long userId = JWTHelper.extractId(token);

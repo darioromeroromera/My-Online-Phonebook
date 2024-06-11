@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -a
-source .env
-set +a
+export $(cat .env | xargs) 
 
 mvn spring-boot:run

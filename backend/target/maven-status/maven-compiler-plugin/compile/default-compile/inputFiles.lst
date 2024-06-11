@@ -1,36 +1,36 @@
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\CheckerHelper.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\MessageRequest.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ConflictException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ImageUploadErrorException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\RegisterController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadBodyException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenAuthException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NotFoundException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\BadPathVariable.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\MessageResponse.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\MessageController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ContactGroup.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ForbiddenAccessException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Contact.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\JWTHelper.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\PruebarestApplication.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\config\SecurityConfiguration.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\ContactRepo.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\ErrorController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\AuthController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\ContactController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\ImageBadFormatException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\NoImageException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\Message.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\ChangePasswordRequest.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\MessageRepo.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ImageHelper.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\TokenValidationException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\GroupController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\helpers\ResponseHelper.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\models\User.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\AuthenticationException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\exceptions\CollisionException.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\ContactGroupRepo.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\controllers\UserController.java
-C:\Users\Darío Romero\Desktop\My-Online-Phonebook\backend\src\main\java\com\rest\pruebarest\repos\UserRepo.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/NotFoundException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/User.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/Message.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/helpers/ResponseHelper.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/GroupController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/RegisterController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/repos/MessageRepo.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/ImageUploadErrorException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/config/SecurityConfiguration.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/UserController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/repos/UserRepo.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/Contact.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/ErrorController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/NoImageException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/TokenValidationException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/PruebarestApplication.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/ContactGroup.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/helpers/ImageHelper.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/BadPathVariable.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/MessageController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/ContactController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/controllers/AuthController.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/TokenAuthException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/CollisionException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/helpers/JWTHelper.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/MessageRequest.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/ImageBadFormatException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/ConflictException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/repos/ContactRepo.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/repos/ContactGroupRepo.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/MessageResponse.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/ForbiddenAccessException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/AuthenticationException.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/helpers/CheckerHelper.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/models/ChangePasswordRequest.java
+/home/dario/Proyecto_FCT/My-Online-Phonebook/backend/src/main/java/com/rest/pruebarest/exceptions/BadBodyException.java

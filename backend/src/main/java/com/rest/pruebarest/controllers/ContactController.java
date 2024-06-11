@@ -3,7 +3,6 @@ package com.rest.pruebarest.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import com.rest.pruebarest.helpers.ImageHelper;
 import com.rest.pruebarest.helpers.JWTHelper;
 import com.rest.pruebarest.helpers.ResponseHelper;
 import com.rest.pruebarest.models.Contact;
-import com.rest.pruebarest.models.Message;
 import com.rest.pruebarest.models.User;
 import com.rest.pruebarest.repos.ContactRepo;
 import com.rest.pruebarest.repos.UserRepo;
