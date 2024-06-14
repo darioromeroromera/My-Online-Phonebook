@@ -14,7 +14,7 @@ const RegistrationForm = () => {
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [errors, setErrors] = useState({username: "", email: "", phoneNumber: ".", password: "", confirmPassword: ""});
+    const [errors, setErrors] = useState({username: "", email: "", phoneNumber: "", password: "", confirmPassword: ""});
 
     const [usernameFlag, setUsernameFlag] = useState(false);
 
